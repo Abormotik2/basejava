@@ -11,7 +11,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-
+        storage[1] = r;
     }
 
     Resume get(String uuid) {
@@ -23,7 +23,7 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         if (storage[0].uuid.equals(uuid)) {
-        storage[0].uuid = null;
+            storage[0].uuid = null;
         }
     }
 
