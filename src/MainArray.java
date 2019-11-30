@@ -56,7 +56,7 @@ public class MainArray {
         }
     }
 
-   private static void printAll() {
+    static void printAll() {
         Resume[] all = ARRAY_STORAGE.getAll();
         System.out.println("----------------------------");
         if (all.length == 0) {
