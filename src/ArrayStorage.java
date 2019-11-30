@@ -28,33 +28,31 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (Resume resume : storage) {
-            if (resume.uuid.equals(uuid)) {
-                resume.uuid = null;
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                storage[i].uuid = null;
             }
         }
         for (int i = 0; i < storage.length; i++) {
-
-        }
-            if (resume.uuid != null){
-
+            if (storage[i].uuid == null) {
+                storage[i + 1] = storage[i];
             }
         }
+    }
 
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    Resume[] getAll() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                return Arrays.copyOf(storage, i);
+        /**
+         * @return array, contains only Resumes in storage (without null)
+         */
+        Resume[] getAll () {
+            for (int i = 0; i < storage.length; i++) {
+                if (storage[i] == null) {
+                    return Arrays.copyOf(storage, i);
+                }
             }
+            return storage;
         }
-        return storage;
-    }
 
-    int size() {
-        return getAll().length;
+        int size () {
+            return getAll().length;
+        }
     }
-}
