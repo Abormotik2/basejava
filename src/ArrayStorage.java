@@ -8,9 +8,10 @@ public class ArrayStorage {
 
     void clear() {
         for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                storage[i] = null;
+            if (storage[i] == null) {
+                break;
             }
+            storage[i] = null;
         }
     }
 
@@ -18,14 +19,15 @@ public class ArrayStorage {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] == null) {
                 storage[i] = r;
+                break;
             }
         }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
+        for (Resume resume : storage) {
+            if (resume.uuid.equals(uuid)) {
+                return resume;
             }
         }
         return null;
@@ -34,12 +36,13 @@ public class ArrayStorage {
     void delete(String uuid) {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                storage[i].uuid = null;
-            }
-        }
-        for (int i = 0; i < storage.length; i++) {
-            if (!storage[i].uuid.equals(uuid)) {
-                storage[i + 1] = storage[i];
+                for (int j = i; j < storage.length; j++) {
+                    storage[j] = j + 1 >= storage.length ? null : storage[j + 1];
+                    if (storage[j] == null) {
+                        i = storage.length;
+                        break;
+                    }
+                }
             }
         }
     }
@@ -48,20 +51,17 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                return Arrays.copyOf(storage, i);
-            }
-        }
-        return storage;
+        return Arrays.copyOf(storage, this.size());
     }
 
     int size() {
         int iter = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                iter++;
+        for (Resume resume : storage) {
+            if (resume != null) {
+                break;
             }
-        }return iter;
+            iter++;
+        }
+        return iter;
     }
 }
