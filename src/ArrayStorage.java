@@ -7,7 +7,11 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
 
     void clear() {
-        Arrays.fill(storage, null);
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
+                storage[i] = null;
+            }
+        }
     }
 
     void save(Resume r) {
@@ -19,9 +23,9 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (Resume resume : storage) {
-            if (resume.uuid.equals(uuid)) {
-                return resume;
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return storage[i];
             }
         }
         return null;
@@ -34,25 +38,30 @@ public class ArrayStorage {
             }
         }
         for (int i = 0; i < storage.length; i++) {
-            if (storage[i].uuid == null) {
+            if (!storage[i].uuid.equals(uuid)) {
                 storage[i + 1] = storage[i];
             }
         }
     }
 
-        /**
-         * @return array, contains only Resumes in storage (without null)
-         */
-        Resume[] getAll () {
-            for (int i = 0; i < storage.length; i++) {
-                if (storage[i] == null) {
-                    return Arrays.copyOf(storage, i);
-                }
+    /**
+     * @return array, contains only Resumes in storage (without null)
+     */
+    Resume[] getAll() {
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] == null) {
+                return Arrays.copyOf(storage, i);
             }
-            return storage;
         }
-
-        int size () {
-            return getAll().length;
-        }
+        return storage;
     }
+
+    int size() {
+        int iter = 0;
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
+                iter++;
+            }
+        }return iter;
+    }
+}
