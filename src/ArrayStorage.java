@@ -5,63 +5,49 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
+    private int size;
 
     void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                break;
-            }
-            storage[i] = null;
-        }
+        Arrays.fill(storage, null);
     }
 
+
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
-        }
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        for (Resume resume : storage) {
-            if (resume.uuid.equals(uuid)) {
-                return resume;
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return storage[i];
             }
         }
         return null;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                for (int j = i; j < storage.length; j++) {
-                    storage[j] = j + 1 >= storage.length ? null : storage[j + 1];
+                for (int j = i; j < size; j++) {
+                    storage[j] = j + 1 >= size ? null : storage[j + 1];
                     if (storage[j] == null) {
-                        i = storage.length;
+                        i = size;
+                        size--;
                         break;
                     }
                 }
             }
         }
     }
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, this.size());
+        return Arrays.copyOf(storage, size());
     }
 
     int size() {
-        int iter = 0;
-        for (Resume resume : storage) {
-            if (resume != null) {
-                break;
-            }
-            iter++;
-        }
-        return iter;
+        return size;
     }
 }
