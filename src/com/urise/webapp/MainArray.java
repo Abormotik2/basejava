@@ -2,7 +2,6 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +38,7 @@ public class MainArray {
                 case "update":
                     r2 = new Resume();
                     r2.setUuid(uuid);
-                    ARRAY_STORAGE.update(r2.getUuid(),r2);
+                    ARRAY_STORAGE.update(r2);
                     printAll();
                     break;
                 case "save":
