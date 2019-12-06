@@ -15,16 +15,15 @@ public class ArrayStorage {
         Arrays.fill(storage, null);
     }
 
-    public void update(String uuid, Resume r) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = r;
-                return;
-            }
+    public void update(Resume r) {
+        Integer update = pass(r.getUuid());
+        if (update == null) {
+            System.out.println("Error!!! Resume not found ");
+            return;
         }
-        System.out.println("Erorr resume not found ");
-
+        storage[update] = r;
     }
+
 
     public void save(Resume r) {
         storage[size] = r;
@@ -32,25 +31,25 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        Integer get = pass(uuid);
+        if (get == null) {
+            System.out.println("Resume uuid not found");
+            return null;
         }
-        return null;
+        return storage[get];
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = storage[i + 1];
-                size--;
-                break;
-            }
+        Integer index = pass(uuid);
+        if (index == null) {
+            System.out.println("Resume not found");
+            return;
         }
-        getAll();
+        for (int i = 0; i < index; i++) {
+            storage[index] = storage[index + 1];
+            size--;
+        }
     }
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
@@ -60,5 +59,14 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    private Integer pass(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 }
