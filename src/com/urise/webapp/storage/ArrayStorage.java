@@ -16,10 +16,9 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-
         for (int i = 0; i < size; i++) {
-            if (!storage[i].equals(r)) {
-                System.out.println("Erorr");
+            if (storage[i] == r) {
+                System.out.println("Erorr resume not found ");
             } else storage[size] = r;
         }
     }
