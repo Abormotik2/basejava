@@ -15,12 +15,15 @@ public class ArrayStorage {
         Arrays.fill(storage, null);
     }
 
-    public void update(Resume r) {
+    public void update(String uuid, Resume r) {
         for (int i = 0; i < size; i++) {
-            if (storage[i] == r) {
-                System.out.println("Erorr resume not found ");
-            } else storage[size] = r;
+            if (storage[i].getUuid().equals(uuid)) {
+                storage[i] = r;
+                return;
+            }
         }
+        System.out.println("Erorr resume not found ");
+
     }
 
     public void save(Resume r) {
