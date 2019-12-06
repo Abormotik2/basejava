@@ -24,7 +24,6 @@ public class ArrayStorage {
         storage[update] = r;
     }
 
-
     public void save(Resume r) {
         storage[size] = r;
         size++;
@@ -45,11 +44,13 @@ public class ArrayStorage {
             System.out.println("Resume not found");
             return;
         }
-        for (int i = 0; i < index; i++) {
+        while (index < size) {
             storage[index] = storage[index + 1];
-            size--;
+            index++;
         }
+        size--;
     }
+
     /**
      * @return array, contains only Resumes in storage (without null)
      */
