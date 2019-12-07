@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size;
 
     public void clear() {
@@ -26,7 +26,7 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         Integer same = pass(r.getUuid());
-        if (size >= 10000) {
+        if (size >= 10_000) {
             System.out.println("The array is full!!!");
             return;
         }
