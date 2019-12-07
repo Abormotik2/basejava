@@ -12,7 +12,7 @@ public class ArrayStorage {
     private int size;
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null );
     }
 
     public void update(Resume resume) {
