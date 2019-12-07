@@ -25,6 +25,15 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
+        Integer same = pass(r.getUuid());
+        if (size >= 10000) {
+            System.out.println("The array is full!!!");
+            return;
+        }
+        if(same != null){
+            System.out.println("This resume is already save!");
+            return;
+        }
         storage[size] = r;
         size++;
     }
@@ -42,6 +51,11 @@ public class ArrayStorage {
         Integer index = pass(uuid);
         if (index == null) {
             System.out.println("Resume not found");
+            return;
+        }
+        if (index == size) {
+            storage[index] = null;
+            size--;
             return;
         }
         while (index < size) {
