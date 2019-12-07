@@ -15,52 +15,52 @@ public class ArrayStorage {
         Arrays.fill(storage, null);
     }
 
-    public void update(Resume r) {
-        Integer update = pass(r.getUuid());
-        if (update == null) {
+    public void update(Resume resume) {
+        int updateIndex = pass(resume.getUuid());
+        if (updateIndex == -1) {
             System.out.println("Error!!! Resume not found ");
             return;
         }
-        storage[update] = r;
+        storage[updateIndex] = resume;
     }
 
-    public void save(Resume r) {
-        Integer same = pass(r.getUuid());
+    public void save(Resume resume) {
+        int saveIndex = pass(resume.getUuid());
         if (size >= 10_000) {
             System.out.println("The array is full!!!");
             return;
         }
-        if(same != null){
+        if(saveIndex != -1){
             System.out.println("This resume is already save!");
             return;
         }
-        storage[size] = r;
+        storage[size] = resume;
         size++;
     }
 
     public Resume get(String uuid) {
-        Integer get = pass(uuid);
-        if (get == null) {
+        int getIndex = pass(uuid);
+        if (getIndex == -1) {
             System.out.println("Resume uuid not found");
             return null;
         }
-        return storage[get];
+        return storage[getIndex];
     }
 
     public void delete(String uuid) {
-        Integer index = pass(uuid);
-        if (index == null) {
+        int delIndex = pass(uuid);
+        if (delIndex == -1) {
             System.out.println("Resume not found");
             return;
         }
-        if (index == size) {
-            storage[index] = null;
+        if (delIndex == size) {
+            storage[delIndex] = null;
             size--;
             return;
         }
-        while (index < size) {
-            storage[index] = storage[index + 1];
-            index++;
+        while (delIndex < size) {
+            storage[delIndex] = storage[delIndex + 1];
+            delIndex++;
         }
         size--;
     }
@@ -76,12 +76,12 @@ public class ArrayStorage {
         return size;
     }
 
-    private Integer pass(String uuid) {
+    private int pass(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
-        return null;
+        return -1;
     }
 }
