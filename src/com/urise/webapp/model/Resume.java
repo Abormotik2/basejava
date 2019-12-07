@@ -4,8 +4,9 @@ package com.urise.webapp.model;
  * Initial resume class
  */
 public class Resume {
-    private String uuid;
     // Unique identifier
+    private String uuid;
+
     public String getUuid() {
         return uuid;
     }
