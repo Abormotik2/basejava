@@ -12,25 +12,25 @@ public class ArrayStorage {
     private int size;
 
     public void clear() {
-        Arrays.fill(storage, 0, size, null );
+        size = 0;
     }
 
     public void update(Resume resume) {
-        int updateIndex = pass(resume.getUuid());
-        if (updateIndex == -1) {
+        int upIndex = pass(resume.getUuid());
+        if (upIndex == -1) {
             System.out.println("Error!!! Resume not found ");
             return;
         }
-        storage[updateIndex] = resume;
+        storage[upIndex] = resume;
     }
 
     public void save(Resume resume) {
-        int saveIndex = pass(resume.getUuid());
-        if (size >= 10_000) {
+        int sIndex = pass(resume.getUuid());
+        if (size >= storage.length) {
             System.out.println("The array is full!!!");
             return;
         }
-        if(saveIndex != -1){
+        if (sIndex != -1) {
             System.out.println("This resume is already save!");
             return;
         }
@@ -39,12 +39,12 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int getIndex = pass(uuid);
-        if (getIndex == -1) {
+        int gIndex = pass(uuid);
+        if (gIndex == -1) {
             System.out.println("Resume uuid not found");
             return null;
         }
-        return storage[getIndex];
+        return storage[gIndex];
     }
 
     public void delete(String uuid) {
@@ -53,14 +53,14 @@ public class ArrayStorage {
             System.out.println("Resume not found");
             return;
         }
+        while (delIndex < size) {
+            storage[delIndex] = storage[delIndex + 1];
+            delIndex++;
+        }
         if (delIndex == size) {
             storage[delIndex] = null;
             size--;
             return;
-        }
-        while (delIndex < size) {
-            storage[delIndex] = storage[delIndex + 1];
-            delIndex++;
         }
         size--;
     }
