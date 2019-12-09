@@ -8,15 +8,16 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10_000];
+    private Resume[] storage = new Resume[3];
     private int size;
 
     public void clear() {
+        Arrays.fill(storage, 0, storage.length, null);
         size = 0;
     }
 
     public void update(Resume resume) {
-        int upIndex = pass(resume.getUuid());
+        int upIndex = getIndex(resume.getUuid());
         if (upIndex == -1) {
             System.out.println("Error!!! Resume not found ");
             return;
@@ -25,7 +26,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        int sIndex = pass(resume.getUuid());
+        int sIndex = getIndex(resume.getUuid());
         if (size >= storage.length) {
             System.out.println("The array is full!!!");
             return;
@@ -39,7 +40,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int gIndex = pass(uuid);
+        int gIndex = getIndex(uuid);
         if (gIndex == -1) {
             System.out.println("Resume uuid not found");
             return null;
@@ -48,19 +49,14 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int delIndex = pass(uuid);
-        if (delIndex == -1) {
+        int dIndex = getIndex(uuid);
+        if (dIndex == -1) {
             System.out.println("Resume not found");
             return;
         }
-        while (delIndex < size) {
-            storage[delIndex] = storage[delIndex + 1];
-            delIndex++;
-        }
-        if (delIndex == size) {
-            storage[delIndex] = null;
-            size--;
-            return;
+        while (dIndex + 1 < size) {
+            storage[dIndex] = storage[dIndex + 1];
+            dIndex++;
         }
         size--;
     }
@@ -76,7 +72,7 @@ public class ArrayStorage {
         return size;
     }
 
-    private int pass(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
