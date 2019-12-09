@@ -54,10 +54,8 @@ public class ArrayStorage {
             System.out.println("Resume not found");
             return;
         }
-        if (dIndex < size) {
-            storage[dIndex] = storage[size - 1];
-            storage[size - 1] = null;
-        }
+        storage[dIndex] = storage[size - 1];
+        storage[size - 1] = null;
         size--;
     }
 
