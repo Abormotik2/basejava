@@ -12,7 +12,7 @@ public class ArrayStorage {
     private int size;
 
     public void clear() {
-        Arrays.fill(storage, 0, storage.length, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -54,9 +54,9 @@ public class ArrayStorage {
             System.out.println("Resume not found");
             return;
         }
-        while (dIndex + 1 < size) {
-            storage[dIndex] = storage[dIndex + 1];
-            dIndex++;
+        if (dIndex < size) {
+            storage[dIndex] = storage[size - 1];
+            storage[size - 1] = null;
         }
         size--;
     }
@@ -65,7 +65,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {
