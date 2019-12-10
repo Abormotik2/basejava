@@ -19,7 +19,7 @@ public class ArrayStorage {
     public void update(Resume resume) {
         int upIndex = getIndex(resume.getUuid());
         if (upIndex == -1) {
-            System.out.println("Error!!! Resume not found ");
+            System.out.println("Resume not found ");
             return;
         }
         storage[upIndex] = resume;
@@ -42,7 +42,7 @@ public class ArrayStorage {
     public Resume get(String uuid) {
         int gIndex = getIndex(uuid);
         if (gIndex == -1) {
-            System.out.println("Resume uuid not found");
+            System.out.println("Resume not found");
             return null;
         }
         return storage[gIndex];
