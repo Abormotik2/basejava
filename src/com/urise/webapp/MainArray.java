@@ -15,7 +15,7 @@ public class MainArray {
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Resume r;
+
         Resume r2;
         while (true) {
             System.out.print("Введите одну из команд - (list | update uuid | save uuid | delete uuid | get uuid | clear | exit): ");
