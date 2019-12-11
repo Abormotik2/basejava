@@ -32,5 +32,6 @@ public class Resume {
 
     @Override
     public String toString() {
-        return uuid; }
+        return uuid;
+    }
 }
