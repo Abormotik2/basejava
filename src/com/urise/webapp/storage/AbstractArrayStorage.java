@@ -2,12 +2,19 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.Arrays;
+
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10_000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
-    
+
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
+    }
+
     public Resume get(String uuid) {
         int gIndex = getIndex(uuid);
         if (gIndex == -1) {
@@ -15,6 +22,25 @@ public abstract class AbstractArrayStorage implements Storage {
             return null;
         }
         return storage[gIndex];
+    }
+
+    public void delete(String uuid) {
+        int dIndex = getIndex(uuid);
+        if (dIndex == -1) {
+            System.out.println("Resume not found");
+            return;
+        }
+        storage[dIndex] = storage[size - 1];
+        storage[size - 1] = null;
+        size--;
+    }
+
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    public int size() {
+        return size;
     }
 
     protected abstract int getIndex(String uuid);
