@@ -15,6 +15,15 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
+    public void update(Resume resume) {
+        int upIndex = getIndex(resume.getUuid());
+        if (upIndex == -1) {
+            System.out.println("Resume not found ");
+            return;
+        }
+        storage[upIndex] = resume;
+    }
+
     public Resume get(String uuid) {
         int gIndex = getIndex(uuid);
         if (gIndex == -1) {
@@ -22,17 +31,6 @@ public abstract class AbstractArrayStorage implements Storage {
             return null;
         }
         return storage[gIndex];
-    }
-
-    public void delete(String uuid) {
-        int dIndex = getIndex(uuid);
-        if (dIndex == -1) {
-            System.out.println("Resume not found");
-            return;
-        }
-        storage[dIndex] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
     }
 
     public Resume[] getAll() {
