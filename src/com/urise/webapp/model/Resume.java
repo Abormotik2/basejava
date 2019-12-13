@@ -1,7 +1,5 @@
 package com.urise.webapp.model;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Initial resume class
  */
@@ -38,7 +36,7 @@ public class Resume implements Comparable<Resume> {
     }
 
     @Override
-    public int compareTo(@NotNull Resume o) {
+    public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
     }
 }
