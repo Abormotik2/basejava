@@ -13,12 +13,26 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void update(Resume resume) {
-
+        int upIndex = getIndex(resume.getUuid());
+        if (upIndex == -1) {
+            System.out.println("Resume not found ");
+            return;
+        }
+        storage[upIndex] = resume;
     }
-
     @Override
     public void save(Resume resume) {
-
+        int sIndex = getIndex(resume.getUuid());
+        if (size >= storage.length) {
+            System.out.println("The array is full!!!");
+            return;
+        }
+        if (sIndex != -1) {
+            System.out.println("This resume is already save!");
+            return;
+        }
+        storage[sIndex + 1] = resume;
+        size++;
     }
 
     @Override
