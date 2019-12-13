@@ -16,7 +16,6 @@ public interface Storage {
     Resume get(String uuid);
 
     void delete(String uuid);
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
