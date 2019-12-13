@@ -7,15 +7,6 @@ import com.urise.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void update(Resume resume) {
-        int upIndex = getIndex(resume.getUuid());
-        if (upIndex == -1) {
-            System.out.println("Resume not found ");
-            return;
-        }
-        storage[upIndex] = resume;
-    }
-
     public void save(Resume resume) {
         int sIndex = getIndex(resume.getUuid());
         if (size >= storage.length) {
@@ -28,6 +19,17 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         storage[size] = resume;
         size++;
+    }
+
+    public void delete(String uuid) {
+        int dIndex = getIndex(uuid);
+        if (dIndex == -1) {
+            System.out.println("Resume not found");
+            return;
+        }
+        storage[dIndex] = storage[size - 1];
+        storage[size - 1] = null;
+        size--;
     }
 
     protected int getIndex(String uuid) {
