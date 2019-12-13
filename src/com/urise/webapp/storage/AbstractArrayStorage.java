@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int gIndex = getIndex(uuid);
-        if (gIndex == -1) {
+        if (gIndex < 0) {
             System.out.println("Resume not found");
             return null;
         }
