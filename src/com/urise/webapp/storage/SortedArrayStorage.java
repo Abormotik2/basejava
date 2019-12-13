@@ -13,7 +13,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.out.println("The array is full!!!");
             return;
         }
-        if (sIndex > 0) {
+        if (sIndex >= 0) {
             System.out.println("This resume is already save!");
             return;
         }
