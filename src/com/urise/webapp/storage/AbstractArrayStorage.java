@@ -17,7 +17,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume resume) {
         int upIndex = getIndex(resume.getUuid());
-        if (upIndex == -1) {
+        if (upIndex < 0) {
             System.out.println("Resume not found ");
             return;
         }
