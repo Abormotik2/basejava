@@ -10,6 +10,12 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
+    protected abstract void saveResume(Resume resume, int sIndex);
+
+    protected abstract void deleteResume(int dIndex);
+
+    protected abstract int getIndex(String uuid);
+
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
@@ -35,9 +41,8 @@ public abstract class AbstractArrayStorage implements Storage {
             return;
         }
         saveResume(resume, sIndex);
+        size++;
     }
-
-    protected abstract void saveResume(Resume resume, int sIndex);
 
     public Resume get(String uuid) {
         int gIndex = getIndex(uuid);
@@ -55,9 +60,8 @@ public abstract class AbstractArrayStorage implements Storage {
             return;
         }
         deleteResume(dIndex);
+        size--;
     }
-
-    protected abstract void deleteResume(int dIndex);
 
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
@@ -66,7 +70,4 @@ public abstract class AbstractArrayStorage implements Storage {
     public int size() {
         return size;
     }
-
-    protected abstract int getIndex(String uuid);
-
 }
