@@ -18,12 +18,10 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     protected void saveResume(Resume resume, int sIndex) {
         storage[size] = resume;
-        size++;
     }
 
     protected void deleteResume(int dIndex) {
         storage[dIndex] = storage[size - 1];
         storage[size - 1] = null;
-        size--;
     }
 }
