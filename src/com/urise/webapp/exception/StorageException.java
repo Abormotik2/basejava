@@ -11,5 +11,3 @@ public class StorageException extends RuntimeException {
         return uuid;
     }
 }
-
-
