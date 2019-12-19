@@ -11,7 +11,7 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
 
-     AbstractArrayStorageTest(Storage storage) {
+    AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -25,15 +25,19 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void clear() {
-
+        storage.clear();
+        Assert.assertEquals(0, storage.size());
     }
 
     @Test
     public void update() {
+
     }
 
     @Test
     public void save() {
+        storage.save(new Resume());
+        Assert.assertEquals(4,storage.size());
     }
 
     @Test
@@ -46,14 +50,15 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
+
     }
 
     @Test
     public void size() {
         Assert.assertEquals(3, storage.size());
     }
-    @Test
-    public void getNotExist() {
-        storage.get("Dummy");
-    }
+//    @Test
+//    public void getNotExist() {
+//        storage.get("Dummy");
+//    }
 }
