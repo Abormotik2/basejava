@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,10 +11,14 @@ import static org.hamcrest.CoreMatchers.is;
 
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
-    private Resume resume1 = new Resume();
-    private Resume resume2 = new Resume();
-    private Resume resume3 = new Resume();
-    private Resume resume4 = new Resume();
+    private static final String UUID_1 = "uuid1";
+    private static final String UUID_2 = "uuid2";
+    private static final String UUID_3 = "uuid3";
+    private static final String UUID_4 = "uuid4";
+    private Resume resume1 = new Resume(UUID_1);
+    private Resume resume2 = new Resume(UUID_2);
+    private Resume resume3 = new Resume(UUID_3);
+    private Resume resume4 = new Resume(UUID_4);
 
     AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -67,7 +72,7 @@ public abstract class AbstractArrayStorageTest {
         Resume[] array = new Resume[]{resume1, resume2, resume3};
         Resume[] getAll = storage.getAll();
         Assert.assertArrayEquals(getAll, array);
-        Assert.assertEquals(storage.size(), getAll.length);
+        Assert.assertEquals(getAll.length, storage.size());
     }
 
     @Test
@@ -75,7 +80,7 @@ public abstract class AbstractArrayStorageTest {
         Assert.assertEquals(3, storage.size());
     }
 
-    @Test(expected = ArrayStoreException.class)
+    @Test(expected = StorageException.class)
     public void saveOverflow() {
         storage.clear();
         try {
