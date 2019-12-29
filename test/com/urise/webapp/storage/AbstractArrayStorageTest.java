@@ -8,18 +8,27 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME1 = new Resume(UUID_1);
-    private static final Resume RESUME2 = new Resume(UUID_2);
-    private static final Resume RESUME3 = new Resume(UUID_3);
-    private static final Resume RESUME4 = new Resume(UUID_4);
+    private static final Resume RESUME1;
+    private static final Resume RESUME2;
+    private static final Resume RESUME3;
+    private static final Resume RESUME4;
 
-    AbstractArrayStorageTest(Storage storage) {
+    static {
+        RESUME1 = new Resume(UUID_1);
+        RESUME2 = new Resume(UUID_2);
+        RESUME3 = new Resume(UUID_3);
+        RESUME4 = new Resume(UUID_4);
+    }
+
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -34,15 +43,14 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        Assert.assertEquals(0, storage.size());
+        assertSize(0);
     }
 
     @Test
-    public void update() {
-        Resume resume5 = new Resume(UUID_1);
-        storage.update(resume5);
-        Resume updatedResume = storage.get(UUID_1);
-        Assert.assertSame(resume5, updatedResume);
+    public void update() throws CloneNotSupportedException {
+        Resume newResume = new Resume(UUID_1);
+        storage.update(newResume);
+        Assert.assertSame(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -53,9 +61,8 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void save() {
         storage.save(RESUME4);
-        Resume existResume = storage.get(UUID_4);
-        Assert.assertEquals(RESUME4, existResume);
-        Assert.assertEquals(4, storage.size());
+        assertSize(4);
+        assertEquals(RESUME4, storage.get(UUID_4));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -64,7 +71,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = StorageException.class)
-    public void saveOverflow() {
+    public void saveOverflow() throws CloneNotSupportedException {
         storage.clear();
         try {
             for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
@@ -79,7 +86,7 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void get() {
         Resume resume = storage.get(UUID_1);
-        Assert.assertEquals(RESUME1, resume);
+        assertEquals(RESUME1, resume);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -90,7 +97,7 @@ public abstract class AbstractArrayStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void delete() {
         storage.delete(UUID_3);
-        Assert.assertEquals(2, storage.size());
+        assertSize(2);
         storage.get(UUID_3);
     }
 
@@ -104,11 +111,15 @@ public abstract class AbstractArrayStorageTest {
         Resume[] array = new Resume[]{RESUME1, RESUME2, RESUME3};
         Resume[] getAll = storage.getAll();
         Assert.assertArrayEquals(getAll, array);
-        Assert.assertEquals(storage.size(), getAll.length);
+        assertEquals(storage.size(), getAll.length);
     }
 
     @Test
     public void size() {
-        Assert.assertEquals(3, storage.size());
+        assertSize(3);
+    }
+
+    private void assertSize(int size) {
+        assertEquals(size, storage.size());
     }
 }
