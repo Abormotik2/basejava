@@ -23,7 +23,6 @@ public class MainReflection {
         } catch (NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
         //TODO : invoke r.toString via reflection
     }
 }
