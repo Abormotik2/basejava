@@ -4,73 +4,62 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ListStorage extends AbstractStorage {
-    private List<Resume> resumes = new ArrayList<>();
 
-    @Override
-    public void clear() {
-        resumes.clear();
+    protected void clearCollection() {
+        listResumes.clear();
     }
 
-    @Override
-    public void update(Resume resume) {
-        int upIndex = getIndex(resume.getUuid());
-        if (upIndex == -1) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            resumes.set(upIndex, resume);
-        }
+    protected void updateResume(Resume resume) {
+        Integer upIndex = notExistResume(resume.getUuid());
+        listResumes.set(upIndex, resume);
     }
 
-    @Override
-    public void save(Resume resume) {
-        int saveIndex = getIndex(resume.getUuid());
-        if (saveIndex != -1) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            resumes.add(resume);
-        }
+    protected void saveResume(Resume resume) {
+        existResume(resume);
+        listResumes.add(resume);
     }
 
-    @Override
-    public Resume get(String uuid) {
-        int gIndex = getIndex(uuid);
-        if (gIndex == -1) {
-            throw new NotExistStorageException(uuid);
-        }
-        return resumes.get(gIndex);
+    protected Resume getResume(String uuid) {
+        Integer gIndex = notExistResume(uuid);
+        return listResumes.get(gIndex);
     }
 
-    @Override
-    public void delete(String uuid) {
-        int dIndex = getIndex(uuid);
-        if (dIndex == -1) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            resumes.remove(dIndex);
-        }
+    protected void deleteResume(String uuid) {
+        Integer dIndex = notExistResume(uuid);
+        listResumes.remove(dIndex.intValue());
     }
 
-    @Override
-    public Resume[] getAll() {
-        return resumes.toArray(new Resume[0]);
+    protected Resume[] getAllResumes() {
+        return listResumes.toArray(new Resume[0]);
     }
 
-    @Override
-    public int size() {
-        return resumes.size();
+    protected int sizeCollection() {
+        return listResumes.size();
     }
 
-    protected int getIndex(String uuid) {
-        for (int i = 0; i < resumes.size(); i++) {
-            Resume index = resumes.get(i);
+    protected Integer getIndex(String uuid) {
+        for (int i = 0; i < listResumes.size(); i++) {
+            Resume index = listResumes.get(i);
             if (index.getUuid().equals(uuid)) {
                 return i;
             }
         }
-        return -1;
+        return null;
+    }
+
+    protected void existResume(Resume resume) {
+        Integer existIndex = getIndex(resume.getUuid());
+        if (existIndex != null) {
+            throw new ExistStorageException(resume.getUuid());
+        }
+    }
+
+    protected Integer notExistResume(String uuid) {
+        Integer notExistIndex = getIndex(uuid);
+        if (notExistIndex == null) {
+            throw new NotExistStorageException(uuid);
+        }
+        return notExistIndex;
     }
 }
