@@ -7,58 +7,58 @@ import com.urise.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapStorage implements Storage {
 
-    private Map<String, Resume> resumes = new HashMap<>();
+    private Map<String, Resume> mapResumes = new HashMap<>();
 
     @Override
     public void clear() {
-        resumes.clear();
+        mapResumes.clear();
     }
 
     @Override
     public void update(Resume resume) {
-        if (!resumes.containsKey(resume.getUuid())) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            resumes.put(resume.getUuid(), resume);
-        }
+        notExistResume(resume.getUuid());
+        mapResumes.put(resume.getUuid(), resume);
     }
 
     @Override
     public void save(Resume resume) {
-        if (resumes.containsKey(resume.getUuid())) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            resumes.put(resume.getUuid(), resume);
-        }
+        existResume(resume);
+        mapResumes.put(resume.getUuid(), resume);
     }
 
     @Override
     public Resume get(String uuid) {
-        Resume ourResume = resumes.get(uuid);
-        if (ourResume == null) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return ourResume;
-        }
+        notExistResume(uuid);
+        return mapResumes.get(uuid);
     }
 
     @Override
     public void delete(String uuid) {
-       Resume delResume = resumes.remove(uuid);
-       if(delResume == null){
-           throw new NotExistStorageException(uuid);
-       }
+        notExistResume(uuid);
+        mapResumes.remove(uuid);
     }
 
     @Override
     public Resume[] getAll() {
-        return resumes.values().toArray(new Resume[0]);
+        return mapResumes.values().toArray(new Resume[0]);
     }
 
     @Override
     public int size() {
-        return resumes.size();
+        return mapResumes.size();
+    }
+
+    public void existResume(Resume resume) {
+        if (mapResumes.containsKey(resume.getUuid())) {
+            throw new ExistStorageException(resume.getUuid());
+        }
+    }
+
+    public void notExistResume(String uuid) {
+        if (!mapResumes.containsKey(uuid)) {
+            throw new NotExistStorageException(uuid);
+        }
     }
 }

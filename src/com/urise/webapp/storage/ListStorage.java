@@ -4,41 +4,46 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-public class ListStorage extends AbstractStorage {
+import java.util.ArrayList;
+import java.util.List;
 
-    protected void clearCollection() {
+public class ListStorage implements Storage {
+
+    private List<Resume> listResumes = new ArrayList<>();
+
+    public void clear() {
         listResumes.clear();
     }
 
-    protected void updateResume(Resume resume) {
+    public void update(Resume resume) {
         Integer upIndex = notExistResume(resume.getUuid());
         listResumes.set(upIndex, resume);
     }
 
-    protected void saveResume(Resume resume) {
+    public void save(Resume resume) {
         existResume(resume);
         listResumes.add(resume);
     }
 
-    protected Resume getResume(String uuid) {
+    public Resume get(String uuid) {
         Integer gIndex = notExistResume(uuid);
         return listResumes.get(gIndex);
     }
 
-    protected void deleteResume(String uuid) {
+    public void delete(String uuid) {
         Integer dIndex = notExistResume(uuid);
         listResumes.remove(dIndex.intValue());
     }
 
-    protected Resume[] getAllResumes() {
+    public Resume[] getAll() {
         return listResumes.toArray(new Resume[0]);
     }
 
-    protected int sizeCollection() {
+    public int size() {
         return listResumes.size();
     }
 
-    protected Integer getIndex(String uuid) {
+    public Integer getIndex(String uuid) {
         for (int i = 0; i < listResumes.size(); i++) {
             Resume index = listResumes.get(i);
             if (index.getUuid().equals(uuid)) {
@@ -48,14 +53,14 @@ public class ListStorage extends AbstractStorage {
         return null;
     }
 
-    protected void existResume(Resume resume) {
+    public void existResume(Resume resume) {
         Integer existIndex = getIndex(resume.getUuid());
         if (existIndex != null) {
             throw new ExistStorageException(resume.getUuid());
         }
     }
 
-    protected Integer notExistResume(String uuid) {
+    public Integer notExistResume(String uuid) {
         Integer notExistIndex = getIndex(uuid);
         if (notExistIndex == null) {
             throw new NotExistStorageException(uuid);
