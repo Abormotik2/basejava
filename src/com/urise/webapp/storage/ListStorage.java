@@ -7,7 +7,7 @@ import com.urise.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage implements Storage {
+public class ListStorage extends AbstractStorage {
 
     private List<Resume> listResumes = new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class ListStorage implements Storage {
     }
 
     public void save(Resume resume) {
-        existResume(resume);
+        existResume(resume.getUuid());
         listResumes.add(resume);
     }
 
@@ -43,7 +43,7 @@ public class ListStorage implements Storage {
         return listResumes.size();
     }
 
-    public Integer getIndex(String uuid) {
+    protected Integer getIndex(String uuid) {
         for (int i = 0; i < listResumes.size(); i++) {
             Resume index = listResumes.get(i);
             if (index.getUuid().equals(uuid)) {
@@ -53,14 +53,15 @@ public class ListStorage implements Storage {
         return null;
     }
 
-    public void existResume(Resume resume) {
-        Integer existIndex = getIndex(resume.getUuid());
+    protected Integer existResume(String uuid) {
+        Integer existIndex = getIndex(uuid);
         if (existIndex != null) {
-            throw new ExistStorageException(resume.getUuid());
+            throw new ExistStorageException(uuid);
         }
+        return existIndex;
     }
 
-    public Integer notExistResume(String uuid) {
+    protected Integer notExistResume(String uuid) {
         Integer notExistIndex = getIndex(uuid);
         if (notExistIndex == null) {
             throw new NotExistStorageException(uuid);
