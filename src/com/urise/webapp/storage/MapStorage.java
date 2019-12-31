@@ -7,7 +7,7 @@ import com.urise.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage implements Storage {
+public class MapStorage extends AbstractStorage{
 
     private Map<String, Resume> mapResumes = new HashMap<>();
 
@@ -24,7 +24,7 @@ public class MapStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        existResume(resume);
+        existResume(resume.getUuid());
         mapResumes.put(resume.getUuid(), resume);
     }
 
@@ -50,15 +50,24 @@ public class MapStorage implements Storage {
         return mapResumes.size();
     }
 
-    public void existResume(Resume resume) {
-        if (mapResumes.containsKey(resume.getUuid())) {
-            throw new ExistStorageException(resume.getUuid());
-        }
+    @Override
+    public Integer getIndex(String uuid) {
+        return null;
     }
 
-    public void notExistResume(String uuid) {
+    @Override
+    protected Integer existResume(String uuid) {
+        if (mapResumes.containsKey(uuid)) {
+            throw new ExistStorageException(uuid);
+        }
+        return Integer.valueOf(uuid);
+    }
+
+    @Override
+    protected Integer notExistResume(String uuid) {
         if (!mapResumes.containsKey(uuid)) {
             throw new NotExistStorageException(uuid);
         }
+        return Integer.valueOf(uuid);
     }
 }
