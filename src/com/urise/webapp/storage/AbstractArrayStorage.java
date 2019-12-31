@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -17,7 +15,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void deleteResume(int dIndex);
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Integer getIndex(String uuid);
+
+    protected abstract Integer existResume(String uuid);
+
+    protected abstract Integer notExistResume(String uuid);
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -25,38 +27,26 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public void update(Resume resume) {
-        int upIndex = getIndex(resume.getUuid());
-        if (upIndex < 0) {
-           throw new NotExistStorageException(resume.getUuid());
-        }
+        int upIndex = notExistResume(resume.getUuid());
         storage[upIndex] = resume;
     }
 
     public void save(Resume resume) {
-        int sIndex = getIndex(resume.getUuid());
+        int sIndex = existResume(resume.getUuid());
         if (size >= storage.length) {
             throw new StorageException("Storage overflow" ,resume.getUuid());
-        }
-        if (sIndex >= 0) {
-            throw new ExistStorageException(resume.getUuid());
         }
         saveResume(resume, sIndex);
         size++;
     }
 
     public Resume get(String uuid) {
-        int gIndex = getIndex(uuid);
-        if (gIndex < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+        int gIndex = notExistResume(uuid);
         return storage[gIndex];
     }
 
     public void delete(String uuid) {
-        int dIndex = getIndex(uuid);
-        if (dIndex < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+        int dIndex = notExistResume(uuid);
         deleteResume(dIndex);
         storage[size - 1] = null;
         size--;
