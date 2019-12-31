@@ -1,5 +1,7 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -19,8 +21,26 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
+    }
+
+    @Override
+    protected Integer existResume(String uuid) {
+        Integer existIndex = getIndex(uuid);
+        if (existIndex != null) {
+            throw new ExistStorageException(uuid);
+        }
+        return existIndex;
+    }
+
+    @Override
+    protected Integer notExistResume(String uuid) {
+        Integer notExistIndex = getIndex(uuid);
+        if (notExistIndex == null) {
+            throw new NotExistStorageException(uuid);
+        }
+        return notExistIndex;
     }
 }
