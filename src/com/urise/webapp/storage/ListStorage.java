@@ -23,11 +23,11 @@ public class ListStorage extends AbstractStorage {
         listResumes.add(resume);
     }
 
-    public Resume getResume(Object gIndex, String uuid) {
+    public Resume getResume(Object gIndex) {
         return listResumes.get((Integer) gIndex);
     }
 
-    public void deleteResume(Object dIndex, String uuid) {
+    public void deleteResume(Object dIndex) {
         listResumes.remove(dIndex);
     }
 
