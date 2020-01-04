@@ -27,12 +27,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume getResume(Object gIndex, String uuid) {
+    public Resume getResume(Object gIndex) {
         return mapResumes.get(gIndex);
     }
 
     @Override
-    public void deleteResume(Object dIndex, String uuid) {
+    public void deleteResume(Object dIndex) {
         mapResumes.remove(dIndex);
     }
 
