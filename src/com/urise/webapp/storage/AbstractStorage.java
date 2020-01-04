@@ -14,9 +14,9 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void saveResume(Resume resume);
 
-    protected abstract Resume getResume(Object gIndex, String uuid);
+    protected abstract Resume getResume(Object gIndex);
 
-    protected abstract void deleteResume(Object dIndex, String uuid);
+    protected abstract void deleteResume(Object dIndex);
 
     public void update(Resume resume) {
         Object upIndex = notExistResume(resume.getUuid());
@@ -30,11 +30,11 @@ public abstract class AbstractStorage implements Storage {
 
     public Resume get(String uuid) {
         Object gIndex = notExistResume(uuid);
-        return getResume(gIndex, uuid);
+        return getResume(gIndex);
     }
 
     public void delete(String uuid) {
         Object dIndex = notExistResume(uuid);
-        deleteResume(dIndex, uuid);
+        deleteResume(dIndex);
     }
 }
