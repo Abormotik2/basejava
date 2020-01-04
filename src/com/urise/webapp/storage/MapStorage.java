@@ -7,7 +7,7 @@ import com.urise.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage{
+public class MapStorage extends AbstractStorage {
 
     private Map<String, Resume> mapResumes = new HashMap<>();
 
@@ -17,27 +17,23 @@ public class MapStorage extends AbstractStorage{
     }
 
     @Override
-    public void update(Resume resume) {
-        notExistResume(resume.getUuid());
+    public void updateResume(Object upIndex, Resume resume) {
+        mapResumes.put((String) upIndex, resume);
+    }
+
+    @Override
+    public void saveResume(Resume resume) {
         mapResumes.put(resume.getUuid(), resume);
     }
 
     @Override
-    public void save(Resume resume) {
-        existResume(resume.getUuid());
-        mapResumes.put(resume.getUuid(), resume);
+    public Resume getResume(Object gIndex, String uuid) {
+        return mapResumes.get(gIndex);
     }
 
     @Override
-    public Resume get(String uuid) {
-        notExistResume(uuid);
-        return mapResumes.get(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        notExistResume(uuid);
-        mapResumes.remove(uuid);
+    public void deleteResume(Object dIndex, String uuid) {
+        mapResumes.remove(dIndex);
     }
 
     @Override
@@ -56,18 +52,18 @@ public class MapStorage extends AbstractStorage{
     }
 
     @Override
-    protected Integer existResume(String uuid) {
+    protected String existResume(String uuid) {
         if (mapResumes.containsKey(uuid)) {
             throw new ExistStorageException(uuid);
         }
-        return Integer.valueOf(uuid);
+        return uuid;
     }
 
     @Override
-    protected Integer notExistResume(String uuid) {
+    protected String notExistResume(String uuid) {
         if (!mapResumes.containsKey(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        return Integer.valueOf(uuid);
+        return uuid;
     }
 }
