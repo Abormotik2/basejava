@@ -15,24 +15,20 @@ public class ListStorage extends AbstractStorage {
         listResumes.clear();
     }
 
-    public void update(Resume resume) {
-        Integer upIndex = notExistResume(resume.getUuid());
-        listResumes.set(upIndex, resume);
+    public void updateResume(Object upIndex, Resume resume) {
+        listResumes.set((Integer) upIndex, resume);
     }
 
-    public void save(Resume resume) {
-        existResume(resume.getUuid());
+    public void saveResume(Resume resume) {
         listResumes.add(resume);
     }
 
-    public Resume get(String uuid) {
-        Integer gIndex = notExistResume(uuid);
-        return listResumes.get(gIndex);
+    public Resume getResume(Object gIndex, String uuid) {
+        return listResumes.get((Integer) gIndex);
     }
 
-    public void delete(String uuid) {
-        Integer dIndex = notExistResume(uuid);
-        listResumes.remove(dIndex.intValue());
+    public void deleteResume(Object dIndex, String uuid) {
+        listResumes.remove(dIndex);
     }
 
     public Resume[] getAll() {
