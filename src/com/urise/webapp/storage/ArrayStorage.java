@@ -27,18 +27,16 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     protected Integer existResume(String uuid) {
-        Integer index = getIndex(uuid);
-        if (index != null) {
+        if (validIndex(uuid)) {
             throw new ExistStorageException(uuid);
         }
         return size;
     }
 
     protected Integer notExistResume(String uuid) {
-        Integer index = getIndex(uuid);
-        if (index == null) {
+        if (!validIndex(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return getIndex(uuid);
     }
 }

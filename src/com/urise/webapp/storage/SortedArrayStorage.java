@@ -37,10 +37,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected Integer notExistResume(String uuid) {
-        Integer notExistIndex = getIndex(uuid);
-        if (notExistIndex == null) {
+        if (!validIndex(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        return notExistIndex;
+        return getIndex(uuid);
     }
 }
