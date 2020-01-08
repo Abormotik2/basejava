@@ -15,20 +15,20 @@ public class ListStorage extends AbstractStorage {
         listResumes.clear();
     }
 
-    public void updateResume(Object upIndex, Resume resume) {
-        listResumes.set((Integer) upIndex, resume);
+    public void updateResume(Object index, Resume resume) {
+        listResumes.set((Integer) index, resume);
     }
 
-    public void saveResume(Resume resume) {
+    public void saveResume(Resume resume, Object index) {
         listResumes.add(resume);
     }
 
-    public Resume getResume(Object gIndex) {
-        return listResumes.get((Integer) gIndex);
+    public Resume getResume(Object index) {
+        return listResumes.get((Integer) index);
     }
 
-    public void deleteResume(Object dIndex) {
-        listResumes.remove(dIndex);
+    public void deleteResume(Object index) {
+        listResumes.remove((int)index);
     }
 
     public Resume[] getAll() {
@@ -39,6 +39,7 @@ public class ListStorage extends AbstractStorage {
         return listResumes.size();
     }
 
+    @Override
     protected Integer getIndex(String uuid) {
         for (int i = 0; i < listResumes.size(); i++) {
             Resume index = listResumes.get(i);
@@ -49,19 +50,27 @@ public class ListStorage extends AbstractStorage {
         return null;
     }
 
+    @Override
     protected Integer existResume(String uuid) {
-        Integer existIndex = getIndex(uuid);
-        if (existIndex != null) {
+        Integer index = getIndex(uuid);
+        if (validIndex(uuid)) {
             throw new ExistStorageException(uuid);
         }
-        return existIndex;
+        return index;
     }
 
+    @Override
     protected Integer notExistResume(String uuid) {
-        Integer notExistIndex = getIndex(uuid);
-        if (notExistIndex == null) {
+        Integer index = getIndex(uuid);
+        if (!validIndex(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        return notExistIndex;
+        return index;
+    }
+
+    @Override
+    protected boolean validIndex(String uuid) {
+        Integer index = getIndex(uuid);
+        return index != null;
     }
 }
