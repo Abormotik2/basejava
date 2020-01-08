@@ -9,11 +9,11 @@ import com.urise.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    protected void saveResume(Resume resume, Object index) {
+    protected void insert(Resume resume, Object index) {
         storage[size] = resume;
     }
 
-    protected void deleteResume(Object index) {
+    protected void remove(Object index) {
         storage[(int)index] = storage[size - 1];
     }
 
@@ -27,14 +27,14 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     protected Integer existResume(String uuid) {
-        if (validIndex(uuid)) {
+        if (isValid(uuid)) {
             throw new ExistStorageException(uuid);
         }
         return size;
     }
 
     protected Integer notExistResume(String uuid) {
-        if (!validIndex(uuid)) {
+        if (!isValid(uuid)) {
             throw new NotExistStorageException(uuid);
         }
         return getIndex(uuid);

@@ -4,7 +4,6 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,23 +17,23 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateResume(Object index, Resume resume) {
-        mapResumes.put((String) index, resume);
+    public void updateResume(Object uuid, Resume resume) {
+        mapResumes.put((String) uuid, resume);
     }
 
     @Override
-    public void saveResume(Resume resume, Object index) {
+    public void insert(Resume resume, Object uuid) {
         mapResumes.put(resume.getUuid(), resume);
     }
 
     @Override
-    public Resume getResume(Object index) {
-        return mapResumes.get((String)index);
+    public Resume getResume(Object uuid) {
+        return mapResumes.get((String)uuid);
     }
 
     @Override
-    public void deleteResume(Object index) {
-        mapResumes.remove((String)index);
+    public void remove(Object uuid) {
+        mapResumes.remove((String)uuid);
     }
 
     @Override
@@ -48,31 +47,33 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Integer getIndex(String uuid) {
+    protected Object getIndex(String uuid) {
         if (mapResumes.containsKey(uuid)) {
-            return new ArrayList<>(mapResumes.entrySet()).indexOf(uuid);
+            return uuid;
         }
         return null;
     }
 
     @Override
     protected String existResume(String uuid) {
-        if (validIndex(uuid)) {
+        Object getKey = getIndex(uuid);
+        if (isValid(uuid)) {
             throw new ExistStorageException(uuid);
         }
-        return uuid;
+        return (String)getKey;
     }
 
     @Override
     protected String notExistResume(String uuid) {
-        if (!validIndex(uuid)) {
+        Object getKey = getIndex(uuid);
+        if (!isValid(uuid)) {
             throw new NotExistStorageException(uuid);
         }
-        return uuid;
+        return (String)getKey;
     }
 
     @Override
-    protected boolean validIndex(String uuid) {
-        return getIndex(uuid) != null;
+    protected boolean isValid(Object uuid) {
+        return getIndex((String)uuid) != null;
     }
 }

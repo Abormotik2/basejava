@@ -9,21 +9,21 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveResume(Resume resume, Object sIndex) {
-        int varIndex = (int)sIndex * -1 - 1;
+    protected void insert(Resume resume, Object index) {
+        int varIndex = (int)index * -1 - 1;
         if (size - varIndex >= 0) System.arraycopy(storage, varIndex, storage, varIndex + 1, size - varIndex);
         storage[varIndex] = resume;
     }
 
     @Override
-    protected void deleteResume(Object index) {
+    protected void remove(Object index) {
         System.arraycopy(storage, (int)index + 1, storage, (int)index, size - (int)index - 1);
     }
 
     @Override
     protected Integer getIndex(String uuid) {
-        Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
+        Resume index = new Resume(uuid);
+        return Arrays.binarySearch(storage, 0, size, index);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected Integer notExistResume(String uuid) {
-        if (!validIndex(uuid)) {
+        if (!isValid(uuid)) {
             throw new NotExistStorageException(uuid);
         }
         return getIndex(uuid);
