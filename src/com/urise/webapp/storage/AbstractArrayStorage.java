@@ -1,5 +1,7 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -17,12 +19,23 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract Integer getIndex(String uuid);
 
-    protected abstract Integer existResume(String uuid);
+    protected Integer existResume(String uuid) {
+        Integer existIndex = getIndex(uuid);
+        if (existIndex >= 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return existIndex;
+    }
 
-    protected abstract Integer notExistResume(String uuid);
+    protected Integer notExistResume(String uuid) {
+        if (!isValid(uuid)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return getIndex(uuid);
+    }
 
     protected boolean isValid(Object uuid) {
-        return getIndex((String)uuid) != null;
+        return getIndex((String) uuid) != null;
     }
 
     protected void updateResume(Object index, Resume resume) {

@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 /**
@@ -23,20 +21,6 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        return null;
-    }
-
-    protected Integer existResume(String uuid) {
-        if (isValid(uuid)) {
-            throw new ExistStorageException(uuid);
-        }
-        return size;
-    }
-
-    protected Integer notExistResume(String uuid) {
-        if (!isValid(uuid)) {
-            throw new NotExistStorageException(uuid);
-        }
-        return getIndex(uuid);
+        return -1;
     }
 }
