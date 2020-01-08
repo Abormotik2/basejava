@@ -10,31 +10,34 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Integer getIndex(String uuid);
 
-    protected abstract void updateResume(Object upIndex, Resume resume);
+    protected abstract void updateResume(Object index, Resume resume);
 
-    protected abstract void saveResume(Resume resume);
+    protected abstract void saveResume(Resume resume, Object index);
 
-    protected abstract Resume getResume(Object gIndex);
+    protected abstract Resume getResume(Object index);
 
-    protected abstract void deleteResume(Object dIndex);
+    protected abstract void deleteResume(Object index);
+
+    protected abstract boolean validIndex(String uuid);
 
     public void update(Resume resume) {
-        Object upIndex = notExistResume(resume.getUuid());
-        updateResume(upIndex, resume);
+        Object index = notExistResume(resume.getUuid());
+        updateResume(index, resume);
     }
 
     public void save(Resume resume) {
-        existResume(resume.getUuid());
-        saveResume(resume);
+        Object index = existResume(resume.getUuid());
+        saveResume(resume, index);
     }
 
     public Resume get(String uuid) {
-        Object gIndex = notExistResume(uuid);
-        return getResume(gIndex);
+        Object index = notExistResume(uuid);
+        return getResume(index);
     }
 
     public void delete(String uuid) {
-        Object dIndex = notExistResume(uuid);
-        deleteResume(dIndex);
+        Object index = notExistResume(uuid);
+        deleteResume(index);
     }
+
 }
