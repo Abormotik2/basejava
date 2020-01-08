@@ -11,9 +11,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    protected abstract void saveResume(Resume resume, int sIndex);
+    protected abstract void saveResume(Resume resume, Object index);
 
-    protected abstract void deleteResume(int dIndex);
+    protected abstract void deleteResume(Object index);
 
     protected abstract Integer getIndex(String uuid);
 
@@ -21,33 +21,45 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract Integer notExistResume(String uuid);
 
+    protected boolean validIndex(String uuid) {
+        return getIndex(uuid) != null;
+    }
+
+    protected void updateResume(Object index, Resume resume) {
+        storage[(int) index] = resume;
+    }
+
+    protected Resume getResume(Object index) {
+        return storage[(int) index];
+    }
+
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     public void update(Resume resume) {
-        int upIndex = notExistResume(resume.getUuid());
-        storage[upIndex] = resume;
+        int index = notExistResume(resume.getUuid());
+        updateResume(index, resume);
     }
 
     public void save(Resume resume) {
-        int sIndex = existResume(resume.getUuid());
+        int index = existResume(resume.getUuid());
         if (size >= storage.length) {
-            throw new StorageException("Storage overflow" ,resume.getUuid());
+            throw new StorageException("Storage overflow", resume.getUuid());
         }
-        saveResume(resume, sIndex);
+        saveResume(resume, index);
         size++;
     }
 
     public Resume get(String uuid) {
-        int gIndex = notExistResume(uuid);
-        return storage[gIndex];
+        int index = notExistResume(uuid);
+        return getResume(index);
     }
 
     public void delete(String uuid) {
-        int dIndex = notExistResume(uuid);
-        deleteResume(dIndex);
+        int index = notExistResume(uuid);
+        deleteResume(index);
         storage[size - 1] = null;
         size--;
     }
