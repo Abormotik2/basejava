@@ -47,7 +47,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    public void update() throws CloneNotSupportedException {
+    public void update() {
         Resume newResume = new Resume(UUID_1);
         storage.update(newResume);
         Assert.assertSame(newResume, storage.get(UUID_1));
@@ -71,7 +71,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = StorageException.class)
-    public void saveOverflow() throws CloneNotSupportedException {
+    public void saveOverflow() {
         storage.clear();
         try {
             for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
