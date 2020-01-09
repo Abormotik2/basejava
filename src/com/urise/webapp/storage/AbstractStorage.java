@@ -1,28 +1,26 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Object notExistResume(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract Object existResume(String uuid);
-
-    protected abstract Object getIndex(String uuid);
-
-    protected abstract void updateResume(Object searchKey, Resume resume);
+    protected abstract void refresh(Object searchKey, Resume resume);
 
     protected abstract void insert(Resume resume, Object searchKey);
 
-    protected abstract Resume getResume(Object searchKey);
+    protected abstract Resume show(Object searchKey);
 
     protected abstract void remove(Object searchKey);
 
-    protected abstract boolean isValid(Object uuid);
+    protected abstract boolean isValid(Object searchKey);
 
     public void update(Resume resume) {
         Object searchKey = notExistResume(resume.getUuid());
-        updateResume(searchKey, resume);
+        refresh(searchKey, resume);
     }
 
     public void save(Resume resume) {
@@ -32,7 +30,7 @@ public abstract class AbstractStorage implements Storage {
 
     public Resume get(String uuid) {
         Object searchKey = notExistResume(uuid);
-        return getResume(searchKey);
+        return show(searchKey);
     }
 
     public void delete(String uuid) {
@@ -40,4 +38,19 @@ public abstract class AbstractStorage implements Storage {
         remove(searchKey);
     }
 
+    private Object existResume(String uuid) {
+        Object getKey = getSearchKey(uuid);
+        if (isValid(getKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return getKey;
+    }
+
+    private Object notExistResume(String uuid) {
+        Object getKey = getSearchKey(uuid);
+        if (!isValid(getKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return getKey;
+    }
 }

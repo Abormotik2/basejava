@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ public class ListStorage extends AbstractStorage {
         listResumes.clear();
     }
 
-    public void updateResume(Object index, Resume resume) {
+    public void refresh(Object index, Resume resume) {
         listResumes.set((Integer) index, resume);
     }
 
@@ -23,12 +21,12 @@ public class ListStorage extends AbstractStorage {
         listResumes.add(resume);
     }
 
-    public Resume getResume(Object index) {
+    public Resume show(Object index) {
         return listResumes.get((Integer) index);
     }
 
     public void remove(Object index) {
-        listResumes.remove((int) index);
+        listResumes.remove(((Integer) index).intValue());
     }
 
     public Resume[] getAll() {
@@ -40,7 +38,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Integer getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < listResumes.size(); i++) {
             Resume index = listResumes.get(i);
             if (index.getUuid().equals(uuid)) {
@@ -51,26 +49,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Integer existResume(String uuid) {
-        Integer index = getIndex(uuid);
-        if (isValid(uuid)) {
-            throw new ExistStorageException(uuid);
-        }
-        return index;
-    }
-
-    @Override
-    protected Integer notExistResume(String uuid) {
-        Integer index = getIndex(uuid);
-        if (!isValid(uuid)) {
-            throw new NotExistStorageException(uuid);
-        }
-        return index;
-    }
-
-    @Override
-    protected boolean isValid(Object uuid) {
-        Integer index = getIndex((String) uuid);
-        return index != null;
+    protected boolean isValid(Object searchKey) {
+        return searchKey != null;
     }
 }

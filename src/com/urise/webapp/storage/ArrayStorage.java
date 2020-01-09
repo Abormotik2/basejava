@@ -12,10 +12,10 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     protected void remove(Object index) {
-        storage[(int)index] = storage[size - 1];
+        storage[(Integer)index] = storage[size - 1];
     }
 
-    protected Integer getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;

@@ -17,33 +17,32 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void remove(Object index);
 
-    protected abstract Integer getIndex(String uuid);
-
-    protected Integer existResume(String uuid) {
-        Integer existIndex = getIndex(uuid);
-        if (existIndex >= 0) {
+    protected Object existResume(String uuid) {
+        Object getIndex = getSearchKey(uuid);
+        if ((Integer) getIndex >= 0) {
             throw new ExistStorageException(uuid);
         }
-        return existIndex;
+        return getIndex;
     }
 
-    protected Integer notExistResume(String uuid) {
-        if (!isValid(uuid)) {
+    protected Object notExistResume(String uuid) {
+        Object getIndex = getSearchKey(uuid);
+        if (!isValid(getIndex)) {
             throw new NotExistStorageException(uuid);
         }
-        return getIndex(uuid);
+        return getSearchKey(uuid);
     }
 
-    protected boolean isValid(Object uuid) {
-        return getIndex((String) uuid) != null;
+    protected boolean isValid(Object index) {
+        return (Integer) index >= 0;
     }
 
-    protected void updateResume(Object index, Resume resume) {
-        storage[(int) index] = resume;
+    protected void refresh(Object index, Resume resume) {
+        storage[(Integer) index] = resume;
     }
 
-    protected Resume getResume(Object index) {
-        return storage[(int) index];
+    protected Resume show(Object index) {
+        return storage[(Integer) index];
     }
 
     public void clear() {
@@ -52,7 +51,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public void save(Resume resume) {
-        int index = existResume(resume.getUuid());
+        Object index = existResume(resume.getUuid());
         if (size >= storage.length) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
@@ -61,7 +60,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public void delete(String uuid) {
-        int index = notExistResume(uuid);
+        Object index = notExistResume(uuid);
         remove(index);
         storage[size - 1] = null;
         size--;
