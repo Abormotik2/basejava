@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-   public void insert(Resume resume, Object searchKey) {
+   protected void insert(Resume resume, Object searchKey) {
         if (size >= storage.length) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
@@ -40,7 +40,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
-    public void remove(Object searchKey) {
+    protected void remove(Object searchKey) {
         doDelete(searchKey);
         storage[size - 1] = null;
         size--;

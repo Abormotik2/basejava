@@ -13,19 +13,19 @@ public class ListStorage extends AbstractStorage {
         listResumes.clear();
     }
 
-    public void refresh(Object index, Resume resume) {
+    protected void refresh(Object index, Resume resume) {
         listResumes.set((Integer) index, resume);
     }
 
-    public void insert(Resume resume, Object index) {
+    protected void insert(Resume resume, Object index) {
         listResumes.add(resume);
     }
 
-    public Resume show(Object index) {
+    protected Resume show(Object index) {
         return listResumes.get((Integer) index);
     }
 
-    public void remove(Object index) {
+    protected void remove(Object index) {
         listResumes.remove(((Integer) index).intValue());
     }
 
