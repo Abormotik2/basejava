@@ -20,7 +20,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public void insert(Resume resume, Object uuid) {
+    public void insert(Resume resume, Object index) {
         mapResumes.put(resume.getUuid(), resume);
     }
 

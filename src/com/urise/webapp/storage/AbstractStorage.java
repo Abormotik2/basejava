@@ -38,19 +38,19 @@ public abstract class AbstractStorage implements Storage {
         remove(searchKey);
     }
 
-    private Object existResume(String uuid) {
-        Object getKey = getSearchKey(uuid);
-        if (isValid(getKey)) {
+    protected Object existResume(String uuid) {
+        Object key = getSearchKey(uuid);
+        if (isValid(key)) {
             throw new ExistStorageException(uuid);
         }
-        return getKey;
+        return key;
     }
 
-    private Object notExistResume(String uuid) {
-        Object getKey = getSearchKey(uuid);
-        if (!isValid(getKey)) {
+   protected Object notExistResume(String uuid) {
+        Object key = getSearchKey(uuid);
+        if (!isValid(key)) {
             throw new NotExistStorageException(uuid);
         }
-        return getKey;
+        return key;
     }
 }
