@@ -8,7 +8,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void refresh(Object searchKey, Resume resume);
+    protected abstract void refresh(Resume resume, Object searchKey);
 
     protected abstract void insert(Resume resume, Object searchKey);
 
@@ -20,7 +20,7 @@ public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
         Object searchKey = notExistResume(resume.getUuid());
-        refresh(searchKey, resume);
+        refresh(resume,searchKey);
     }
 
     public void save(Resume resume) {

@@ -13,7 +13,7 @@ public class ListStorage extends AbstractStorage {
         listResumes.clear();
     }
 
-    protected void refresh(Object index, Resume resume) {
+    protected void refresh(Resume resume, Object index) {
         listResumes.set((Integer) index, resume);
     }
 
@@ -29,8 +29,8 @@ public class ListStorage extends AbstractStorage {
         listResumes.remove(((Integer) index).intValue());
     }
 
-    public Resume[] getAll() {
-        return listResumes.toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        return listResumes;
     }
 
     public int size() {
