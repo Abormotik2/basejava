@@ -49,7 +49,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isValid(Object resumes) {
-        return resumes != null;
+    protected boolean isValid(Object res) {
+        return res != null;
     }
 }
