@@ -6,7 +6,6 @@ import java.util.*;
 
 public class MapUuidStorage extends AbstractStorage {
 
-    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
     private Map<String, Resume> mapResumes = new HashMap<>();
 
     @Override
@@ -35,10 +34,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> tempList = new ArrayList<>(mapResumes.values());
-        tempList.sort(RESUME_COMPARATOR);
-        return tempList;
+    public List<Resume> getAll() {
+        return new ArrayList<>(mapResumes.values());
     }
 
     @Override
