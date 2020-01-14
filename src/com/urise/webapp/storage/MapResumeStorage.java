@@ -15,12 +15,12 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void refresh(Resume resume, Object res) {
-        mapResumes.put(resume.getUuid(), (Resume)resume);
+        mapResumes.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void insert(Resume resume, Object res) {
-        mapResumes.put(resume.getUuid(), (Resume)resume);
+        mapResumes.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    public List<Resume> getAll() {
         return new ArrayList<>(mapResumes.values());
     }
 
