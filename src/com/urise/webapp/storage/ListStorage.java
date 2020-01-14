@@ -29,8 +29,8 @@ public class ListStorage extends AbstractStorage {
         listResumes.remove(((Integer) index).intValue());
     }
 
-    public List<Resume> getAllSorted() {
-        return listResumes;
+    public List<Resume> getAll() {
+        return new ArrayList<>(listResumes);
     }
 
     public int size() {
