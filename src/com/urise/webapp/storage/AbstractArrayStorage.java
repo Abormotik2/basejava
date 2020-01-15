@@ -49,7 +49,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size--;
     }
 
-    public List<Resume> getAll() {
+    protected List<Resume> getAll() {
         return Arrays.asList(Arrays.copyOf(storage,size));
     }
 

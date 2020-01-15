@@ -29,7 +29,7 @@ public class ListStorage extends AbstractStorage {
         listResumes.remove(((Integer) index).intValue());
     }
 
-    public List<Resume> getAll() {
+    protected List<Resume> getAll() {
         return new ArrayList<>(listResumes);
     }
 
