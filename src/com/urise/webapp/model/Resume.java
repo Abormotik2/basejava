@@ -1,14 +1,12 @@
 package com.urise.webapp.model;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume> {
+public class Resume  {
     // Unique identifier
     private final String uuid;
 
@@ -27,6 +25,10 @@ public class Resume implements Comparable<Resume> {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     @Override
@@ -50,15 +52,5 @@ public class Resume implements Comparable<Resume> {
     @Override
     public String toString() {
         return uuid + " " + fullName;
-    }
-
-    @Override
-    public int compareTo(@NotNull Resume o) {
-        int compare = fullName.compareTo(o.fullName);
-        if (compare == 0) {
-            return compare;
-        } else {
-            return uuid.compareTo(o.uuid);
-        }
     }
 }
