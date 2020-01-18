@@ -11,9 +11,9 @@ public class Resume  {
 
     private final String fullName;
 
-    private final Map<ContactType, String> contact = new EnumMap<>(ContactType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
-    private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -34,12 +34,12 @@ public class Resume  {
         return fullName;
     }
 
-    public String getContact(ContactType type) {
-        return contact.get(type);
+    public Map<ContactType, String> getContacts() {
+        return contacts;
     }
 
-    public Section getSection(SectionType type) {
-        return section.get(type);
+    public Map<SectionType, Section> getSections() {
+        return sections;
     }
 
     @Override
@@ -60,6 +60,11 @@ public class Resume  {
 
     @Override
     public String toString() {
-        return uuid + " " + fullName;
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", contacts=" + contacts +
+                ", sections=" + sections +
+                '}';
     }
 }
