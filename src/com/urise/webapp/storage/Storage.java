@@ -23,8 +23,6 @@ public interface Storage {
      * @return array, contains only Resumes in storage (without null)
      */
     List<Resume> getAllSorted();
-//return list, sorted by name;
-// List<Resume> getAllSorted();
 
     int size();
 }

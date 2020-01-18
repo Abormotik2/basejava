@@ -6,7 +6,7 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10_000;
 
@@ -14,20 +14,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected int size;
 
-    protected abstract void doSave(Resume resume, Object index);
+    protected abstract void doSave(Resume resume, Integer index);
 
-    protected abstract void doDelete(Object index);
+    protected abstract void doDelete(Integer index);
 
-    protected boolean isValid(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isValid(Integer index) {
+        return index >= 0;
     }
 
-    protected void refresh(Resume resume, Object index) {
-        storage[(Integer) index] = resume;
+    protected void refresh(Resume resume, Integer index) {
+        storage[index] = resume;
     }
 
-    protected Resume show(Object index) {
-        return storage[(Integer) index];
+    protected Resume show(Integer index) {
+        return storage[index];
     }
 
     public void clear() {
@@ -35,7 +35,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-   protected void insert(Resume resume, Object searchKey) {
+    protected void insert(Resume resume, Integer searchKey) {
         if (size >= storage.length) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
@@ -43,14 +43,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
-    protected void remove(Object searchKey) {
+    protected void remove(Integer searchKey) {
         doDelete(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     protected List<Resume> getAll() {
-        return Arrays.asList(Arrays.copyOf(storage,size));
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     public int size() {
