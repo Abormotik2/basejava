@@ -1,7 +1,6 @@
 package com.urise.webapp.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -10,7 +9,11 @@ public class Resume  {
     // Unique identifier
     private final String uuid;
 
-    private String fullName;
+    private final String fullName;
+
+    private final Map<ContactType, String> contact = new EnumMap<>(ContactType.class);
+
+    private final Map<SectionType, Section> section = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -31,13 +34,19 @@ public class Resume  {
         return fullName;
     }
 
+    public String getContact(ContactType type) {
+        return contact.get(type);
+    }
+
+    public Section getSection(SectionType type) {
+        return section.get(type);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
         if (!uuid.equals(resume.uuid)) return false;
         return fullName.equals(resume.fullName);
     }
