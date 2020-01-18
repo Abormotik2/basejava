@@ -2,7 +2,7 @@ package com.urise.webapp.model;
 
 import java.util.Objects;
 
-public class ContentSection extends Section {
+public class ContentSection implements Section {
 
     private final String content;
 

@@ -3,7 +3,7 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends Section {
+public class ListSection implements Section {
     private final List<String> titles;
 
     public ListSection(List<String> titles) {
