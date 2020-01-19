@@ -5,15 +5,15 @@ import java.util.Objects;
 
 public class OrganizationSection implements Section {
 
-    private final List<Organization> organization;
+    private final List<Organization> organizations;
 
-    public OrganizationSection(List<Organization> organization) {
-        this.organization = organization;
+    public OrganizationSection(List<Organization> organizations) {
+        this.organizations = organizations;
     }
 
-    public List<Organization> getOrganization() {
-        Objects.requireNonNull(organization, "organization must not be null");
-        return organization;
+    public List<Organization> getOrganizations() {
+        Objects.requireNonNull(organizations, "organization must not be null");
+        return organizations;
     }
 
     @Override
@@ -23,18 +23,18 @@ public class OrganizationSection implements Section {
 
         OrganizationSection that = (OrganizationSection) o;
 
-        return Objects.equals(organization, that.organization);
+        return Objects.equals(organizations, that.organizations);
     }
 
     @Override
     public int hashCode() {
-        return organization != null ? organization.hashCode() : 0;
+        return organizations != null ? organizations.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "OrganizationSection{" +
-                "organization=" + organization +
+                "organization=" + organizations +
                 '}';
     }
 }

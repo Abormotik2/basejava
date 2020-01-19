@@ -1,10 +1,10 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
-public class Organization extends OrganizationSection {
+public class Organization {
+    private final ContactsOrg contacts;
 
     private final LocalDate startDate;
 
@@ -14,16 +14,36 @@ public class Organization extends OrganizationSection {
 
     private final String responsibility;
 
-    public Organization(List<Organization> organization, LocalDate startDate, LocalDate endDate, String title, String responsibility) {
-        super(organization);
+    public Organization(ContactsOrg contacts, LocalDate startDate, LocalDate endDate, String title, String responsibility) {
+        Objects.requireNonNull(contacts, "contacts must not be null");
         Objects.requireNonNull(startDate, "startDate must not be null");
         Objects.requireNonNull(endDate, "endDate must not be null");
         Objects.requireNonNull(title, "title must not be null");
-        Objects.requireNonNull(responsibility, "responsibility must not be null");
+        this.contacts = contacts;
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
         this.responsibility = responsibility;
+    }
+
+    public ContactsOrg getContacts() {
+        return contacts;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getResponsibility() {
+        return responsibility;
     }
 
     @Override
@@ -33,6 +53,7 @@ public class Organization extends OrganizationSection {
 
         Organization that = (Organization) o;
 
+        if (!Objects.equals(contacts, that.contacts)) return false;
         if (!Objects.equals(startDate, that.startDate)) return false;
         if (!Objects.equals(endDate, that.endDate)) return false;
         if (!Objects.equals(title, that.title)) return false;
@@ -41,7 +62,8 @@ public class Organization extends OrganizationSection {
 
     @Override
     public int hashCode() {
-        int result = startDate != null ? startDate.hashCode() : 0;
+        int result = contacts != null ? contacts.hashCode() : 0;
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (responsibility != null ? responsibility.hashCode() : 0);
@@ -51,7 +73,8 @@ public class Organization extends OrganizationSection {
     @Override
     public String toString() {
         return "Organization{" +
-                "startDate=" + startDate +
+                "contacts=" + contacts +
+                ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", title='" + title + '\'' +
                 ", responsibility='" + responsibility + '\'' +

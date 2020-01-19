@@ -1,18 +1,14 @@
 package com.urise.webapp.model;
 
-import sun.plugin.javascript.navig4.Link;
-
 import java.util.Objects;
 
-public class Contacts {
+public class ContactsOrg {
 
     private final String name;
 
-    private final Link url;
+    private final String url;
 
-    public Contacts(String name, Link url) {
-        Objects.requireNonNull(name, "Name must not be null");
-        Objects.requireNonNull(url, "url must not be null");
+    public ContactsOrg(String name, String url) {
         this.name = name;
         this.url = url;
     }
@@ -21,7 +17,7 @@ public class Contacts {
         return name;
     }
 
-    public Link getUrl() {
+    public String getUrl() {
         return url;
     }
 
@@ -30,10 +26,10 @@ public class Contacts {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Contacts contacts = (Contacts) o;
+        ContactsOrg that = (ContactsOrg) o;
 
-        if (!Objects.equals(name, contacts.name)) return false;
-        return Objects.equals(url, contacts.url);
+        if (!Objects.equals(name, that.name)) return false;
+        return Objects.equals(url, that.url);
     }
 
     @Override
@@ -45,9 +41,9 @@ public class Contacts {
 
     @Override
     public String toString() {
-        return "Contacts{" +
+        return "ContactsOrg{" +
                 "name='" + name + '\'' +
-                ", url=" + url +
+                ", url='" + url + '\'' +
                 '}';
     }
 }
