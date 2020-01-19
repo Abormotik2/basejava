@@ -4,6 +4,8 @@ import com.urise.webapp.model.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,10 @@ import static com.urise.webapp.model.SectionType.*;
 public class ResumeTestData {
 
     public static void main(String[] args) {
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("MM.yyyy")
+                .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+                .toFormatter();
         Resume resume = new Resume("Григорий Кислин");
         Map<ContactType, String> contactInfo = resume.getContacts();
         Map<SectionType, Section> sections = resume.getSections();
@@ -54,81 +60,81 @@ public class ResumeTestData {
         List<Organization> organizationList = new ArrayList<>();
         organizationList.add(new Organization(
                 new ContactsOrg("Java Online Projects", "http://javaops.ru/")
-                , LocalDate.parse("10.2013", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("10.2013", formatter)
                 , LocalDate.now()
                 , "Автор проекта."
                 , "Создание, организация и проведение Java онлайн проектов и стажировок."));
         organizationList.add(new Organization(
                 new ContactsOrg("Wrike", "https://www.wrike.com/")
-                , LocalDate.parse("10.2014", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("01.2016", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("10.2014", formatter)
+                , LocalDate.parse("01.2016", formatter)
                 , "Старший разработчик (backend)"
                 , "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
         organizationList.add(new Organization(
                 new ContactsOrg("RIT Center", "")
-                , LocalDate.parse("04.2012", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("10.2014", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("04.2012", formatter)
+                , LocalDate.parse("10.2014", formatter)
                 , "Java архитектор"
                 , "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"));
         organizationList.add(new Organization(
                 new ContactsOrg("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/")
-                , LocalDate.parse("12.2010", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("04.2012", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("12.2010", formatter)
+                , LocalDate.parse("04.2012", formatter)
                 , "Ведущий программист"
                 , "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5."));
         organizationList.add(new Organization(
                 new ContactsOrg("Yota", "https://www.yota.ru/")
-                , LocalDate.parse("06.2008", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("01.2010", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("06.2008", formatter)
+                , LocalDate.parse("01.2010", formatter)
                 , "Ведущий специалист"
                 , "Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)"));
         organizationList.add(new Organization(
                 new ContactsOrg("Enkata", "http://enkata.com/")
-                , LocalDate.parse("03.2007", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("06.2008", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("03.2007", formatter)
+                , LocalDate.parse("06.2008", formatter)
                 , "Разработчик ПО"
                 , "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining)."));
         organizationList.add(new Organization(
                 new ContactsOrg("Siemens AG", "https://www.siemens.com/ru/ru/home.html")
-                , LocalDate.parse("01.2005", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("02.2007", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("01.2005", formatter)
+                , LocalDate.parse("02.2007", formatter)
                 , "Разработчик ПО"
                 , "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix)."));
         organizationList.add(new Organization(
                 new ContactsOrg("Alcatel", "http://www.alcatel.ru/")
-                , LocalDate.parse("09.1997", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("01.2005", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("09.1997", formatter)
+                , LocalDate.parse("01.2005", formatter)
                 , "Инженер по аппаратному и программному тестированию"
                 , "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
         sections.put(EXPERIENCE, new ListSection<>(organizationList));
         List<Organization> studyList = new ArrayList<>();
         studyList.add(new Organization(new ContactsOrg("Coursera", "https://www.coursera.org/course/progfun")
-                , LocalDate.parse("03.2013", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("05.2013", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("03.2013", formatter)
+                , LocalDate.parse("05.2013", formatter)
                 , "\"Functional Programming Principles in Scala\" by Martin Odersky"));
         studyList.add(new Organization(new ContactsOrg("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")
-                , LocalDate.parse("03.2011", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("04.2011", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("03.2011", formatter)
+                , LocalDate.parse("04.2011", formatter)
                 , "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""));
         studyList.add(new Organization(new ContactsOrg("Siemens AG", "http://www.siemens.ru/")
-                , LocalDate.parse("01.2005", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("04.2005", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("01.2005", formatter)
+                , LocalDate.parse("04.2005", formatter)
                 , "3 месяца обучения мобильным IN сетям (Берлин)"));
         studyList.add(new Organization(new ContactsOrg("Alcatel", "http://www.alcatel.ru/")
-                , LocalDate.parse("09.1997", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("03.1998", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("09.1997", formatter)
+                , LocalDate.parse("03.1998", formatter)
                 , "6 месяцев обучения цифровым телефонным сетям (Москва)"));
         studyList.add(new Organization(new ContactsOrg("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/")
-                , LocalDate.parse("09.1993", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("07.1996", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("09.1993", formatter)
+                , LocalDate.parse("07.1996", formatter)
                 , "Аспирантура (программист С, С++)"));
         studyList.add(new Organization(new ContactsOrg("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/")
-                , LocalDate.parse("09.1987", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("07.1993", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("09.1987", formatter)
+                , LocalDate.parse("07.1993", formatter)
                 , "Инженер (программист Fortran, C)"));
         studyList.add(new Organization(new ContactsOrg("Yota", "https://www.yota.ru/")
-                , LocalDate.parse("09.1984", DateTimeFormatter.ofPattern("MM.yyyy"))
-                , LocalDate.parse("01.1987", DateTimeFormatter.ofPattern("MM.yyyy"))
+                , LocalDate.parse("09.1984", formatter)
+                , LocalDate.parse("01.1987", formatter)
                 , "Закончил с отличием"));
         sections.put(EDUCATION, new ListSection<>(studyList));
         System.out.println(resume);
