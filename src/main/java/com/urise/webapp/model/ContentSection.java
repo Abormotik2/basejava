@@ -2,16 +2,16 @@ package com.urise.webapp.model;
 
 import java.util.Objects;
 
-public class ContentSection<T> implements Section {
+public class ContentSection implements Section {
 
-    private final T content;
+    private final String content;
 
-    public ContentSection(T content) {
+    public ContentSection(String content) {
         Objects.requireNonNull(content, "Content must not be null");
         this.content = content;
     }
 
-    public T getContent() {
+    public String getContent() {
         return content;
     }
 
@@ -20,7 +20,7 @@ public class ContentSection<T> implements Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ContentSection<?> that = (ContentSection<?>) o;
+        ContentSection that = (ContentSection) o;
 
         return Objects.equals(content, that.content);
     }
