@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection implements Section {
-    private final List<ContentSection> items;
+    private final List<String> items;
 
-    public ListSection(List<ContentSection> items) {
+    public ListSection(List<String> items) {
         Objects.requireNonNull(items, "titles must not be null");
         this.items = items;
     }
 
-    public List<ContentSection> getItems() {
+    public List<String> getItems() {
         return items;
     }
 
