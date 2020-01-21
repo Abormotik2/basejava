@@ -16,6 +16,7 @@ public class Organization  {
     private String responsibility;
 
     public Organization(OrganizationLink homePage, LocalDate startDate, LocalDate endDate, String title, String responsibility) {
+        Objects.requireNonNull(homePage, "homePage must not be null");
         Objects.requireNonNull(startDate, "startDate must not be null");
         Objects.requireNonNull(endDate, "endDate must not be null");
         Objects.requireNonNull(title, "title must not be null");
