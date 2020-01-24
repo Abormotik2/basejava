@@ -1,30 +1,19 @@
 package com.urise.webapp.model;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
-public class Organization  {
+public class Organization {
 
     private final OrganizationLink homePage;
 
-    private final LocalDate startDate;
+    private  List<Stages> stage;
 
-    private final LocalDate endDate;
-
-    private final String title;
-
-    private String responsibility;
-
-    public Organization(OrganizationLink homePage, LocalDate startDate, LocalDate endDate, String title, String responsibility) {
+    public Organization(OrganizationLink homePage, List<Stages> stage) {
         Objects.requireNonNull(homePage, "homePage must not be null");
-        Objects.requireNonNull(startDate, "startDate must not be null");
-        Objects.requireNonNull(endDate, "endDate must not be null");
-        Objects.requireNonNull(title, "title must not be null");
+        Objects.requireNonNull(stage, "stage must not be null");
         this.homePage = homePage;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.title = title;
-        this.responsibility = responsibility;
+        this.stage = stage;
     }
 
     @Override
@@ -35,19 +24,13 @@ public class Organization  {
         Organization that = (Organization) o;
 
         if (!homePage.equals(that.homePage)) return false;
-        if (!startDate.equals(that.startDate)) return false;
-        if (!endDate.equals(that.endDate)) return false;
-        if (!title.equals(that.title)) return false;
-        return Objects.equals(responsibility, that.responsibility);
+        return stage.equals(that.stage);
     }
 
     @Override
     public int hashCode() {
         int result = homePage.hashCode();
-        result = 31 * result + startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + (responsibility != null ? responsibility.hashCode() : 0);
+        result = 31 * result + stage.hashCode();
         return result;
     }
 
@@ -55,10 +38,7 @@ public class Organization  {
     public String toString() {
         return "Organization{" +
                 "homePage=" + homePage +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", title='" + title + '\'' +
-                ", responsibility='" + responsibility + '\'' +
+                ", stage=" + stage +
                 '}';
     }
 }
