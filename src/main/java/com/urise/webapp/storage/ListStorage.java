@@ -13,19 +13,20 @@ public class ListStorage extends AbstractStorage<Integer> {
         listResumes.clear();
     }
 
-    protected void refresh(Resume resume, Integer searchKey) {
+    protected void doUpdate(Resume resume, Integer searchKey) {
         listResumes.set(searchKey, resume);
     }
 
-    protected void insert(Resume resume, Integer searchKey) {
+    protected void doSave(Resume resume, Integer searchKey) {
+
         listResumes.add(resume);
     }
 
-    protected Resume show(Integer searchKey) {
+    protected Resume doGet(Integer searchKey) {
         return listResumes.get(searchKey);
     }
 
-    protected void remove(Integer searchKey) {
+    protected void doDelete(Integer searchKey) {
         listResumes.remove(searchKey.intValue());
     }
 
