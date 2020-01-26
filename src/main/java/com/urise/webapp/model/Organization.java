@@ -7,13 +7,13 @@ public class Organization {
 
     private final OrganizationLink homePage;
 
-    private  List<Stages> stage;
+    private  List<Stages> stages;
 
-    public Organization(OrganizationLink homePage, List<Stages> stage) {
+    public Organization(OrganizationLink homePage, List<Stages> stages) {
         Objects.requireNonNull(homePage, "homePage must not be null");
-        Objects.requireNonNull(stage, "stage must not be null");
+        Objects.requireNonNull(stages, "stages must not be null");
         this.homePage = homePage;
-        this.stage = stage;
+        this.stages = stages;
     }
 
     @Override
@@ -24,13 +24,13 @@ public class Organization {
         Organization that = (Organization) o;
 
         if (!homePage.equals(that.homePage)) return false;
-        return stage.equals(that.stage);
+        return stages.equals(that.stages);
     }
 
     @Override
     public int hashCode() {
         int result = homePage.hashCode();
-        result = 31 * result + stage.hashCode();
+        result = 31 * result + stages.hashCode();
         return result;
     }
 
@@ -38,7 +38,7 @@ public class Organization {
     public String toString() {
         return "Organization{" +
                 "homePage=" + homePage +
-                ", stage=" + stage +
+                ", stages=" + stages +
                 '}';
     }
 }
