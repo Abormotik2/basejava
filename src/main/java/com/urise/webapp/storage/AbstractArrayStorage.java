@@ -39,12 +39,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         if (size >= storage.length) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        doSave(resume, searchKey);
+        insert(resume, searchKey);
         size++;
     }
 
     protected void doDelete(Integer searchKey) {
-        doDelete(searchKey);
+        remove(searchKey);
         storage[size - 1] = null;
         size--;
     }
