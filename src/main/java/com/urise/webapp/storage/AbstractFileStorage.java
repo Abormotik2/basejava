@@ -40,7 +40,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(Resume resume, File file) {
         try {
             file.createNewFile();
-            doWrite(resume, file);
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
@@ -74,10 +73,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getAll() {
-        File[] allFiles = directory.listFiles();
-        if (allFiles == null) {
-            throw new StorageException("The directory", directory.getName(), null);
-        }
+        File[] allFiles = hasDirectoryFiles();
         List<Resume> listFiles = new ArrayList<>(allFiles.length);
         for (File files : allFiles) {
             listFiles.add(doGet(files));
@@ -87,10 +83,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] allFiles = directory.listFiles();
-        if (allFiles == null) {
-            throw new StorageException("The directory is Empty!", directory.getName(), null);
-        }
+        File[] allFiles = hasDirectoryFiles();
         for (File files : allFiles) {
             doDelete(files);
         }
@@ -98,10 +91,15 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        String[] listDir = directory.list();
-        if (listDir == null) {
+        File[] allFiles = hasDirectoryFiles();
+        return allFiles.length;
+    }
+
+    private File[] hasDirectoryFiles() {
+        File[] allFiles = directory.listFiles();
+        if (allFiles == null) {
             throw new StorageException("The directory is Empty!", directory.getName(), null);
         }
-        return listDir.length;
+        return allFiles;
     }
 }
