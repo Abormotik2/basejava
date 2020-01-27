@@ -1,30 +1,35 @@
 package com.urise.webapp;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFile {
+    private static List<File> files = new ArrayList<>();
+
     public static void main(String[] args) {
-        System.out.println(printCatalog(Paths.get("E:/Java/basejava/src/main/java")));
+        printCatalog(files, new File("E:/Java/basejava/src/main/java"));
+        for (Object file : files.toArray()) {
+            System.out.println(((File) file).getAbsolutePath());
+        }
     }
 
-    public static String printCatalog(Path catalogPath) {
-        StringBuilder builder = new StringBuilder();
-        try {
-            builder.append(catalogPath.getFileName()).append('\n');
-            Files
-                    .list(catalogPath)
-                    .filter(Files::isDirectory)
-                    .forEach(path -> builder.append('\t').append(printCatalog(path)).append('\n'));
-            Files
-                    .list(catalogPath)
-                    .filter(Files::isRegularFile)
-                    .forEach(path -> builder.append('\t').append('\t').append("--").append(path.getFileName()).append('\n'));
-        } catch (IOException e) {
-            throw new RuntimeException("Error", e);
+    private static void printCatalog(List<File> source, File parent) {
+        if (!source.contains(parent)) {
+            source.add(parent);
         }
-        return builder.toString();
+        File[] listFiles = parent.listFiles();
+        if (listFiles == null) {
+            return;
+        }
+        for (File file : listFiles) {
+            if (file.isDirectory()) {
+                printCatalog(source, file);
+            } else {
+                if (!source.contains(file)) {
+                    source.add(file);
+                }
+            }
+        }
     }
 }
