@@ -199,7 +199,7 @@ public class ResumeTestData {
                 , Collections.singletonList(new Stages(LocalDate.of(2013, 10, 1)
                 , LocalDate.now()
                 , "Автор проекта."
-                , "Самостоятельно научился делать скрины с мемов с Греттой"))));
+                , "Самостоятельно научился делать скрины мемов с Греттой"))));
         sections.put(EXPERIENCE, new OrganizationSection(organizationList));
         List<Organization> studyList = new ArrayList<>();
         studyList.add(new Organization(new OrganizationLink("NewTravelSchool", "https://www.NTS.com")
