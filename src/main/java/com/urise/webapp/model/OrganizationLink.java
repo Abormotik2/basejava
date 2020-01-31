@@ -1,8 +1,10 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class OrganizationLink {
+public class OrganizationLink implements Serializable {
+    private static final  long serialVersionUID = 1L;
 
     private final String name;
 

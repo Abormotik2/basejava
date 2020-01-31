@@ -3,16 +3,13 @@ package com.urise.webapp.model;
 import java.util.Objects;
 
 public class ContentSection implements Section {
+    private static final  long serialVersionUID = 1L;
 
     private final String content;
 
     public ContentSection(String content) {
         Objects.requireNonNull(content, "Content must not be null");
         this.content = content;
-    }
-
-    public String getContent() {
-        return content;
     }
 
     @Override

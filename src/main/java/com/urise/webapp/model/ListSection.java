@@ -1,10 +1,16 @@
 package com.urise.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection implements Section {
+    private static final  long serialVersionUID = 1L;
     private final List<String> items;
+
+    public ListSection(String... items) {
+        this(Arrays.asList(items));
+    }
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "titles must not be null");
