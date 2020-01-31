@@ -7,13 +7,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+    protected static final File STORAGE_DIR = new File("E:\\Java\\basejava\\storage");
+
     protected Storage storage;
+
     private static final String UUID_1 = "uuid_1";
     private static final String UUID_2 = "uuid_2";
     private static final String UUID_3 = "uuid_3";
@@ -24,10 +30,10 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME4;
 
     static {
-        RESUME1 = new Resume(UUID_1, "Name_1");
-        RESUME2 = new Resume(UUID_2, "Name_2");
-        RESUME3 = new Resume(UUID_3, "Name_3");
-        RESUME4 = new Resume(UUID_4, "Name_4");
+        RESUME1 = ResumeTestData.getFirstResume();
+        RESUME2 = ResumeTestData.getSecondResume();
+        RESUME3 = ResumeTestData.getThirdResume();
+        RESUME4 = ResumeTestData.getFourthResume();
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -52,7 +58,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(UUID_1, "Name_5");
         storage.update(newResume);
-        Assert.assertSame(newResume, storage.get(UUID_1));
+        assertEquals(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -101,7 +107,9 @@ public abstract class AbstractStorageTest {
         list.add(RESUME1);
         list.add(RESUME2);
         list.add(RESUME3);
+        list.sort(RESUME_COMPARATOR);
         List<Resume> getAll = storage.getAllSorted();
+        System.out.println(getAll.equals(list));
         Assert.assertEquals(getAll, list);
     }
 
