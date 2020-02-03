@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
@@ -35,8 +34,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected void doUpdate(Resume resume, Path path) {
-        try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(String.valueOf(path))));
+        try (OutputStream outputStream = path.toFile().toURI().toURL().openConnection().getOutputStream()) {
+            doWrite(resume, outputStream);
         } catch (IOException e) {
             throw new StorageException("Cannot update path", null, e);
         }
@@ -54,8 +53,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Resume doGet(Path path) {
-        try {
-            return doRead(new BufferedInputStream(new FileInputStream(String.valueOf(path))));
+        try (InputStream inputStream = path.toFile().toURI().toURL().openConnection().getInputStream()) {
+            return doRead(inputStream);
         } catch (IOException e) {
             throw new StorageException("Cannot read path", null);
         }
@@ -77,14 +76,14 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAll() {
-        try (Stream<Path> walk = Files.walk(directory)) {
-            List<String> result = walk.filter(Files::isRegularFile)
-                    .map(Path::toString).collect(Collectors.toList());
+        try {
+            return Files.walk(directory).filter(Files::isRegularFile)
+                    .map(this::doGet)
+                    .collect(Collectors.toList());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
