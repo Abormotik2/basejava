@@ -14,7 +14,7 @@ public class MainFile {
             throw new IllegalArgumentException("Wrong argument!");
         }
 
-        System.out.println(directory.getName());
+        System.out.println("-" + directory.getName());
         File[] files = directory.listFiles();
         if (files == null) {
             return;
@@ -23,7 +23,7 @@ public class MainFile {
             if (file.isDirectory()) {
                 printCatalog(file);
             } else {
-                System.out.println(file.getName());
+                System.out.println("--" + file.getName());
             }
         }
     }
