@@ -77,7 +77,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> getAll() {
         try {
-            return Files.walk(directory).filter(Files::isRegularFile)
+            return Files.list(directory).filter(Files::isRegularFile)
                     .map(this::doGet)
                     .collect(Collectors.toList());
 
