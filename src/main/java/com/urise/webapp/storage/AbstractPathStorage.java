@@ -12,14 +12,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class AbstractPathStorage extends AbstractStorage<Path> {
     private Path directory;
 
-    protected abstract void doWrite(Resume resume, OutputStream os) throws IOException;
+    protected StrategySerialized serialized;
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
-
-    protected AbstractPathStorage(String dir) {
+    protected AbstractPathStorage(String dir, StrategySerialized serialized) {
+        this.serialized = serialized;
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
@@ -34,8 +33,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected void doUpdate(Resume resume, Path path) {
-        try (OutputStream outputStream = Files.newOutputStream(path)) {
-            doWrite(resume, outputStream);
+        try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path))) {
+            serialized.doWrite(resume, outputStream);
         } catch (IOException e) {
             throw new StorageException("Cannot update path", null, e);
         }
@@ -53,8 +52,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Resume doGet(Path path) {
-        try (InputStream inputStream = Files.newInputStream(path)) {
-            return doRead(inputStream);
+        try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(path))) {
+            return serialized.doRead(inputStream);
         } catch (IOException e) {
             throw new StorageException("Cannot read path", null);
         }
@@ -77,10 +76,10 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> getAll() {
         try {
-            return Files.list(directory).filter(Files::isRegularFile)
+            return Files
+                    .list(directory)
                     .map(this::doGet)
                     .collect(Collectors.toList());
-
         } catch (IOException e) {
             throw new StorageException("Path getAll error", null);
         }
