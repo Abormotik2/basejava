@@ -34,7 +34,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected void doUpdate(Resume resume, Path path) {
-        try (OutputStream outputStream = path.toFile().toURI().toURL().openConnection().getOutputStream()) {
+        try (OutputStream outputStream = Files.newOutputStream(path)) {
             doWrite(resume, outputStream);
         } catch (IOException e) {
             throw new StorageException("Cannot update path", null, e);
@@ -53,7 +53,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Resume doGet(Path path) {
-        try (InputStream inputStream = path.toFile().toURI().toURL().openConnection().getInputStream()) {
+        try (InputStream inputStream = Files.newInputStream(path)) {
             return doRead(inputStream);
         } catch (IOException e) {
             throw new StorageException("Cannot read path", null);
@@ -71,7 +71,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isValid(Path path) {
-        return Files.exists(path);
+        return Files.isRegularFile(path);
     }
 
     @Override
@@ -82,7 +82,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
                     .collect(Collectors.toList());
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new StorageException("Path getAll error", null);
         }
     }
 
@@ -97,6 +97,10 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        return directory.getNameCount();
+        try {
+            return (int) Files.list(directory).count();
+        } catch (IOException e) {
+            throw new StorageException("Path size error", null);
+        }
     }
 }
