@@ -1,4 +1,4 @@
-package com.urise.webapp.main;
+package com.urise.webapp;
 
 import java.io.File;
 
