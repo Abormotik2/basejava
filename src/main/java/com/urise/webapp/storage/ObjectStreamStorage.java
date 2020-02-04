@@ -5,11 +5,7 @@ import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamStorage extends AbstractFileStorage {
-
-    protected ObjectStreamStorage(File directory, StrategySerialized serialized) {
-        super(directory, serialized);
-    }
+public class ObjectStreamStorage implements StrategySerialized {
 
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
