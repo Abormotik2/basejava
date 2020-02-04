@@ -1,22 +1,22 @@
-package com.urise.webapp;
+package com.urise.webapp.main;
 
 import com.urise.webapp.model.SectionType;
 
-public class TestSingleton {
-    private static TestSingleton instance;
+public class MainTestSingleton {
+    private static MainTestSingleton instance;
 
-    public static TestSingleton getInstance() {
+    public static MainTestSingleton getInstance() {
         if (instance == null) {
-            instance = new TestSingleton();
+            instance = new MainTestSingleton();
         }
         return instance;
     }
 
-    private TestSingleton() {
+    private MainTestSingleton() {
     }
 
     public static void main(String[] args) {
-        TestSingleton.getInstance().toString();
+        MainTestSingleton.getInstance().toString();
         Singleton instance = Singleton.valueOf("INSTANCE");
         System.out.println(instance.ordinal());
         for (SectionType type : SectionType.values()) {

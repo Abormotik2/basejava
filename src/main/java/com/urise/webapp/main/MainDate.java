@@ -1,4 +1,4 @@
-package com.urise.webapp;
+package com.urise.webapp.main;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
