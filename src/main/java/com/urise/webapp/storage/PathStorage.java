@@ -98,4 +98,3 @@ public class PathStorage extends AbstractStorage<Path> {
             throw new StorageException("Path size/clear/getAll error", null);
         }
     }
-}
