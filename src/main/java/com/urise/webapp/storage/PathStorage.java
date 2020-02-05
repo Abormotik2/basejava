@@ -10,14 +10,15 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
-public class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
 
-    protected StrategySerialized serialized;
+    protected StrategySerializer serialized;
 
-    protected AbstractPathStorage(String dir, StrategySerialized serialized) {
+    protected PathStorage(String dir, StrategySerializer serialized) {
         this.serialized = serialized;
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
@@ -75,31 +76,26 @@ public class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAll() {
-        try {
-            return Files
-                    .list(directory)
-                    .map(this::doGet)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Path getAll error", null);
-        }
+        return listFiles()
+                .map(this::doGet)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        listFiles().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
+        return (int) listFiles().count();
+    }
+
+    private Stream<Path> listFiles() {
         try {
-            return (int) Files.list(directory).count();
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Path size error", null);
+            throw new StorageException("Path size/clear/getAll error", null);
         }
     }
 }
