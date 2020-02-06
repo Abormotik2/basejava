@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.strategy.StrategySerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -37,7 +38,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path))) {
             serialized.doWrite(resume, outputStream);
         } catch (IOException e) {
-            throw new StorageException("Cannot update path", null, e);
+            throw new StorageException("Path update error", getFileName(path), e);
         }
     }
 
@@ -46,7 +47,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("IO error", null);
+            throw new StorageException("Path save error", getFileName(path), e);
         }
         doUpdate(resume, path);
     }
@@ -56,7 +57,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(path))) {
             return serialized.doRead(inputStream);
         } catch (IOException e) {
-            throw new StorageException("Cannot read path", null);
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
@@ -65,7 +66,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Cannot delete path!", null);
+            throw new StorageException("Path delete error", getFileName(path), e);
         }
     }
 
@@ -97,5 +98,9 @@ public class PathStorage extends AbstractStorage<Path> {
         } catch (IOException e) {
             throw new StorageException("Path size/clear/getAll error", null);
         }
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 }
