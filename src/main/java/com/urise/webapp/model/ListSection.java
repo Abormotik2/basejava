@@ -21,6 +21,10 @@ public class ListSection extends Section {
         this.items = items;
     }
 
+    public List<String> getItems() {
+        return items;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

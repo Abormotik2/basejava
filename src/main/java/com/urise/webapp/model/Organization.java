@@ -36,6 +36,14 @@ public class Organization implements Serializable {
         this.stages = stages;
     }
 
+    public OrganizationLink getHomePage() {
+        return homePage;
+    }
+
+    public List<Stages> getStages() {
+        return stages;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,6 +99,22 @@ public class Organization implements Serializable {
             this.endDate = endDate;
             this.title = title;
             this.responsibility = responsibility;
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getResponsibility() {
+            return responsibility;
         }
 
         @Override
