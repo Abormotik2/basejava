@@ -1,5 +1,10 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,12 +16,14 @@ import java.util.Objects;
 import static com.urise.webapp.util.DateUtil.NOW;
 import static com.urise.webapp.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
-    private static final  long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;
     private OrganizationLink homePage;
-
     private List<Stages> stages = new ArrayList<>();
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, Stages... stages) {
         this(new OrganizationLink(name, url), Arrays.asList(stages));
@@ -55,16 +62,18 @@ public class Organization implements Serializable {
                 '}';
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Stages implements Serializable {
-        private static final  long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String title;
+        private String responsibility;
 
-        private final LocalDate startDate;
-
-        private final LocalDate endDate;
-
-        private final String title;
-
-        private final String responsibility;
+        public Stages() {
+        }
 
         public Stages(int startYear, Month startMonth, String title, String responsibility) {
             this(of(startYear, startMonth), NOW, title, responsibility);

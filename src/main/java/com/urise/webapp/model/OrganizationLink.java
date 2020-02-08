@@ -1,14 +1,20 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OrganizationLink implements Serializable {
     private static final  long serialVersionUID = 1L;
 
-    private final String name;
+    private String name;
 
-    private final String url;
+    private String url;
+
+    public OrganizationLink() {
+    }
 
     public OrganizationLink(String name, String url) {
         Objects.requireNonNull(name, "name must not be null");
