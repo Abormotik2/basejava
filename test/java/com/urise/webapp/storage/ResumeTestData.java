@@ -150,7 +150,7 @@ public class ResumeTestData {
         achievements.add("101+ сертификатов по уборке");
         secondResume.addSection(ACHIEVEMENT, new ListSection(achievements));
         List<String> qualifications = new ArrayList<>();
-        qualifications.add("Швабра,тряпки, пена и все прибамбасы");
+        qualifications.add("Швабра, тряпки, пена и все прибамбасы");
         secondResume.addSection(QUALIFICATION, new ListSection(qualifications));
         List<Organization> organizationList = new ArrayList<>();
         organizationList.add(new Organization(
