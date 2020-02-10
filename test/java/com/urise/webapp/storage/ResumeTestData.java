@@ -71,7 +71,7 @@ public class ResumeTestData {
                 , "Старший разработчик (backend)"
                 , "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."))));
         organizationList.add(new Organization(
-                new OrganizationLink("RIT Center", null)
+                new OrganizationLink("RIT Center", " ")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2012, 4, 1)
                 , LocalDate.of(2014, 10, 1)
                 , "Java архитектор"

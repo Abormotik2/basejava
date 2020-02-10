@@ -74,22 +74,26 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     public Resume doRead(InputStream is) throws IOException {
+        Resume resume = null;
         try (DataInputStream dis = new DataInputStream(is)) {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
-            Resume resume = new Resume(uuid, fullName);
+            resume = new Resume(uuid, fullName);
             int contactsSize = dis.readInt();
             for (int i = 0; i < contactsSize; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
             int sectionsSize = dis.readInt();
-            SectionType sectionType = SectionType.valueOf(dis.readUTF());
             for (int i = 0; i < sectionsSize; i++) {
+                String sectionTypeName = dis.readUTF();
+                SectionType sectionType = SectionType.valueOf(sectionTypeName);
                 resume.addSection(sectionType, readSection(dis, sectionType));
             }
-            return resume;
+        } catch (EOFException ignored) {
         }
+        return resume;
     }
+
 
     private Section readSection(DataInputStream dis, SectionType sectionType) throws IOException {
         switch (sectionType) {
@@ -98,7 +102,12 @@ public class DataStreamSerializer implements StreamSerializer {
                 return new ContentSection(dis.readUTF());
             case ACHIEVEMENT:
             case QUALIFICATION:
-                return new ListSection(dis.readUTF());
+                int listSize = dis.readInt();
+                List<String> list = new ArrayList<>();
+                for (int i = 0; i < listSize; i++) {
+                    list.add(dis.readUTF());
+                }
+                return new ListSection(list);
             case EXPERIENCE:
             case EDUCATION:
                 return readOrganization(dis);
