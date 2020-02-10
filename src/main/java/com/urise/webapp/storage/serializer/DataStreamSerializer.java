@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.urise.webapp.util.DateUtil.NOW;
+
 public class DataStreamSerializer implements StreamSerializer {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
@@ -62,23 +64,22 @@ public class DataStreamSerializer implements StreamSerializer {
     private void writeOrganization(DataOutputStream dos, Organization organization) throws IOException {
         OrganizationLink homePage = organization.getHomePage();
         dos.writeUTF(homePage.getName());
-        dos.writeUTF(homePage.getUrl() == null ? "" : homePage.getUrl());
+        dos.writeUTF(homePage.getUrl());
         List<Organization.Stages> stages = organization.getStages();
         dos.writeInt(stages.size());
         for (Organization.Stages stage : stages) {
             dos.writeUTF(stage.getStartDate().format(formatter));
-            dos.writeUTF(stage.getEndDate() != null ? stage.getEndDate().format(formatter) : "");
+            dos.writeUTF(stage.getEndDate() != NOW ? stage.getEndDate().format(formatter) : "");
             dos.writeUTF(stage.getTitle());
             dos.writeUTF(stage.getResponsibility() == null ? "" : stage.getResponsibility());
         }
     }
 
     public Resume doRead(InputStream is) throws IOException {
-        Resume resume = null;
         try (DataInputStream dis = new DataInputStream(is)) {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
-            resume = new Resume(uuid, fullName);
+            Resume resume = new Resume(uuid, fullName);
             int contactsSize = dis.readInt();
             for (int i = 0; i < contactsSize; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
@@ -89,9 +90,8 @@ public class DataStreamSerializer implements StreamSerializer {
                 SectionType sectionType = SectionType.valueOf(sectionTypeName);
                 resume.addSection(sectionType, readSection(dis, sectionType));
             }
-        } catch (EOFException ignored) {
+            return resume;
         }
-        return resume;
     }
 
 
@@ -111,15 +111,13 @@ public class DataStreamSerializer implements StreamSerializer {
             case EXPERIENCE:
             case EDUCATION:
                 return readOrganization(dis);
-            default:
-                throw new IllegalStateException();
         }
+        return null;
     }
 
     private OrganizationSection readOrganization(DataInputStream dis) throws IOException {
         List<Organization> organizations = new ArrayList<>();
         int size = dis.readInt();
-
         for (int i = 0; i < size; i++) {
             String name = dis.readUTF();
             String url = dis.readUTF();
