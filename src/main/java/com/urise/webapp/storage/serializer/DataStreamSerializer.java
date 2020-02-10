@@ -31,26 +31,31 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private void writeSection(DataOutputStream dos, Map.Entry<SectionType, Section> type) throws IOException {
-        dos.writeUTF(type.getKey().name());
-        Section section = type.getValue();
-        if (section instanceof ListSection) {
-            ListSection listSection = (ListSection) section;
-            dos.writeUTF(ListSection.class.getName());
-            dos.writeUTF(listSection.getItems().stream().reduce((s, s2) -> s + "," + s2).orElse(""));
-        } else if (section instanceof ContentSection) {
-            dos.writeUTF(ContentSection.class.getName());
-            dos.writeUTF(((ContentSection) section).getContent());
-        } else if (section instanceof OrganizationSection) {
-            dos.writeUTF(OrganizationSection.class.getName());
-            OrganizationSection organizationSection = (OrganizationSection) section;
-            List<Organization> organizations = organizationSection.getOrganizations();
-            dos.writeInt(organizations.size());
-            for (Organization organization : organizations) {
-                writeOrganization(dos, organization);
-            }
-        } else {
-            throw new IllegalArgumentException("Неверный тип section");
+    private void writeSection(DataOutputStream dos, Map.Entry<SectionType, Section> entry) throws IOException {
+        Section section = entry.getValue();
+        SectionType type = entry.getKey();
+        dos.writeUTF(type.name());
+        switch (type) {
+            case OBJECTIVE:
+            case PERSONAL:
+                dos.writeUTF(((ContentSection) section).getContent());
+                break;
+            case ACHIEVEMENT:
+            case QUALIFICATION:
+                List<String> collection = ((ListSection) section).getItems();
+                dos.writeInt(collection.size());
+                for (String item : collection) {
+                    dos.writeUTF(item);
+                }
+                break;
+            case EXPERIENCE:
+            case EDUCATION:
+                List<Organization> organizations = ((OrganizationSection) section).getOrganizations();
+                dos.writeInt(organizations.size());
+                for (Organization organization : organizations) {
+                    writeOrganization(dos, organization);
+                }
+                break;
         }
     }
 
@@ -78,29 +83,27 @@ public class DataStreamSerializer implements StreamSerializer {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
             int sectionsSize = dis.readInt();
+            SectionType sectionType = SectionType.valueOf(dis.readUTF());
             for (int i = 0; i < sectionsSize; i++) {
-                resume.addSection(SectionType.valueOf(dis.readUTF()), readSection(dis));
+                resume.addSection(sectionType, readSection(dis, sectionType));
             }
             return resume;
         }
     }
 
-    private Section readSection(DataInputStream dis) throws IOException {
-        String className = dis.readUTF();
-        Class<?> aClass;
-        try {
-            aClass = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Error format type", e);
-        }
-        if (aClass.equals(ListSection.class)) {
-            return new ListSection(dis.readUTF().split(","));
-        } else if (aClass.equals(ContentSection.class)) {
-            return new ContentSection(dis.readUTF());
-        } else if (aClass.equals(OrganizationSection.class)) {
-            return readOrganization(dis);
-        } else {
-            throw new IllegalArgumentException("Error section type");
+    private Section readSection(DataInputStream dis, SectionType sectionType) throws IOException {
+        switch (sectionType) {
+            case OBJECTIVE:
+            case PERSONAL:
+                return new ContentSection(dis.readUTF());
+            case ACHIEVEMENT:
+            case QUALIFICATION:
+                return new ListSection(dis.readUTF());
+            case EXPERIENCE:
+            case EDUCATION:
+                return readOrganization(dis);
+            default:
+                throw new IllegalStateException();
         }
     }
 
