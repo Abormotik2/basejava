@@ -71,6 +71,8 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME4);
         assertSize(4);
         assertEquals(RESUME4, storage.get(UUID_4));
+        System.out.println(RESUME4);
+        System.out.println(storage.get(UUID_4));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -80,8 +82,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        Resume resume = storage.get(UUID_1);
-        assertEquals(RESUME1, resume);
+        Resume resume = storage.get(UUID_2);
+        assertEquals(RESUME2, resume);
     }
 
     @Test(expected = NotExistStorageException.class)

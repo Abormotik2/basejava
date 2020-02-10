@@ -216,6 +216,7 @@ public class ResumeTestData {
         fourthResume.addSection(PERSONAL, new ContentSection("Тащу партию с 1993г"));
         List<String> achievements = new ArrayList<>();
         achievements.add("У всех все будет!");
+        achievements.add("Особенно, у меня всё будет!");
         fourthResume.addSection(ACHIEVEMENT, new ListSection(achievements));
         List<String> qualifications = new ArrayList<>();
         qualifications.add("ЛДПР");
