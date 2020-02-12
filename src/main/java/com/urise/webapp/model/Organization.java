@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.urise.webapp.util.DateUtil.NOW;
 import static com.urise.webapp.util.DateUtil.of;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -81,10 +80,6 @@ public class Organization implements Serializable {
         private String responsibility;
 
         public Stages() {
-        }
-
-        public Stages(int startYear, Month startMonth, String title, String responsibility) {
-            this(of(startYear, startMonth), NOW, title, responsibility);
         }
 
         public Stages(int startYear, Month startMonth, int endYear, Month endMonth, String title, String responsibility) {

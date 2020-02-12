@@ -10,6 +10,7 @@ import java.util.List;
 
 import static com.urise.webapp.model.ContactType.*;
 import static com.urise.webapp.model.SectionType.*;
+import static com.urise.webapp.util.DateUtil.NOW;
 
 public class ResumeTestData {
 
@@ -156,7 +157,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("DvorProduction", "http://DvorProduction.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(1992, 10, 1)
-                , LocalDate.now()
+                , NOW
                 , "Генеральный директор клининга"
                 , "Уборка территории"))));
         secondResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
