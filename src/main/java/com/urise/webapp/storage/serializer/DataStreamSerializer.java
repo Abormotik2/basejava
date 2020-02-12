@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.urise.webapp.util.DateUtil.NOW;
-
 public class DataStreamSerializer implements StreamSerializer {
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+   private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
@@ -64,12 +62,12 @@ public class DataStreamSerializer implements StreamSerializer {
     private void writeOrganization(DataOutputStream dos, Organization organization) throws IOException {
         OrganizationLink homePage = organization.getHomePage();
         dos.writeUTF(homePage.getName());
-        dos.writeUTF(homePage.getUrl());
+        dos.writeUTF(homePage.getUrl() == null ? "" : homePage.getUrl());
         List<Organization.Stages> stages = organization.getStages();
         dos.writeInt(stages.size());
         for (Organization.Stages stage : stages) {
-            dos.writeUTF(stage.getStartDate().format(formatter));
-            dos.writeUTF(stage.getEndDate() != NOW ? stage.getEndDate().format(formatter) : "");
+            dos.writeUTF(stage.getStartDate().format(FORMATTER));
+            dos.writeUTF(stage.getEndDate().format(FORMATTER));
             dos.writeUTF(stage.getTitle());
             dos.writeUTF(stage.getResponsibility() == null ? "" : stage.getResponsibility());
         }
@@ -121,12 +119,12 @@ public class DataStreamSerializer implements StreamSerializer {
         for (int i = 0; i < size; i++) {
             String name = dis.readUTF();
             String url = dis.readUTF();
+            url = url.isEmpty() ? null : url;
             List<Organization.Stages> stages = new ArrayList<>();
             int stagesSize = dis.readInt();
             for (int j = 0; j < stagesSize; j++) {
-                LocalDate startDate = LocalDate.parse(dis.readUTF(), formatter);
-                String endDateStr = dis.readUTF();
-                LocalDate endDate = endDateStr.isEmpty() ? null : LocalDate.parse(endDateStr, formatter);
+                LocalDate startDate = LocalDate.parse(dis.readUTF(), FORMATTER);
+                LocalDate endDate = LocalDate.parse(dis.readUTF(), FORMATTER);
                 String title = dis.readUTF();
                 String responsibility = dis.readUTF();
                 stages.add(new Organization.Stages(
