@@ -6,6 +6,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -18,16 +19,14 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            writeCollection(dos, contacts.entrySet(), entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
             Map<SectionType, Section> section = resume.getSections();
-            dos.writeInt(section.size());
-            for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
+            writeCollection(dos, section.entrySet(), entry -> {
                 writeSection(dos, entry);
-            }
+            });
         }
     }
 
@@ -42,19 +41,13 @@ public class DataStreamSerializer implements StreamSerializer {
                 break;
             case ACHIEVEMENT:
             case QUALIFICATION:
-                List<String> list = ((ListSection) section).getItems();
-                dos.writeInt(list.size());
-                for (String item : list) {
-                    dos.writeUTF(item);
-                }
+                writeCollection(dos, ((ListSection) section).getItems(), dos::writeUTF);
                 break;
             case EXPERIENCE:
             case EDUCATION:
-                List<Organization> organizations = ((OrganizationSection) section).getOrganizations();
-                dos.writeInt(organizations.size());
-                for (Organization organization : organizations) {
+                writeCollection(dos, ((OrganizationSection) section).getOrganizations(), organization ->{
                     writeOrganization(dos, organization);
-                }
+                });
                 break;
         }
     }
@@ -63,14 +56,12 @@ public class DataStreamSerializer implements StreamSerializer {
         OrganizationLink homePage = organization.getHomePage();
         dos.writeUTF(homePage.getName());
         dos.writeUTF(homePage.getUrl() == null ? "" : homePage.getUrl());
-        List<Organization.Stages> stages = organization.getStages();
-        dos.writeInt(stages.size());
-        for (Organization.Stages stage : stages) {
-            dos.writeUTF(stage.getStartDate().format(FORMATTER));
-            dos.writeUTF(stage.getEndDate().format(FORMATTER));
-            dos.writeUTF(stage.getTitle());
-            dos.writeUTF(stage.getResponsibility() == null ? "" : stage.getResponsibility());
-        }
+        writeCollection(dos, organization.getStages(), stages -> {
+            dos.writeUTF(stages.getStartDate().format(FORMATTER));
+            dos.writeUTF(stages.getEndDate().format(FORMATTER));
+            dos.writeUTF(stages.getTitle());
+            dos.writeUTF(stages.getResponsibility() == null ? "" : stages.getResponsibility());
+        });
     }
 
     public Resume doRead(InputStream is) throws IOException {
@@ -135,7 +126,17 @@ public class DataStreamSerializer implements StreamSerializer {
             }
             organizations.add(new Organization(new OrganizationLink(name, url), stages));
         }
-
         return new OrganizationSection(organizations);
+    }
+
+    private interface Writer<T> {
+        void write(T t) throws IOException;
+    }
+
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, Writer<T> writer) throws IOException {
+        dos.writeInt(collection.size());
+        for (T collections : collection) {
+            writer.write(collections);
+        }
     }
 }
