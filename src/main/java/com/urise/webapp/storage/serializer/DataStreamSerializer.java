@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
 
-   private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
+    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
@@ -23,9 +23,9 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
-            Map<SectionType, Section> sections = resume.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+            Map<SectionType, Section> section = resume.getSections();
+            dos.writeInt(section.size());
+            for (Map.Entry<SectionType, Section> entry : section.entrySet()) {
                 writeSection(dos, entry);
             }
         }
@@ -42,9 +42,9 @@ public class DataStreamSerializer implements StreamSerializer {
                 break;
             case ACHIEVEMENT:
             case QUALIFICATION:
-                List<String> collection = ((ListSection) section).getItems();
-                dos.writeInt(collection.size());
-                for (String item : collection) {
+                List<String> list = ((ListSection) section).getItems();
+                dos.writeInt(list.size());
+                for (String item : list) {
                     dos.writeUTF(item);
                 }
                 break;
