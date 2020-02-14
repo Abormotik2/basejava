@@ -19,6 +19,7 @@ public class OrganizationLink implements Serializable {
     public OrganizationLink(String name, String url) {
         Objects.requireNonNull(name, "name must not be null");
         this.name = name;
+        this.url = url == null ? "" : url;
     }
 
     public String getName() {

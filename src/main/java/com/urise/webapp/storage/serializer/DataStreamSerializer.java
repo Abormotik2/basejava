@@ -51,12 +51,12 @@ public class DataStreamSerializer implements StreamSerializer {
     private void writeOrganization(DataOutputStream dos, Organization organization) throws IOException {
         OrganizationLink homePage = organization.getHomePage();
         dos.writeUTF(homePage.getName());
-        dos.writeUTF(homePage.getUrl() == null ? "" : homePage.getUrl());
+        dos.writeUTF(homePage.getUrl());
         writeCollection(dos, organization.getStages(), stages -> {
             dos.writeUTF(stages.getStartDate().format(FORMATTER));
             dos.writeUTF(stages.getEndDate().format(FORMATTER));
             dos.writeUTF(stages.getTitle());
-            dos.writeUTF(stages.getResponsibility() == null ? "" : stages.getResponsibility());
+            dos.writeUTF(stages.getResponsibility());
         });
     }
 
@@ -96,36 +96,11 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private OrganizationSection readOrganization(DataInputStream dis) throws IOException {
-//        List<Organization> organizations = new ArrayList<>();
-//        int size = dis.readInt();
-//        for (int i = 0; i < size; i++) {
-//            String name = dis.readUTF();
-//                  String url = dis.readUTF();
-//                 url = url.isEmpty() ? null : url;
-//            List<Organization.Stages> stages = new ArrayList<>();
-//            int stagesSize = dis.readInt();
-//            for (int j = 0; j < stagesSize; j++) {
-//                LocalDate startDate = LocalDate.parse(dis.readUTF(), FORMATTER);
-//                LocalDate endDate = LocalDate.parse(dis.readUTF(), FORMATTER);
-//                String title = dis.readUTF();
-//                String responsibility = dis.readUTF();
-//                stages.add(new Organization.Stages(
-//                        startDate,
-//                        endDate,
-//                        title,
-//                        responsibility.isEmpty() ? null : responsibility));
-//            }
-//            organizations.add(new Organization(new OrganizationLink(name, url), stages));
-//        }
-//        return new OrganizationSection(organizations);
-        return new OrganizationSection(readCollection(dis,
-                () -> new Organization
-                        (new OrganizationLink(dis.readUTF(), dis.readUTF().isEmpty() ? null : dis.readUTF())
-                                , readCollection(dis,
-                                () -> new Organization.Stages(LocalDate.parse(dis.readUTF(), FORMATTER), LocalDate.parse(dis.readUTF(), FORMATTER), dis.readUTF(), dis.readUTF().isEmpty() ? null : dis.readUTF())))));
+            return new OrganizationSection(readCollection(dis, () ->
+                    new Organization(new OrganizationLink(dis.readUTF(), dis.readUTF()),
+                            readCollection(dis, () -> new Organization.Stages(LocalDate.parse(dis.readUTF(), FORMATTER), LocalDate.parse(dis.readUTF(), FORMATTER), dis.readUTF(), dis.readUTF())))));
+
     }
-
-
     private interface Writer<T> {
         void write(T t) throws IOException;
     }
@@ -135,8 +110,8 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private <T> List<T> readCollection(DataInputStream dis, Reader<T> reader) throws IOException {
-        List<T> list = new ArrayList<>();
         int size = dis.readInt();
+        List<T> list = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             list.add(reader.read());
         }
