@@ -24,9 +24,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getValue());
             });
             Map<SectionType, Section> section = resume.getSections();
-            writeCollection(dos, section.entrySet(), entry -> {
-                writeSection(dos, entry);
-            });
+            writeCollection(dos, section.entrySet(), entry -> writeSection(dos, entry));
         }
     }
 
@@ -45,9 +43,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 break;
             case EXPERIENCE:
             case EDUCATION:
-                writeCollection(dos, ((OrganizationSection) section).getOrganizations(), organization ->{
-                    writeOrganization(dos, organization);
-                });
+                writeCollection(dos, ((OrganizationSection) section).getOrganizations(), organization -> writeOrganization(dos, organization));
                 break;
         }
     }
@@ -91,12 +87,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 return new ContentSection(dis.readUTF());
             case ACHIEVEMENT:
             case QUALIFICATION:
-                int listSize = dis.readInt();
-                List<String> list = new ArrayList<>();
-                for (int i = 0; i < listSize; i++) {
-                    list.add(dis.readUTF());
-                }
-                return new ListSection(list);
+                return new ListSection(readCollection(dis, dis::readUTF));
             case EXPERIENCE:
             case EDUCATION:
                 return readOrganization(dis);
@@ -105,32 +96,51 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private OrganizationSection readOrganization(DataInputStream dis) throws IOException {
-        List<Organization> organizations = new ArrayList<>();
-        int size = dis.readInt();
-        for (int i = 0; i < size; i++) {
-            String name = dis.readUTF();
-            String url = dis.readUTF();
-            url = url.isEmpty() ? null : url;
-            List<Organization.Stages> stages = new ArrayList<>();
-            int stagesSize = dis.readInt();
-            for (int j = 0; j < stagesSize; j++) {
-                LocalDate startDate = LocalDate.parse(dis.readUTF(), FORMATTER);
-                LocalDate endDate = LocalDate.parse(dis.readUTF(), FORMATTER);
-                String title = dis.readUTF();
-                String responsibility = dis.readUTF();
-                stages.add(new Organization.Stages(
-                        startDate,
-                        endDate,
-                        title,
-                        responsibility.isEmpty() ? null : responsibility));
-            }
-            organizations.add(new Organization(new OrganizationLink(name, url), stages));
-        }
-        return new OrganizationSection(organizations);
+//        List<Organization> organizations = new ArrayList<>();
+//        int size = dis.readInt();
+//        for (int i = 0; i < size; i++) {
+//            String name = dis.readUTF();
+//                  String url = dis.readUTF();
+//                 url = url.isEmpty() ? null : url;
+//            List<Organization.Stages> stages = new ArrayList<>();
+//            int stagesSize = dis.readInt();
+//            for (int j = 0; j < stagesSize; j++) {
+//                LocalDate startDate = LocalDate.parse(dis.readUTF(), FORMATTER);
+//                LocalDate endDate = LocalDate.parse(dis.readUTF(), FORMATTER);
+//                String title = dis.readUTF();
+//                String responsibility = dis.readUTF();
+//                stages.add(new Organization.Stages(
+//                        startDate,
+//                        endDate,
+//                        title,
+//                        responsibility.isEmpty() ? null : responsibility));
+//            }
+//            organizations.add(new Organization(new OrganizationLink(name, url), stages));
+//        }
+//        return new OrganizationSection(organizations);
+        return new OrganizationSection(readCollection(dis,
+                () -> new Organization
+                        (new OrganizationLink(dis.readUTF(), dis.readUTF().isEmpty() ? null : dis.readUTF())
+                                , readCollection(dis,
+                                () -> new Organization.Stages(LocalDate.parse(dis.readUTF(), FORMATTER), LocalDate.parse(dis.readUTF(), FORMATTER), dis.readUTF(), dis.readUTF().isEmpty() ? null : dis.readUTF())))));
     }
+
 
     private interface Writer<T> {
         void write(T t) throws IOException;
+    }
+
+    private interface Reader<T> {
+        T read() throws IOException;
+    }
+
+    private <T> List<T> readCollection(DataInputStream dis, Reader<T> reader) throws IOException {
+        List<T> list = new ArrayList<>();
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            list.add(reader.read());
+        }
+        return list;
     }
 
     private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, Writer<T> writer) throws IOException {
