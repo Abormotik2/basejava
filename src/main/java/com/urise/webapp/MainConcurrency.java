@@ -63,12 +63,16 @@ public class MainConcurrency {
         final Resource2 resource2 = new Resource2();
         resource1.resource2 = resource2;
         resource2.resource1 = resource1;
-        Thread1 thread1 = new Thread1();
-        Thread2 thread2 = new Thread2();
+        final Thread1 thread1 = new Thread1();
+        final Thread2 thread2 = new Thread2();
         thread1.resource1 = resource1;
         thread2.resource2 = resource2;
         thread1.start();
         thread2.start();
+        final Object dLock1 = new Object();
+        final Object dLock2 = new Object();
+        deadLock(dLock1, dLock2);
+        deadLock(dLock2, dLock2);
     }
 
     private void inc() {
@@ -80,7 +84,8 @@ public class MainConcurrency {
 //                ...
 //        }
     }
-   private static class Thread1 extends Thread {
+
+    private static class Thread1 extends Thread {
         Resource1 resource1;
 
         @Override
@@ -106,7 +111,7 @@ public class MainConcurrency {
         }
 
         public synchronized int returnI() {
-            return 1;
+            return 2;
         }
     }
 
@@ -120,5 +125,20 @@ public class MainConcurrency {
         public synchronized int returnI() {
             return 2;
         }
+    }
+    private static void deadLock(Object dLock1, Object dLock2) {
+        new Thread(() -> {
+            synchronized (dLock1) {
+                System.out.println(dLock1);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new IllegalStateException(e);
+                }
+                synchronized (dLock2) {
+                    System.out.println(dLock2);
+                }
+            }
+        }).start();
     }
 }
