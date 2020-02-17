@@ -85,7 +85,7 @@ public class MainConcurrency {
 
         @Override
         public void run() {
-            System.out.println(resource1.deadLine());
+            System.out.println(resource1.getI());
         }
     }
 
@@ -101,7 +101,7 @@ public class MainConcurrency {
     private static class Resource1 {
         Resource2 resource2;
 
-        public synchronized int deadLine() {
+        public synchronized int getI() {
             return resource2.returnI();
         }
 
