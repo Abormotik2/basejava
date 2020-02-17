@@ -80,7 +80,7 @@ public class MainConcurrency {
 //                ...
 //        }
     }
-    static class Thread1 extends Thread {
+   private static class Thread1 extends Thread {
         Resource1 resource1;
 
         @Override
@@ -89,7 +89,7 @@ public class MainConcurrency {
         }
     }
 
-    static class Thread2 extends Thread {
+    private static class Thread2 extends Thread {
         Resource2 resource2;
 
         @Override
@@ -98,7 +98,7 @@ public class MainConcurrency {
         }
     }
 
-    static class Resource1 {
+    private static class Resource1 {
         Resource2 resource2;
 
         public synchronized int deadLine() {
@@ -110,7 +110,7 @@ public class MainConcurrency {
         }
     }
 
-    static class Resource2 {
+    private static class Resource2 {
         Resource1 resource1;
 
         public synchronized int getI() {
