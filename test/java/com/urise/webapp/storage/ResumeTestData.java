@@ -23,7 +23,7 @@ public class ResumeTestData {
     }
 
     public static Resume getFirstResume() {
-        Resume firstResume = new Resume("uuid_1","Григорий Кислин");
+        Resume firstResume = new Resume("uuid_1", "Григорий Кислин");
         firstResume.addContact(MOBILE, "+7(921) 855-0482");
         firstResume.addContact(SKYPE, "grigory.kislin");
         firstResume.addContact(MAIL, "gkislin@yandex.ru");
@@ -62,7 +62,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("Java Online Projects", "http://javaops.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 10, 1)
-                , LocalDate.now()
+                , NOW
                 , "Автор проекта."
                 , "Создание, организация и проведение Java онлайн проектов и стажировок."))));
         organizationList.add(new Organization(
@@ -127,7 +127,7 @@ public class ResumeTestData {
                 , "6 месяцев обучения цифровым телефонным сетям (Москва)", null))));
         studyList.add(new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "http://www.ifmo.ru/"
                 , new Organization.Stages(1993, Month.SEPTEMBER, 1996, Month.JULY, "Аспирантура (программист С, С++)", null)
-                , new Organization.Stages(1987, Month.SEPTEMBER, 1993,Month.JULY, "Инженер (программист Fortran, C)", null)));
+                , new Organization.Stages(1987, Month.SEPTEMBER, 1993, Month.JULY, "Инженер (программист Fortran, C)", null)));
         studyList.add(new Organization(new OrganizationLink("Yota", "https://www.yota.ru/")
                 , new ArrayList<>(Collections.singleton(new Organization.Stages(LocalDate.of(1984, 9, 1)
                 , LocalDate.of(1987, 1, 1)
@@ -137,7 +137,7 @@ public class ResumeTestData {
     }
 
     public static Resume getSecondResume() {
-        Resume secondResume = new Resume("uuid_2","Николай Жириновский");
+        Resume secondResume = new Resume("uuid_2", "Николай Жириновский");
         secondResume.addContact(MOBILE, "+7(999) 999-8888");
         secondResume.addContact(SKYPE, "nikolay.girinovsky");
         secondResume.addContact(MAIL, "ngirinovsky@yandex.ru");
@@ -171,7 +171,7 @@ public class ResumeTestData {
     }
 
     public static Resume getThirdResume() {
-        Resume thirdResume = new Resume("uuid_3","Денис Жириновский");
+        Resume thirdResume = new Resume("uuid_3", "Денис Жириновский");
         thirdResume.addContact(MOBILE, "+7(888) 888-8888");
         thirdResume.addContact(SKYPE, "denis.gyrinovsky");
         thirdResume.addContact(MAIL, "dgyrinovsky@yandex.ru");
@@ -191,7 +191,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("Gretta love organization", "http://glo.com/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 10, 1)
-                , LocalDate.now()
+                , NOW
                 , "Автор проекта."
                 , "Самостоятельно научился делать скрины мемов с Греттой"))));
         thirdResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
@@ -205,7 +205,7 @@ public class ResumeTestData {
     }
 
     public static Resume getFourthResume() {
-        Resume fourthResume = new Resume("uuid_4","Владимир Жириновский");
+        Resume fourthResume = new Resume("uuid_4", "Владимир Жириновский");
         fourthResume.addContact(MOBILE, "+7(777) 777-7777");
         fourthResume.addContact(SKYPE, "vladimir.girinovsky");
         fourthResume.addContact(MAIL, "vladimir.girinovsky@yandex.ru");
@@ -227,7 +227,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("President standUp", "http://ps.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 10, 1)
-                , LocalDate.now()
+                , NOW
                 , "Автор проекта."
                 , "Балатировался,балатируюсь и буду балатироваться"))));
         fourthResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
