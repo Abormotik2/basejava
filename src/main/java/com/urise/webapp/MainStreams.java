@@ -1,14 +1,14 @@
 package com.urise.webapp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class MainStreams {
 
     public static void main(String[] args) {
-        int[] values = new int[]{7, 7, 3, 8, 9, 4, 5, 8, 9};
-        minValue(values);
+        int[] values = new int[]{7, 7, 5, 8, 9, 4, 5, 8, 9};
+        System.out.println(minValue(values));
         System.out.println(" ");
 
         List<Integer> list = new ArrayList<>();
@@ -23,9 +23,12 @@ public class MainStreams {
 
     }
 
-    private static void minValue(int[] values) {
-        IntStream.of(values).sorted().limit(3).distinct().forEach(System.out::println);
-
+    private static int minValue(int[] values) {
+        return Arrays.stream(values)
+                .distinct()
+                .sorted()
+                .reduce((left, right) -> left * 10 + right)
+                .orElse(-1);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
@@ -33,16 +36,17 @@ public class MainStreams {
         List<Integer> evens = new ArrayList<>();
         integers
                 .stream()
-                .peek(integer -> {
+                .filter(integer -> {
                     if (integer % 2 == 0)
-                        evens.add(integer);
-                    else odds.add(integer);
+                        return evens.add(integer);
+                    else return odds.add(integer);
+
                 })
                 .reduce(Integer::sum)
                 .ifPresent(integer -> {
-                    if (integer % 2 == 0) {
+                    if (integer % 2 == 0)
                         evens.clear();
-                    } else odds.clear();
+                    else odds.clear();
                 });
         odds.addAll(evens);
         return odds;
