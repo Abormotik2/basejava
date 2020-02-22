@@ -3,6 +3,7 @@ package com.urise.webapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainStreams {
 
@@ -12,7 +13,7 @@ public class MainStreams {
         System.out.println(" ");
 
         List<Integer> list = new ArrayList<>();
-        list.add(1);
+        list.add(2);
         list.add(43);
         list.add(24);
         list.add(99);
@@ -32,23 +33,9 @@ public class MainStreams {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        List<Integer> odds = new ArrayList<>();
-        List<Integer> evens = new ArrayList<>();
-        integers
+        return integers
                 .stream()
-                .filter(integer -> {
-                    if (integer % 2 == 0)
-                        return evens.add(integer);
-                    else return odds.add(integer);
-
-                })
-                .reduce(Integer::sum)
-                .ifPresent(integer -> {
-                    if (integer % 2 == 0)
-                        evens.clear();
-                    else odds.clear();
-                });
-        odds.addAll(evens);
-        return odds;
+                .filter(integer -> (integers.stream().mapToInt(Integer::intValue).sum()) % 2 != integer % 2)
+                .collect(Collectors.toList());
     }
 }
