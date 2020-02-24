@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 public class MainStreams {
 
     public static void main(String[] args) {
@@ -13,7 +16,7 @@ public class MainStreams {
         System.out.println(" ");
 
         List<Integer> list = new ArrayList<>();
-        list.add(2);
+        list.add(1);
         list.add(43);
         list.add(24);
         list.add(99);
@@ -33,9 +36,7 @@ public class MainStreams {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        return integers
-                .stream()
-                .filter(integer -> (integers.stream().mapToInt(Integer::intValue).sum()) % 2 != integer % 2)
-                .collect(Collectors.toList());
+        int sum = integers.stream().mapToInt(Integer::intValue).sum();
+        return integers.stream().collect(Collectors.partitioningBy(s -> s % 2 == 0)).get(sum % 2 == 0 ? TRUE : FALSE);
     }
 }
