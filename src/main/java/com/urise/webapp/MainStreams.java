@@ -37,6 +37,6 @@ public class MainStreams {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::intValue).sum();
-        return integers.stream().collect(Collectors.partitioningBy(s -> s % 2 == 0)).get(sum % 2 == 0 ? TRUE : FALSE);
+        return integers.stream().collect(Collectors.partitioningBy(s -> s % 2 == 0)).get(sum % 2 != 0 ? TRUE : FALSE);
     }
 }
