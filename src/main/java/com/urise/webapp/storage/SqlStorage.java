@@ -5,30 +5,34 @@ import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.sql.ConnectionFactory;
+import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
-    public final ConnectionFactory connectionFactory;
-
+    public final SqlHelper sqlHelper;
+    ConnectionFactory connectionFactory;
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
+        connectionFactory = ()-> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
     @Override
     public void clear() {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("DELETE FROM resume")) {
-            ps.execute();
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
+        sqlHelper.execute("DELETE FROM resume", PreparedStatement::execute);
+//        try (Connection conn = connectionFactory.getConnection();
+//             PreparedStatement ps = conn.prepareStatement("DELETE FROM resume")) {
+//            ps.execute();
+//        } catch (SQLException e) {
+//            throw new StorageException(e);
+//        }
     }
 
     @Override
     public void update(Resume resume) {
+        //sqlHelper.execute("UPDATE resume SET full_name = ? WHERE uuid = ?",)
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
             ps.setString(1, resume.getFullName());
