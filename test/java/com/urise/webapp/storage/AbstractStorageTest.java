@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -106,10 +106,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> list = new ArrayList<>();
-        list.add(RESUME1);
-        list.add(RESUME2);
-        list.add(RESUME3);
+        List<Resume> list = Arrays.asList(RESUME1,RESUME2,RESUME3);
         list.sort(RESUME_COMPARATOR);
         List<Resume> getAll = storage.getAllSorted();
         System.out.println(getAll.equals(list));
