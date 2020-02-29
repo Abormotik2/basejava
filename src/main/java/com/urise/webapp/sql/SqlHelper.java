@@ -14,13 +14,13 @@ public class SqlHelper {
     }
 
     public interface Executor<T> {
-        void execute(PreparedStatement ps) throws SQLException;
+        T execute(PreparedStatement ps) throws SQLException;
     }
 
-    public <T> void execute(String sql, Executor<T> executor) {
+    public <T> T execute(String sql, Executor<T> executor) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            executor.execute(ps);
+            return executor.execute(ps);
         } catch (SQLException e) {
             throw new StorageException(e);
         }
