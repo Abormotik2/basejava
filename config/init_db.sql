@@ -1,6 +1,6 @@
 create table resume
 (
-    uuid      varchar(36) not null
+    uuid varchar(36) not null
         constraint resume_pk
             primary key,
     full_name text     not null
