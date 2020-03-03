@@ -2,6 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import static com.urise.webapp.model.ContactType.*;
+import static com.urise.webapp.storage.AbstractStorageTest.*;
+
 public class ResumeTestData {
 
 
@@ -13,14 +16,14 @@ public class ResumeTestData {
     }
 
     public static Resume getFirstResume() {
-//        Resume firstResume = new Resume("uuid_1", "Григорий Кислин");
-//        firstResume.addContact(MOBILE, "+7(921) 855-0482");
-//        firstResume.addContact(SKYPE, "grigory.kislin");
-//        firstResume.addContact(MAIL, "gkislin@yandex.ru");
-//        firstResume.addContact(LINKEDIN, "https://www.linkedin.com/in/gkislin");
-//        firstResume.addContact(GITHUB, "https://github.com/gkislin");
-//        firstResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-//        firstResume.addContact(HOME_PAGE, "http://gkislin.ru/");
+        Resume firstResume = new Resume(UUID_1, "Григорий Кислин");
+        firstResume.addContact(MOBILE, "+7(921) 855-0482");
+        firstResume.addContact(SKYPE, "grigory.kislin");
+        firstResume.addContact(MAIL, "gkislin@yandex.ru");
+        firstResume.addContact(LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        firstResume.addContact(GITHUB, "https://github.com/gkislin");
+        firstResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        firstResume.addContact(HOME_PAGE, "http://gkislin.ru/");
 //        firstResume.addSection(OBJECTIVE, new ContentSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
 //        firstResume.addSection(PERSONAL, new ContentSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 //        List<String> achievements = new ArrayList<>();
@@ -123,19 +126,19 @@ public class ResumeTestData {
 //                , LocalDate.of(1987, 1, 1)
 //                , "Закончил с отличием", null)))));
 //        firstResume.addSection(EDUCATION, new OrganizationSection(studyList));
-//        return firstResume;
-      return new Resume("uuid_1", "Григорий Кислин");
+        return firstResume;
+//      return new Resume(UUID_1,"Григорий Кислин");
     }
 
     public static Resume getSecondResume() {
-//        Resume secondResume = new Resume("uuid_2", "Николай Жириновский");
-//        secondResume.addContact(MOBILE, "+7(999) 999-8888");
-//        secondResume.addContact(SKYPE, "nikolay.girinovsky");
-//        secondResume.addContact(MAIL, "ngirinovsky@yandex.ru");
-//        secondResume.addContact(LINKEDIN, "https://www.linkedin.com/in/ngirinovsky");
-//        secondResume.addContact(GITHUB, "https://github.com/ngirinovsky");
-//        secondResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
-//        secondResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
+       Resume secondResume = new Resume(UUID_2, "Николай Жириновский");
+        secondResume.addContact(MOBILE, "+7(999) 999-8888");
+        secondResume.addContact(SKYPE, "nikolay.girinovsky");
+        secondResume.addContact(MAIL, "ngirinovsky@yandex.ru");
+        secondResume.addContact(LINKEDIN, "https://www.linkedin.com/in/ngirinovsky");
+        secondResume.addContact(GITHUB, "https://github.com/ngirinovsky");
+        secondResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
+        secondResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
 //        secondResume.addSection(OBJECTIVE, new ContentSection("Уборщик"));
 //        secondResume.addSection(PERSONAL, new ContentSection("Идеальные полы, чистые стекла, быстрая работа, все, что вам нужно"));
 //        List<String> achievements = new ArrayList<>();
@@ -158,19 +161,19 @@ public class ResumeTestData {
 //                , LocalDate.of(1992, 1, 1)
 //                , "Cleaning school", null))));
 //        secondResume.addSection(EDUCATION, new OrganizationSection(studyList));
-//        return secondResume;
-        return new Resume("uuid_2", "Николай Жириновский");
+        return secondResume;
+ //       return new Resume(UUID_2,"Николай Жириновский");
     }
 
     public static Resume getThirdResume() {
-//        Resume thirdResume = new Resume("uuid_3", "Денис Жириновский");
-//        thirdResume.addContact(MOBILE, "+7(888) 888-8888");
-//        thirdResume.addContact(SKYPE, "denis.gyrinovsky");
-//        thirdResume.addContact(MAIL, "dgyrinovsky@yandex.ru");
-//        thirdResume.addContact(LINKEDIN, "https://www.linkedin.com/in/dgyrinovsky");
-//        thirdResume.addContact(GITHUB, "https://github.com/dgyrinovsky");
-//        thirdResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/dgyrinovsky");
-//        thirdResume.addContact(HOME_PAGE, "http://dgyrinovsky.ru/");
+        Resume thirdResume = new Resume(UUID_3, "Денис Жириновский");
+        thirdResume.addContact(MOBILE, "+7(888) 888-8888");
+        thirdResume.addContact(SKYPE, "denis.gyrinovsky");
+        thirdResume.addContact(MAIL, "dgyrinovsky@yandex.ru");
+        thirdResume.addContact(LINKEDIN, "https://www.linkedin.com/in/dgyrinovsky");
+        thirdResume.addContact(GITHUB, "https://github.com/dgyrinovsky");
+        thirdResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/dgyrinovsky");
+        thirdResume.addContact(HOME_PAGE, "http://dgyrinovsky.ru/");
 //        thirdResume.addSection(OBJECTIVE, new ContentSection("Ведущий журналист Гретты Тунберг"));
 //        thirdResume.addSection(PERSONAL, new ContentSection("\"Везде плохая экология,отвечаю\""));
 //        List<String> achievements = new ArrayList<>();
@@ -193,19 +196,19 @@ public class ResumeTestData {
 //                , LocalDate.of(2013, 5, 1)
 //                , "\"6 классов уличной школы жизни\"", null))));
 //        thirdResume.addSection(EDUCATION, new OrganizationSection(studyList));
-//        return thirdResume;
-        return new Resume("uuid_3", "Денис Жириновский");
+        return thirdResume;
+//        return new Resume(UUID_3,"Денис Жириновский");
     }
 
     public static Resume getFourthResume() {
-//        Resume fourthResume = new Resume("uuid_4", "Владимир Жириновский");
-//        fourthResume.addContact(MOBILE, "+7(777) 777-7777");
-//        fourthResume.addContact(SKYPE, "vladimir.girinovsky");
-//        fourthResume.addContact(MAIL, "vladimir.girinovsky@yandex.ru");
-//        fourthResume.addContact(LINKEDIN, "https://www.linkedin.com/in/vgirinovsky");
-//        fourthResume.addContact(GITHUB, "https://github.com/vgirinovsky");
-//        fourthResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/vgirinovsky");
-//        fourthResume.addContact(HOME_PAGE, "http://vgirinovsky.ru/");
+        Resume fourthResume = new Resume(UUID_4, "Владимир Жириновский");
+        fourthResume.addContact(MOBILE, "+7(777) 777-7777");
+        fourthResume.addContact(SKYPE, "vladimir.girinovsky");
+        fourthResume.addContact(MAIL, "vladimir.girinovsky@yandex.ru");
+        fourthResume.addContact(LINKEDIN, "https://www.linkedin.com/in/vgirinovsky");
+        fourthResume.addContact(GITHUB, "https://github.com/vgirinovsky");
+        fourthResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/vgirinovsky");
+        fourthResume.addContact(HOME_PAGE, "http://vgirinovsky.ru/");
 //        fourthResume.addSection(OBJECTIVE, new ContentSection("ЛДПР рулит"));
 //        fourthResume.addSection(PERSONAL, new ContentSection("Тащу партию с 1993г"));
 //        List<String> achievements = new ArrayList<>();
@@ -230,7 +233,7 @@ public class ResumeTestData {
 //                , LocalDate.of(2013, 5, 1)
 //                , "\"Как стать президентом с пиленок.Школа мастерства\"", null))));
 //        fourthResume.addSection(EDUCATION, new OrganizationSection(studyList));
-//        return fourthResume;
-        return new Resume("uuid_4", "Владимир Жириновский");
+        return fourthResume;
+//        return new Resume(UUID_4,"Владимир Жириновский");
     }
 }

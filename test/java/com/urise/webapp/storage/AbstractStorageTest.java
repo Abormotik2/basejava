@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,10 +22,10 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final String UUID_1 = "uuid_1";
-    private static final String UUID_2 = "uuid_2";
-    private static final String UUID_3 = "uuid_3";
-    private static final String UUID_4 = "uuid_4";
+    protected static final String UUID_1 = UUID.randomUUID().toString();
+    protected static final String UUID_2 = UUID.randomUUID().toString();
+    protected static final String UUID_3 = UUID.randomUUID().toString();
+    protected static final String UUID_4 = UUID.randomUUID().toString();
     private static final Resume RESUME1;
     private static final Resume RESUME2;
     private static final Resume RESUME3;
