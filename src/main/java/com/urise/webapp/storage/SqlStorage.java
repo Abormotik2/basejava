@@ -71,7 +71,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume resume = new Resume(uuid, rs.getString("full_name"));
                     do {
-                        getContact(resume, rs);
+                        completeContacts(resume, rs);
                     } while (rs.next());
                     return resume;
                 });
@@ -99,9 +99,16 @@ public class SqlStorage implements Storage {
                     ResultSet rs = ps.executeQuery();
                     List<Resume> resumes = new ArrayList<>();
                     while (rs.next()) {
-                        Resume resume = new Resume(rs.getString("uuid"), rs.getString("full_name"));
-                        resumes.add(resume);
-                        getContact(resume, rs);
+                        String uuid = rs.getString("uuid");
+                        Resume resume = resumes.stream()
+                                .filter(resItem -> resItem.getUuid().equals(uuid))
+                                .findFirst().orElse(null);
+                        if (resume == null) {
+                            resume = new Resume(uuid, rs.getString("full_name"));
+                            resumes.add(resume);
+                        }
+
+                        completeContacts(resume, rs);
                     }
                     return resumes;
                 });
@@ -127,7 +134,7 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void getContact(Resume resume, ResultSet rs) throws SQLException {
+    private void completeContacts(Resume resume, ResultSet rs) throws SQLException {
         String value = rs.getString("value");
         ContactType type = ContactType.valueOf(rs.getString("type"));
         resume.addContact(type, value);
