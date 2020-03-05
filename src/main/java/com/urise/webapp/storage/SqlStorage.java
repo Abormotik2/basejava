@@ -6,10 +6,7 @@ import com.urise.webapp.model.Resume;
 import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -46,15 +43,14 @@ public class SqlStorage implements Storage {
     @Override
     public void save(Resume resume) {
         sqlHelper.transactionalExecute(conn -> {
-                    try (PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
-                        ps.setString(1, resume.getUuid());
-                        ps.setString(2, resume.getFullName());
-                        ps.execute();
-                    }
-                    insertContacts(resume, conn);
-                    return null;
-                }
-        );
+            try (PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
+                ps.setString(1, resume.getUuid());
+                ps.setString(2, resume.getFullName());
+                ps.execute();
+            }
+            insertContacts(resume, conn);
+            return null;
+        });
     }
 
     @Override
@@ -98,8 +94,7 @@ public class SqlStorage implements Storage {
                         "  ORDER BY full_name, uuid",
                 ps -> {
                     ResultSet rs = ps.executeQuery();
-                    //  List<Resume> resumes = new ArrayList<>();
-                    Map<String, Resume> map = new HashMap<>();
+                    Map<String, Resume> map = new LinkedHashMap<>();
                     while (rs.next()) {
                         String uuid = rs.getString("uuid");
                         Resume resume = map.get(uuid);
