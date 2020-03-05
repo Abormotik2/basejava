@@ -132,13 +132,13 @@ public class ResumeTestData {
 
     public static Resume getSecondResume() {
        Resume secondResume = new Resume(UUID_2, "Николай Жириновский");
-        secondResume.addContact(MOBILE, "+7(999) 999-8888");
-        secondResume.addContact(SKYPE, "nikolay.girinovsky");
-        secondResume.addContact(MAIL, "ngirinovsky@yandex.ru");
-        secondResume.addContact(LINKEDIN, "https://www.linkedin.com/in/ngirinovsky");
-        secondResume.addContact(GITHUB, "https://github.com/ngirinovsky");
-        secondResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
-        secondResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
+//        secondResume.addContact(MOBILE, "+7(999) 999-8888");
+//        secondResume.addContact(SKYPE, "nikolay.girinovsky");
+//        secondResume.addContact(MAIL, "ngirinovsky@yandex.ru");
+//        secondResume.addContact(LINKEDIN, "https://www.linkedin.com/in/ngirinovsky");
+//        secondResume.addContact(GITHUB, "https://github.com/ngirinovsky");
+//        secondResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
+//        secondResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
 //        secondResume.addSection(OBJECTIVE, new ContentSection("Уборщик"));
 //        secondResume.addSection(PERSONAL, new ContentSection("Идеальные полы, чистые стекла, быстрая работа, все, что вам нужно"));
 //        List<String> achievements = new ArrayList<>();

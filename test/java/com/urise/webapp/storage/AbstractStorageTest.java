@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-import static com.urise.webapp.model.ContactType.*;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -60,13 +59,13 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume newResume = new Resume(UUID_2, "Name_5");
-        newResume.addContact(MOBILE, "+7(999) 999-8888");
-        newResume.addContact(SKYPE, "nikolay.girinovsky");
-        newResume.addContact(MAIL, "ngirinovsky@yandex.ru");
-        newResume.addContact(LINKEDIN, "https://www.linkedin.com/in/ngirinovsky");
-        newResume.addContact(GITHUB, "https://github.com/ngirinovsky");
-        newResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
-        newResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
+//        newResume.addContact(MOBILE, "+7(999) 999-8888");
+//        newResume.addContact(SKYPE, "nikolay.girinovsky");
+//        newResume.addContact(MAIL, "ngirinovsky@yandex.ru");
+//        newResume.addContact(LINKEDIN, "https://www.linkedin.com/in/ngirinovsky");
+//        newResume.addContact(GITHUB, "https://github.com/ngirinovsky");
+//        newResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
+//        newResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_2));
     }

@@ -7,6 +7,7 @@ import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,20 +98,18 @@ public class SqlStorage implements Storage {
                         "  ORDER BY full_name, uuid",
                 ps -> {
                     ResultSet rs = ps.executeQuery();
-                    List<Resume> resumes = new ArrayList<>();
+                    //  List<Resume> resumes = new ArrayList<>();
+                    Map<String, Resume> map = new HashMap<>();
                     while (rs.next()) {
                         String uuid = rs.getString("uuid");
-                        Resume resume = resumes.stream()
-                                .filter(resItem -> resItem.getUuid().equals(uuid))
-                                .findFirst().orElse(null);
+                        Resume resume = map.get(uuid);
                         if (resume == null) {
                             resume = new Resume(uuid, rs.getString("full_name"));
-                            resumes.add(resume);
+                            map.put(uuid, resume);
                         }
-
                         completeContacts(resume, rs);
                     }
-                    return resumes;
+                    return new ArrayList<>(map.values());
                 });
     }
 
@@ -136,7 +135,9 @@ public class SqlStorage implements Storage {
 
     private void completeContacts(Resume resume, ResultSet rs) throws SQLException {
         String value = rs.getString("value");
-        ContactType type = ContactType.valueOf(rs.getString("type"));
-        resume.addContact(type, value);
+        if (value != null) {
+            ContactType type = ContactType.valueOf(rs.getString("type"));
+            resume.addContact(type, value);
+        }
     }
 }
