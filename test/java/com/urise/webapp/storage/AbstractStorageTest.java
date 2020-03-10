@@ -3,18 +3,18 @@ package com.urise.webapp.storage;
 import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.*;
+import com.urise.webapp.model.ListSection;
+import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.*;
 
 import static com.urise.webapp.model.ContactType.*;
-import static com.urise.webapp.model.SectionType.*;
-import static com.urise.webapp.util.DateUtil.NOW;
+import static com.urise.webapp.model.SectionType.ACHIEVEMENT;
+import static com.urise.webapp.model.SectionType.QUALIFICATION;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -73,14 +73,14 @@ public abstract class AbstractStorageTest {
         List<String> qualifications = new ArrayList<>();
         qualifications.add("Швабра, тряпки, пена и все прибамбасы");
         newResume.addSection(QUALIFICATION, new ListSection(qualifications));
-        List<Organization> organizationList = new ArrayList<>();
-        organizationList.add(new Organization(
-                new OrganizationLink("DvorProduction", "http://DvorProduction.ru/")
-                , Collections.singletonList(new Organization.Stages(LocalDate.of(1992, 10, 1)
-                , NOW
-                , "Генеральный директор клининга"
-                , "Уборка территории"))));
-        newResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
+//        List<Organization> organizationList = new ArrayList<>();
+//        organizationList.add(new Organization(
+//                new OrganizationLink("DvorProduction", "http://DvorProduction.ru/")
+//                , Collections.singletonList(new Organization.Stages(LocalDate.of(1992, 10, 1)
+//                , NOW
+//                , "Генеральный директор клининга"
+//                , "Уборка территории"))));
+//        newResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_2));
     }

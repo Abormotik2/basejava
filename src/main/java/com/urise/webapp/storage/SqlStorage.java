@@ -5,7 +5,10 @@ import com.urise.webapp.model.*;
 import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -94,7 +97,7 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         return sqlHelper.transactionalExecute(conn -> {
             Map<String, Resume> map = new LinkedHashMap<>();
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid")) {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name, uuid")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     String uuid = rs.getString("uuid");
@@ -105,14 +108,14 @@ public class SqlStorage implements Storage {
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    Resume resume = map.get(rs.getString("r_uuid"));
+                    Resume resume = map.get(rs.getString("resume_uuid"));
                     completeContacts(resume, rs);
                 }
             }
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    Resume resume = map.get(rs.getString("r_uuid"));
+                    Resume resume = map.get(rs.getString("resume_uuid"));
                     completeSections(resume, rs);
                 }
             }
@@ -143,9 +146,20 @@ public class SqlStorage implements Storage {
     private void insertSections(Resume resume, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO section(resume_uuid, type, value) VALUES (?,?,?)")) {
             for (Map.Entry<SectionType, Section> e : resume.getSections().entrySet()) {
+                Section section = e.getValue();
+                SectionType type = e.getKey();
                 ps.setString(1, resume.getUuid());
-                ps.setString(2, e.getKey().name());
-                ps.setString(3, e.getValue().toString());
+                ps.setString(2, type.name());
+                switch (type) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        ps.setString(3, ((ContentSection) section).getContent());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATION:
+
+                        break;
+                }
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -174,20 +188,25 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void completeSections(Resume resume, ResultSet rs) throws SQLException {
+    private Section completeSections(Resume resume, ResultSet rs) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
-                switch (type) {
-                    case OBJECTIVE:
-                    case PERSONAL:
-                        resume.addSection(type, new ContentSection(value));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATION:
-                        resume.addSection(type, new ListSection(Collections.singletonList(value)));
-                        break;
-                }
+            switch (type) {
+                case OBJECTIVE:
+                case PERSONAL:
+                    return new ContentSection(rs.getString(value));
+                case ACHIEVEMENT:
+                case QUALIFICATION:
+                    List<String> list = new ArrayList<>();
+                    int size = rs.getInt(value);
+                    for (int i = 0; i < size; i++) {
+                        list.add(value);
+                    }
+                    return new ListSection(list);
             }
         }
+        return null;
     }
+}
+
