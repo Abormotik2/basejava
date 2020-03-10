@@ -3,18 +3,18 @@ package com.urise.webapp.storage;
 import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 import static com.urise.webapp.model.ContactType.*;
+import static com.urise.webapp.model.SectionType.*;
+import static com.urise.webapp.util.DateUtil.NOW;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -67,6 +67,20 @@ public abstract class AbstractStorageTest {
         newResume.addContact(GITHUB, "https://github.com/ngirinovsky");
         newResume.addContact(STACKOVERFLOW, "https://stackoverflow.com/users/ngirinovsky");
         newResume.addContact(HOME_PAGE, "http://ngirinovsky.ru/");
+        List<String> achievements = new ArrayList<>();
+        achievements.add("101+ сертификатов по уборке");
+        newResume.addSection(ACHIEVEMENT, new ListSection(achievements));
+        List<String> qualifications = new ArrayList<>();
+        qualifications.add("Швабра, тряпки, пена и все прибамбасы");
+        newResume.addSection(QUALIFICATION, new ListSection(qualifications));
+        List<Organization> organizationList = new ArrayList<>();
+        organizationList.add(new Organization(
+                new OrganizationLink("DvorProduction", "http://DvorProduction.ru/")
+                , Collections.singletonList(new Organization.Stages(LocalDate.of(1992, 10, 1)
+                , NOW
+                , "Генеральный директор клининга"
+                , "Уборка территории"))));
+        newResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_2));
     }
