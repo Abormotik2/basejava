@@ -17,5 +17,6 @@ public class ResumeServlet extends HttpServlet {
        // response.setHeader("Content-Type", "text/html; charset=UTF-8");
         String name = request.getParameter("name");
         response.getWriter().write(name == null ? "Hello resumes!" : "Hello " + name + '!');
+        //html editor online
     }
 }

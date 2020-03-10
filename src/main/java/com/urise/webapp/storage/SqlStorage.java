@@ -5,10 +5,7 @@ import com.urise.webapp.model.*;
 import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -70,13 +67,15 @@ public class SqlStorage implements Storage {
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact WHERE resume_uuid =?")) {
                 ps.setString(1, uuid);
                 ResultSet rs = ps.executeQuery();
-                completeContacts(resume, rs);
+                while (rs.next())
+                    completeContacts(resume, rs);
             }
 
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section WHERE resume_uuid =?")) {
                 ps.setString(1, uuid);
                 ResultSet rs = ps.executeQuery();
-                completeSections(resume, rs);
+                while (rs.next())
+                    completeSections(resume, rs);
             }
             return resume;
         });
@@ -157,7 +156,8 @@ public class SqlStorage implements Storage {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATION:
-
+                        List<String> list = ((ListSection) section).getItems();
+                        ps.setString(3, String.join("\n", list));
                         break;
                 }
                 ps.addBatch();
@@ -188,25 +188,22 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private Section completeSections(Resume resume, ResultSet rs) throws SQLException {
+    private void completeSections(Resume resume, ResultSet rs) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
             switch (type) {
                 case OBJECTIVE:
                 case PERSONAL:
-                    return new ContentSection(rs.getString(value));
+                    resume.addSection(type, new ContentSection(value));
+                    break;
                 case ACHIEVEMENT:
                 case QUALIFICATION:
-                    List<String> list = new ArrayList<>();
-                    int size = rs.getInt(value);
-                    for (int i = 0; i < size; i++) {
-                        list.add(value);
-                    }
-                    return new ListSection(list);
+                    List<String> list = new ArrayList<>(Arrays.asList(value.split("\n")));
+                    resume.addSection(type, new ListSection(list));
+                    break;
             }
         }
-        return null;
     }
 }
 
