@@ -1,6 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.Storage;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 public class ResumeServlet extends HttpServlet {
+    private Storage storage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
@@ -22,7 +24,6 @@ public class ResumeServlet extends HttpServlet {
         //String name = request.getParameter("name");
         //response.getWriter().write(name == null ? "Hello resumes!" : "Hello " + name + '!');
         Writer writer = response.getWriter();
-        Resume resume = new Resume("Gretta Tunberg");
         writer.write(
                 "<html>" +
                         "<head>" +
@@ -36,9 +37,12 @@ public class ResumeServlet extends HttpServlet {
                         "<tr>" +
                         "<td> uuid</td> " +
                         "<td> full_name</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td>" + resume.getUuid() + "</td> " +
-                        "<td>" + resume.getFullName() + "</td> </tr>\n");
+                        "</tr>");
+        for (Resume resume : storage.getAllSorted()) {
+            writer.write(
+                    "<tr>" +
+                            "<td>" + resume.getUuid() + "</td> " +
+                            "<td>" + resume.getFullName() + "</td> </tr>\n");
+        }
     }
 }
