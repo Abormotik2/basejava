@@ -1,5 +1,6 @@
 package com.urise.webapp.web;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.Storage;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 public class ResumeServlet extends HttpServlet {
-    private Storage storage;
+    private Storage storage = Config.get().getStorage();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
