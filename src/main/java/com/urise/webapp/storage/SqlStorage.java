@@ -113,7 +113,7 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private <T> void getItems(Connection conn, String sql, Resume resume, Complete<T> full) throws SQLException {
+    private void getItems(Connection conn, String sql, Resume resume, Complete full) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, resume.getUuid());
             ResultSet rs = ps.executeQuery();
@@ -123,7 +123,7 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private <T> void getAllItems(Connection conn, String sql, Map<String, Resume> map, Complete<T> full) throws SQLException {
+    private void getAllItems(Connection conn, String sql, Map<String, Resume> map, Complete full) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -133,7 +133,7 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private interface Complete<T> {
+    private interface Complete {
         void complete(Resume resume, ResultSet rs) throws SQLException;
     }
 
