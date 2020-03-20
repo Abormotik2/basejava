@@ -15,11 +15,12 @@
 <section>
     <h1>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></h1>
     <p>
-        <c:forEach var="contactEntry" items="${resume.contacts}">
-            <jsp:useBean id="contactEntry"
-                         type="java.util.Map.Entry<com.urise.webapp.model.ContactType, java.lang.String>"/>
-                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
-        </c:forEach>
+    <hr>
+    <c:forEach var="contactEntry" items="${resume.contacts}">
+        <jsp:useBean id="contactEntry"
+                     type="java.util.Map.Entry<com.urise.webapp.model.ContactType, java.lang.String>"/>
+        <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+    </c:forEach>
     <p>
         <c:forEach var="sectionEntry" items="${resume.sections}">
             <jsp:useBean id="sectionEntry"
@@ -31,10 +32,12 @@
             <h2><a name="type.name">${type.title}</a></h2>
         </tr>
         <c:choose>
+
         <c:when test="${type=='OBJECTIVE'}">
         <tr>
             <%=((ContentSection) section).getContent()%>
         </tr>
+
         </c:when>
         <c:when test="${type=='PERSONAL'}">
         <tr>
@@ -42,18 +45,18 @@
         </tr>
         </c:when>
 
-            <%--                <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">--%>
-            <%--                    <tr>--%>
-            <%--                                <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">--%>
-            <%--                                    <li>${item}</li>--%>
-            <%--                                </c:forEach>--%>
-            <%--                    </tr>--%>
-            <%--                </c:when>--%>
+        <c:when test="${type=='QUALIFICATION' || type=='ACHIEVEMENT'}">
+        <tr>
+            <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
+                <li>${item}</li>
+            </c:forEach>
+        </tr>
+        </c:when>
+
         <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
         <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
         <tr>
             <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
-
         </tr>
         <c:forEach var="stages" items="${org.stages}">
             <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
