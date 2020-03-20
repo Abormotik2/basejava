@@ -19,6 +19,11 @@
                 <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
     <p>
+    <c:forEach var="sectionEntry" items="${resume.contacts}">
+        <jsp:useBean id="sectionEntry"
+                     type="java.util.Map.Entry<com.urise.webapp.model.SectionType, java.lang.String>"/>
+            <%=sectionEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+    </c:forEach>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

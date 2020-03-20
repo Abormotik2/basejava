@@ -98,16 +98,11 @@ public class DataStreamSerializer implements StreamSerializer {
                 return new ListSection(readCollection(dis, dis::readUTF));
             case EXPERIENCE:
             case EDUCATION:
-                return readOrganization(dis);
+                return new OrganizationSection(readCollection(dis, () ->
+                        new Organization(new OrganizationLink(dis.readUTF(), dis.readUTF()),
+                                readCollection(dis, () -> new Organization.Stages(readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF())))));
         }
         return null;
-    }
-
-    private OrganizationSection readOrganization(DataInputStream dis) throws IOException {
-        return new OrganizationSection(readCollection(dis, () ->
-                new Organization(new OrganizationLink(dis.readUTF(), dis.readUTF()),
-                        readCollection(dis, () -> new Organization.Stages(readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF())))));
-
     }
 
     private LocalDate readLocalDate(DataInputStream dis) throws IOException {
