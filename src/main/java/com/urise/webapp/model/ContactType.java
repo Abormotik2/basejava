@@ -2,7 +2,7 @@ package com.urise.webapp.model;
 
 public enum ContactType {
 
-    MOBILE("Тел."),
+    MOBILE("Мобильный телефон: "),
     SKYPE("Скайп") {
         @Override
         public String toHtml0(String value) {
