@@ -27,45 +27,45 @@
             <c:set var="type" value="${sectionEntry.key}"/>
             <c:set var="section" value="${sectionEntry.value}"/>
             <jsp:useBean id="section" type="com.urise.webapp.model.Section"/>
-            <tr>
-             <h2><a name="type.name">${type.title}</a></h2>
-            </tr>
-            <c:choose>
-                <c:when test="${type=='OBJECTIVE'}">
-                    <tr>
-                            <%=((ContentSection) section).getContent()%>
-                    </tr>
-                </c:when>
-                <c:when test="${type=='PERSONAL'}">
-                    <tr>
-                            <%=((ContentSection) section).getContent()%>
-                    </tr>
-                </c:when>
+        <tr>
+            <h2><a name="type.name">${type.title}</a></h2>
+        </tr>
+        <c:choose>
+        <c:when test="${type=='OBJECTIVE'}">
+        <tr>
+            <%=((ContentSection) section).getContent()%>
+        </tr>
+        </c:when>
+        <c:when test="${type=='PERSONAL'}">
+        <tr>
+            <%=((ContentSection) section).getContent()%>
+        </tr>
+        </c:when>
 
-<%--                <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">--%>
-<%--                    <tr>--%>
-<%--                                <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">--%>
-<%--                                    <li>${item}</li>--%>
-<%--                                </c:forEach>--%>
-<%--                    </tr>--%>
-<%--                </c:when>--%>
-                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
-                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
-                        <tr>
-                                        <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
+            <%--                <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">--%>
+            <%--                    <tr>--%>
+            <%--                                <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">--%>
+            <%--                                    <li>${item}</li>--%>
+            <%--                                </c:forEach>--%>
+            <%--                    </tr>--%>
+            <%--                </c:when>--%>
+        <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+        <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
+        <tr>
+            <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
 
-                        </tr>
-                        <c:forEach var="stages" items="${org.stages}">
-                            <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
-                            <tr>
-                                <td><b>${stages.title}</b><br>${stages.responsibility}</td>
-                            </tr>
-                        </c:forEach>
-                    </c:forEach>
-                </c:when>
-            </c:choose>
+        </tr>
+        <c:forEach var="stages" items="${org.stages}">
+            <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
+        <tr>
+            <td><b>${stages.title}</b><br>${stages.responsibility}</td>
+        </tr>
         </c:forEach>
-    <br/>
+        </c:forEach>
+        </c:when>
+        </c:choose>
+        </c:forEach>
+        <br/>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
