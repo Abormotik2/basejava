@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.ListSection;
@@ -23,14 +24,14 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    protected static final String UUID_1 = UUID.randomUUID().toString();
-    protected static final String UUID_2 = UUID.randomUUID().toString();
-    protected static final String UUID_3 = UUID.randomUUID().toString();
-    protected static final String UUID_4 = UUID.randomUUID().toString();
-    private static final Resume RESUME1;
-    private static final Resume RESUME2;
-    private static final Resume RESUME3;
-    private static final Resume RESUME4;
+    public static final String UUID_1 = UUID.randomUUID().toString();
+    public static final String UUID_2 = UUID.randomUUID().toString();
+    public static final String UUID_3 = UUID.randomUUID().toString();
+    public static final String UUID_4 = UUID.randomUUID().toString();
+    public static final Resume RESUME1;
+    public static final Resume RESUME2;
+    public static final Resume RESUME3;
+    public static final Resume RESUME4;
 
     static {
         RESUME1 = ResumeTestData.getFirstResume();

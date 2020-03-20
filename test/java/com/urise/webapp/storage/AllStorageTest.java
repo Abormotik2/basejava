@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.util.JsonParserTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -15,6 +16,7 @@ import org.junit.runners.Suite;
         , JsonPathStorageTest.class
         , DataPathStorageTest.class
         , SqlStorageTest.class
+        , JsonParserTest.class
 })
 public class AllStorageTest {
 }

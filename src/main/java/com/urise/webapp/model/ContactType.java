@@ -2,13 +2,43 @@ package com.urise.webapp.model;
 
 public enum ContactType {
 
-    MOBILE("Мобильный телефон"),
-    SKYPE("Скайп"),
-    MAIL("Почта"),
-    LINKEDIN("Профиль LinkedIn"),
-    GITHUB("Профиль GitHub"),
-    STACKOVERFLOW("Профиль Stackoverflow"),
-    HOME_PAGE("Домашняя страница");
+    MOBILE("Тел."),
+    SKYPE("Скайп") {
+        @Override
+        public String toHtml0(String value) {
+            return "<a href='Skype:" + value + "'>" + value + "</a>";
+        }
+    },
+    MAIL("Почта") {
+        @Override
+        public String toHtml0(String value) {
+            return "<a href='Mailto:" + value + "'>" + value + "</a>";
+        }
+    },
+    LINKEDIN("Профиль LinkedIn") {
+        @Override
+        public String toHtml0(String value) {
+            return "<a href='LinkedId:" + value + "'>" + value + "</a>";
+        }
+    },
+    GITHUB("Профиль GitHub") {
+        @Override
+        public String toHtml0(String value) {
+            return "<a href='GitHub:" + value + "'>" + value + "</a>";
+        }
+    },
+    STACKOVERFLOW("Профиль Stackoverflow") {
+        @Override
+        public String toHtml0(String value) {
+            return "<a href='Stackoverflow:" + value + "'>" + value + "</a>";
+        }
+    },
+    HOME_PAGE("Домашняя страница") {
+        @Override
+        public String toHtml0(String value) {
+            return "<a href='Home_Page:" + value + "'>" + value + "</a>";
+        }
+    };
 
     private String title;
 
@@ -18,5 +48,13 @@ public enum ContactType {
 
     public String getTitle() {
         return title;
+    }
+
+    protected String toHtml0(String value) {
+        return title + ": " + value;
+    }
+
+    public String toHtml(String value) {
+        return (value == null) ? "" : toHtml0(value);
     }
 }

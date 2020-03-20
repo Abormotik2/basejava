@@ -1,49 +1,68 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.Storage;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
 
 public class ResumeServlet extends HttpServlet {
-    private Storage storage = Config.get().getStorage();
+    private Storage storage;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        storage = Config.get().getStorage();
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-        // response.setHeader("Content-Type", "text/html; charset=UTF-8");
-        //String name = request.getParameter("name");
-        //response.getWriter().write(name == null ? "Hello resumes!" : "Hello " + name + '!');
-        Writer writer = response.getWriter();
-        writer.write(
-                "<html>" +
-                        "<head>" +
-                        "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
-                        "<link rel=\"stylesheet\" href=\"css/style.css\">" +
-                        "<title>Table of resume</title>" +
-                        "</head>" +
-                        "<body>" +
-                        "<section>" +
-                        "<table border=\"1\" >" +
-                        "<tr>" +
-                        "<td> uuid</td> " +
-                        "<td> full_name</td>" +
-                        "</tr>");
-        for (Resume resume : storage.getAllSorted()) {
-            writer.write(
-                    "<tr>" +
-                            "<td>" + resume.getUuid() + "</td> " +
-                            "<td>" + resume.getFullName() + "</td> </tr>\n");
+        String uuid = request.getParameter("uuid");
+        String fullName = request.getParameter("fullName");
+        Resume resume = storage.get(uuid);
+        resume.setFullName(fullName);
+        for (ContactType type : ContactType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                resume.addContact(type, value);
+            } else {
+                resume.getContacts().remove(type);
+            }
         }
+        storage.update(resume);
+        response.sendRedirect("resume");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uuid = request.getParameter("uuid");
+        String action = request.getParameter("action");
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+            return;
+        }
+        Resume resume;
+        switch (action) {
+            case "delete":
+                storage.delete(uuid);
+                response.sendRedirect("resume");
+                return;
+            case "view":
+            case "edit":
+                resume = storage.get(uuid);
+                break;
+            default:
+                throw new IllegalArgumentException("Action " + action + " is illegal");
+        }
+        request.setAttribute("resume", resume);
+        request.getRequestDispatcher(
+                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
+        ).forward(request, response);
     }
 }

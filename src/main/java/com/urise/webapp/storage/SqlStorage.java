@@ -3,6 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.sql.SqlHelper;
+import com.urise.webapp.util.JsonParser;
 
 import java.sql.*;
 import java.util.*;
@@ -88,18 +89,18 @@ public class SqlStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         return sqlHelper.transactionalExecute(conn -> {
-            Map<String, Resume> map = new LinkedHashMap<>();
+            Map<String, Resume> resumes = new LinkedHashMap<>();
             try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name, uuid")) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     String uuid = rs.getString("uuid");
                     String name = rs.getString("full_name");
-                    map.computeIfAbsent(uuid, k -> new Resume(uuid, name));
+                    resumes.computeIfAbsent(uuid, k -> new Resume(uuid, name));
                 }
             }
-            getAllItems(conn, "SELECT * FROM contact", map, this::completeContacts);
-            getAllItems(conn, "SELECT * FROM section", map, this::completeSections);
-            return new ArrayList<>(map.values());
+            getAllItems(conn, "SELECT * FROM contact", resumes, this::completeContacts);
+            getAllItems(conn, "SELECT * FROM section", resumes, this::completeSections);
+            return new ArrayList<>(resumes.values());
         });
     }
 
@@ -161,17 +162,7 @@ public class SqlStorage implements Storage {
                 SectionType type = e.getKey();
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, type.name());
-                switch (type) {
-                    case OBJECTIVE:
-                    case PERSONAL:
-                        ps.setString(3, ((ContentSection) section).getContent());
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATION:
-                        List<String> list = ((ListSection) section).getItems();
-                        ps.setString(3, String.join("\n", list));
-                        break;
-                }
+                ps.setString(3, JsonParser.write(section, Section.class));
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -190,17 +181,7 @@ public class SqlStorage implements Storage {
         String value = rs.getString("value");
         if (value != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
-            switch (type) {
-                case OBJECTIVE:
-                case PERSONAL:
-                    resume.addSection(type, new ContentSection(value));
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATION:
-                    List<String> list = new ArrayList<>(Arrays.asList(value.split("\n")));
-                    resume.addSection(type, new ListSection(list));
-                    break;
-            }
+            resume.addSection(type, JsonParser.read(value, Section.class));
         }
     }
 }
