@@ -3,40 +3,40 @@ package com.urise.webapp.model;
 public enum ContactType {
 
     MOBILE("Мобильный телефон: "),
-    SKYPE("Скайп") {
+    SKYPE("Скайп: ") {
         @Override
         public String toHtml0(String value) {
-            return "<a href='Skype:" + value + "'>" + value + "</a>";
+            return getTitle() + "<a href='Skype:" + value + "'>" + value + "</a>";
         }
     },
-    MAIL("Почта") {
+    MAIL("Почта: ") {
         @Override
         public String toHtml0(String value) {
-            return "<a href='Mailto:" + value + "'>" + value + "</a>";
+            return getTitle() + "<a href='Mailto:" + value + "'>" + value + "</a>";
         }
     },
-    LINKEDIN("Профиль LinkedIn") {
+    LINKEDIN("Профиль LinkedIn: ") {
         @Override
         public String toHtml0(String value) {
-            return "<a href='LinkedId:" + value + "'>" + value + "</a>";
+            return getTitle() + "<a href='LinkedId:" + value + "'>" + value + "</a>";
         }
     },
-    GITHUB("Профиль GitHub") {
+    GITHUB("Профиль GitHub: ") {
         @Override
         public String toHtml0(String value) {
-            return "<a href='GitHub:" + value + "'>" + value + "</a>";
+            return getTitle() + "<a href='GitHub:" + value + "'>" + value + "</a>";
         }
     },
-    STACKOVERFLOW("Профиль Stackoverflow") {
+    STACKOVERFLOW("Профиль Stackoverflow: ") {
         @Override
         public String toHtml0(String value) {
-            return "<a href='Stackoverflow:" + value + "'>" + value + "</a>";
+            return getTitle() + "<a href='Stackoverflow:" + value + "'>" + value + "</a>";
         }
     },
-    HOME_PAGE("Домашняя страница") {
+    HOME_PAGE("Домашняя страница: ") {
         @Override
         public String toHtml0(String value) {
-            return "<a href='Home_Page:" + value + "'>" + value + "</a>";
+            return getTitle() + "<a href='Home_Page:" + value + "'>" + value + "</a>";
         }
     };
 
