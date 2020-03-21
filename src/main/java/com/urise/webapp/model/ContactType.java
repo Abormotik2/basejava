@@ -57,4 +57,8 @@ public enum ContactType {
     public String toHtml(String value) {
         return (value == null) ? "" : toHtml0(value);
     }
+
+    public String forMail(String value){
+        return value;
+    }
 }

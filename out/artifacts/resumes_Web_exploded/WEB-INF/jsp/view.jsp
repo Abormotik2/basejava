@@ -36,7 +36,8 @@
 
             <c:when test="${type=='OBJECTIVE'}">
                 <tr>
-                    <%=((ContentSection) section).getContent()%>
+                    <h3><%=((ContentSection) section).getContent()%>
+                    </h3>
                 </tr>
 
             </c:when>
@@ -64,7 +65,7 @@
                     <c:forEach var="stages" items="${org.stages}">
                         <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
                         <tr>
-                            <td>${stages.startDate.toString()}<br>${stages.endDate}</td>
+                            <td>${stages.startDate}${"/"}${stages.endDate}</td>
                             <td><b><br>${stages.title}</b><br>${stages.responsibility}</td>
                         </tr>
                     </c:forEach>

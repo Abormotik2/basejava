@@ -49,7 +49,6 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        //resume.addSection();
                 }
             }
         }
