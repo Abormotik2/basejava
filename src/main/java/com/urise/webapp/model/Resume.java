@@ -4,10 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -15,15 +12,26 @@ import java.util.UUID;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
-    private static final  long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private String uuid;
     private String fullName;
+    private static final Resume EMPTY_RESUME = new Resume();
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume() {
+    }
+
+    public Resume getEmptyResume() {
+        EMPTY_RESUME.addSection(SectionType.OBJECTIVE, new ContentSection(""));
+        EMPTY_RESUME.addSection(SectionType.PERSONAL, new ContentSection(""));
+        EMPTY_RESUME.addSection(SectionType.ACHIEVEMENT, new ListSection(Collections.singletonList("")));
+        EMPTY_RESUME.addSection(SectionType.QUALIFICATION, new ListSection(Collections.singletonList("")));
+        EMPTY_RESUME.addSection(SectionType.EXPERIENCE, new OrganizationSection(Collections.singletonList(new Organization("", "", new Organization.Stages()))));
+        EMPTY_RESUME.addSection(SectionType.EDUCATION, new OrganizationSection(Collections.singletonList(new Organization("", "", new Organization.Stages()))));
+        return EMPTY_RESUME;
     }
 
     public Resume(String fullName) {
@@ -53,11 +61,11 @@ public class Resume implements Serializable {
         return contacts;
     }
 
-    public String getContact(ContactType type){
+    public String getContact(ContactType type) {
         return contacts.get(type);
     }
 
-    public Section getSection(SectionType type){
+    public Section getSection(SectionType type) {
         return sections.get(type);
     }
 

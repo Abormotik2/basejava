@@ -47,8 +47,8 @@ public class ResumeServlet extends HttpServlet {
                     case QUALIFICATION:
                         resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
                         break;
-                    case EXPERIENCE:
-                    case EDUCATION:
+                    // case EXPERIENCE:
+                    //  case EDUCATION:
                 }
             }
         }
@@ -66,13 +66,44 @@ public class ResumeServlet extends HttpServlet {
         }
         Resume resume;
         switch (action) {
+            case "create":
+                resume = new Resume().getEmptyResume();
+                break;
             case "delete":
                 storage.delete(uuid);
                 response.sendRedirect("resume");
                 return;
             case "view":
+                resume = storage.get(uuid);
+                break;
             case "edit":
                 resume = storage.get(uuid);
+                for (SectionType type : SectionType.values()) {
+                    Section section = resume.getSection(type);
+                    switch (type) {
+                        case OBJECTIVE:
+                            if (section == null) {
+                                resume.addSection(SectionType.OBJECTIVE, new ContentSection());
+                            }
+                            break;
+                        case PERSONAL:
+                            if (section == null) {
+                                resume.addSection(SectionType.PERSONAL, new ContentSection());
+                            }
+                            break;
+                        case ACHIEVEMENT:
+                            if (section == null) {
+                                resume.addSection(SectionType.ACHIEVEMENT, new ListSection());
+                            }
+                            break;
+                        case QUALIFICATION:
+                            if (section == null) {
+                                resume.addSection(SectionType.QUALIFICATION, new ListSection());
+                            }
+                            break;
+                    }
+                    resume.addSection(type, section);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
