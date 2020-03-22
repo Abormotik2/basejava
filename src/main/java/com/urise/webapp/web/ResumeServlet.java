@@ -21,23 +21,46 @@ public class ResumeServlet extends HttpServlet {
 
     }
 
+    private boolean notEmptyValue(String value) {
+        return value != null && value.trim().length() != 0;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume resume = storage.get(uuid);
-        resume.setFullName(fullName);
+        boolean isEmptyUuid = uuid == null || uuid.length() == 0;
+        Resume resume = newResume(uuid, fullName, isEmptyUuid);
+        saveUpdate(request, isEmptyUuid, resume);
+        response.sendRedirect("resume");
+    }
+
+    private Resume newResume(String uuid, String fullName, boolean isEmptyUuid) {
+        Resume resume;
+        if (isEmptyUuid) {
+            resume = new Resume(fullName);
+        } else {
+            resume = storage.get(uuid);
+            resume.setFullName(fullName);
+        }
+        return resume;
+    }
+
+    private void doPostContacts(HttpServletRequest request, Resume resume) {
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (notEmptyValue(value)) {
                 resume.addContact(type, value);
             } else {
                 resume.getContacts().remove(type);
             }
         }
+    }
+
+    private void doPostSections(HttpServletRequest request, Resume resume) {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (notEmptyValue(value)) {
                 switch (type) {
                     case OBJECTIVE:
                     case PERSONAL:
@@ -47,13 +70,24 @@ public class ResumeServlet extends HttpServlet {
                     case QUALIFICATION:
                         resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
                         break;
-                    // case EXPERIENCE:
-                    //  case EDUCATION:
+//                     case EXPERIENCE:
+//                      case EDUCATION:
+//                          resume.addSection(type, new OrganizationSection(null));
                 }
+            } else {
+                resume.getSections().remove(type);
             }
         }
-        storage.update(resume);
-        response.sendRedirect("resume");
+    }
+
+    private void saveUpdate(HttpServletRequest request, boolean isEmptyUuid, Resume resume) {
+        doPostContacts(request, resume);
+        doPostSections(request, resume);
+        if (isEmptyUuid) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +101,7 @@ public class ResumeServlet extends HttpServlet {
         Resume resume;
         switch (action) {
             case "create":
-                resume = new Resume().getEmptyResume();
+                resume = Resume.getEmptyResume();
                 break;
             case "delete":
                 storage.delete(uuid);
@@ -78,32 +112,7 @@ public class ResumeServlet extends HttpServlet {
                 break;
             case "edit":
                 resume = storage.get(uuid);
-                for (SectionType type : SectionType.values()) {
-                    Section section = resume.getSection(type);
-                    switch (type) {
-                        case OBJECTIVE:
-                            if (section == null) {
-                                resume.addSection(SectionType.OBJECTIVE, new ContentSection());
-                            }
-                            break;
-                        case PERSONAL:
-                            if (section == null) {
-                                resume.addSection(SectionType.PERSONAL, new ContentSection());
-                            }
-                            break;
-                        case ACHIEVEMENT:
-                            if (section == null) {
-                                resume.addSection(SectionType.ACHIEVEMENT, new ListSection());
-                            }
-                            break;
-                        case QUALIFICATION:
-                            if (section == null) {
-                                resume.addSection(SectionType.QUALIFICATION, new ListSection());
-                            }
-                            break;
-                    }
-                    resume.addSection(type, section);
-                }
+                editSections(resume);
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
@@ -112,5 +121,31 @@ public class ResumeServlet extends HttpServlet {
         request.getRequestDispatcher(
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
         ).forward(request, response);
+    }
+
+    private void editSections(Resume resume) {
+        for (SectionType type : SectionType.values()) {
+            Section section = resume.getSection(type);
+            switch (type) {
+                case OBJECTIVE:
+                case PERSONAL:
+                    if (section == null) {
+                        section = new ContentSection();
+                    }
+                    break;
+                case ACHIEVEMENT:
+                case QUALIFICATION:
+                    if (section == null) {
+                        section = new ListSection();
+                    }
+                    break;
+//                        case EDUCATION:
+//                        case EXPERIENCE:
+//                            if(section == null){
+//                                section = new OrganizationSection();
+//                            }
+            }
+            resume.addSection(type, section);
+        }
     }
 }

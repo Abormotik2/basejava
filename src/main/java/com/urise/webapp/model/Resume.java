@@ -24,7 +24,7 @@ public class Resume implements Serializable {
     public Resume() {
     }
 
-    public Resume getEmptyResume() {
+    public static Resume getEmptyResume() {
         EMPTY_RESUME.addSection(SectionType.OBJECTIVE, new ContentSection(""));
         EMPTY_RESUME.addSection(SectionType.PERSONAL, new ContentSection(""));
         EMPTY_RESUME.addSection(SectionType.ACHIEVEMENT, new ListSection(Collections.singletonList("")));
