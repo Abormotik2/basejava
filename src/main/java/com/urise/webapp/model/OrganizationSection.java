@@ -1,11 +1,12 @@
 package com.urise.webapp.model;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class OrganizationSection extends Section {
-    private static final  long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;
+    public static final OrganizationSection EMPTY_ORG = new OrganizationSection(Collections.singletonList(new Organization("", "", new Organization.Stages())));
     private List<Organization> organizations;
 
     public OrganizationSection() {

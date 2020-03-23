@@ -15,13 +15,17 @@
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
             <dt>Имя:</dt>
-            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
+            <dd><label>
+                <input type="text" name="fullName" size=50 value="${resume.fullName}">
+            </label></dd>
         </dl>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
             <dl>
                 <dt>${type.title}</dt>
-                <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
+                <dd><label>
+                    <input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}">
+                </label></dd>
             </dl>
         </c:forEach>
         <hr>
@@ -33,18 +37,62 @@
             <c:choose>
                 <c:when test="${type=='OBJECTIVE'}">
                     <label>
-                        <textarea name='${type}' cols=80 rows=1><%=((ContentSection)section).getContent()%></textarea>
+                        <input type='text' name='${type}' size=90 value='<%=((ContentSection) section).getContent()%>'>
                     </label>
                 </c:when>
                 <c:when test="${type=='PERSONAL'}">
                     <label>
-                        <textarea name='${type}' cols=60 rows=7><%=((ContentSection)section).getContent()%></textarea>
+                        <textarea name='${type}' cols=60 rows=7><%=((ContentSection) section).getContent()%></textarea>
                     </label>
                 </c:when>
                 <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATION'}">
                     <label>
-                        <textarea name='${type}' cols=60 rows=5><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                        <textarea name='${type}' cols=60
+                                  rows=5><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                     </label>
+                </c:when>
+                <c:when test="${type=='EXPERIENCE' || type =='EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
+                        <dl>
+                            <dt>Название организации:</dt>
+                            <dd><label>
+                                <input type="text" name="$type" size=80 value="${org.homePage.name}">
+                            </label></dd>
+                        </dl>
+                        <dl>
+                            <dt>Ссылка на организацию:</dt>
+                            <dd><label>
+                                <input type="text" name="$type" size=80 value="${org.homePage.url}">
+                            </label></dd>
+                        </dl>
+                        <c:forEach var="stages" items="${org.stages}">
+                            <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
+                            <dl>
+                                <dt>Дата начала:</dt>
+                                <dd><label>
+                                    <input type="text" name="$type" size=7 value="${stages.startDate}">
+                                </label></dd>
+                            </dl>
+                            <dl>
+                                <dt>Дата окончания:</dt>
+                                <dd><label>
+                                    <input type="text" name="$type" size=7 value="${stages.endDate}">
+                                </label></dd>
+                            </dl>
+                            <dl>
+                                <dt>Должность:</dt>
+                                <dd><label>
+                                    <input type="text" name="$type" size=50 value="${stages.title}">
+                                </label></dd>
+                            </dl>
+                            <dl>
+                                <dt>Обязанности:</dt>
+                                <dd><label>
+                                    <textarea name="${type}${stages}" rows=5 cols=75>${stages.responsibility}</textarea>
+                                </label></dd>
+                            </dl>
+                        </c:forEach>
+                    </c:forEach>
                 </c:when>
             </c:choose>
         </c:forEach>

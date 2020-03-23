@@ -3,8 +3,8 @@ package com.urise.webapp.model;
 import java.util.Objects;
 
 public class ContentSection extends Section {
-    private static final  long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;
+    public static final ContentSection EMPTY_CONTENT = new ContentSection("");
     private String content;
 
     public ContentSection() {

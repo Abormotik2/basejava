@@ -16,7 +16,7 @@ public class Resume implements Serializable {
 
     private String uuid;
     private String fullName;
-    private static final Resume EMPTY_RESUME = new Resume();
+    public static final Resume EMPTY_RESUME = new Resume();
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
@@ -24,14 +24,13 @@ public class Resume implements Serializable {
     public Resume() {
     }
 
-    public static Resume getEmptyResume() {
-        EMPTY_RESUME.addSection(SectionType.OBJECTIVE, new ContentSection(""));
-        EMPTY_RESUME.addSection(SectionType.PERSONAL, new ContentSection(""));
-        EMPTY_RESUME.addSection(SectionType.ACHIEVEMENT, new ListSection(Collections.singletonList("")));
-        EMPTY_RESUME.addSection(SectionType.QUALIFICATION, new ListSection(Collections.singletonList("")));
-        EMPTY_RESUME.addSection(SectionType.EXPERIENCE, new OrganizationSection(Collections.singletonList(new Organization("", "", new Organization.Stages()))));
-        EMPTY_RESUME.addSection(SectionType.EDUCATION, new OrganizationSection(Collections.singletonList(new Organization("", "", new Organization.Stages()))));
-        return EMPTY_RESUME;
+   static {
+        EMPTY_RESUME.addSection(SectionType.OBJECTIVE, ContentSection.EMPTY_CONTENT);
+        EMPTY_RESUME.addSection(SectionType.PERSONAL, ContentSection.EMPTY_CONTENT);
+        EMPTY_RESUME.addSection(SectionType.ACHIEVEMENT, ListSection.EMPTY_LIST);
+        EMPTY_RESUME.addSection(SectionType.QUALIFICATION, ListSection.EMPTY_LIST);
+        EMPTY_RESUME.addSection(SectionType.EXPERIENCE, OrganizationSection.EMPTY_ORG);
+        EMPTY_RESUME.addSection(SectionType.EDUCATION, OrganizationSection.EMPTY_ORG);
     }
 
     public Resume(String fullName) {

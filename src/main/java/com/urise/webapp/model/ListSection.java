@@ -1,10 +1,12 @@
 package com.urise.webapp.model;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
     private static final long serialVersionUID = 1L;
+    public static final ListSection EMPTY_LIST = new ListSection(Collections.singletonList(""));
 
     private List<String> items;
 
@@ -12,7 +14,7 @@ public class ListSection extends Section {
     }
 
     public ListSection(List<String> items) {
-        Objects.requireNonNull(items, "titles must not be null");
+        Objects.requireNonNull(items, "items must not be null");
         this.items = items;
     }
 
