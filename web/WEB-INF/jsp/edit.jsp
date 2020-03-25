@@ -7,6 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -18,7 +19,7 @@
         <dl>
             <dt>Имя:</dt>
             <dd><label>
-                <input type="text" name="fullName" size=50 value="${resume.fullName}">
+                <input type="text" class="form-control" name="fullName" size=50 value="${resume.fullName}">
             </label></dd>
         </dl>
         <h3>Контакты:</h3>
@@ -26,7 +27,7 @@
             <dl>
                 <dt>${type.title}</dt>
                 <dd><label>
-                    <input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}">
+                    <input type="text" class="form-control" name="${type.name()}" size=30 value="${resume.getContact(type)}">
                 </label></dd>
             </dl>
         </c:forEach>
@@ -44,12 +45,12 @@
                 </c:when>
                 <c:when test="${type=='PERSONAL'}">
                     <label>
-                        <textarea name='${type.name()}' cols=60 rows=7><%=((ContentSection) section).getContent()%></textarea>
+                        <textarea class="form-control" name='${type.name()}' cols=60 rows=7><%=((ContentSection) section).getContent()%></textarea>
                     </label>
                 </c:when>
                 <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATION'}">
                     <label>
-                        <textarea name='${type.name()}' cols=60
+                        <textarea class="form-control" name='${type.name()}' cols=60
                                   rows=5><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                     </label>
                 </c:when>
@@ -58,42 +59,44 @@
                         <dl>
                             <dt>Название организации:</dt>
                             <dd><label>
-                                <input type="text" name="${type.name()}" size=80 value="${org.homePage.name}">
+                                <input type="text" name="${type.name()}-${count.index}-name" size=80 value="${org.homePage.name}">
                             </label></dd>
                         </dl>
                         <dl>
                             <dt>Ссылка на организацию:</dt>
                             <dd><label>
-                                <input type="text" name="${type.name()}url" size=80 value="${org.homePage.url}">
+                                <input type="text" name="${type.name()}-${count.index}-url" size=80 value="${org.homePage.url}">
                             </label></dd>
                         </dl>
-                        <c:forEach var="stages" items="${org.stages}">
-                            <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
-                            <dl>
-                                <dt>Дата начала:</dt>
-                                <dd><label>
-                                    <input type="text" name="${type}${count.index}startDate" size=7 value="<%=DateUtil.jspDataFormatter(stages.getStartDate())%>" placeholder="MM-yyyy">
-                                </label></dd>
-                            </dl>
-                            <dl>
-                                <dt>Дата окончания:</dt>
-                                <dd><label>
-                                    <input type="text" name="${type}${count.index}endDate" size=7 value="<%=DateUtil.jspDataFormatter(stages.getEndDate())%>" placeholder="MM-yyyy">
-                                </label></dd>
-                            </dl>
-                            <dl>
-                                <dt>Должность:</dt>
-                                <dd><label>
-                                    <input type="text" name="${type}${count.index}title" size=50 value="${stages.title}">
-                                </label></dd>
-                            </dl>
-                            <dl>
-                                <dt>Обязанности:</dt>
-                                <dd><label>
-                                    <textarea name="${type}${count.index}responsibility" rows=5 cols=75>${stages.responsibility}</textarea>
-                                </label></dd>
-                            </dl>
-                        </c:forEach>
+                        <div class = "container">
+                            <c:forEach var="stages" items="${org.stages}">
+                                <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
+                                <dl>
+                                    <dt>Дата начала:</dt>
+                                    <dd><label>
+                                        <input type="text" name="${type}-${count.index}-stages" size=7 value="<%=DateUtil.jspDataFormatter(stages.getStartDate())%>" placeholder="MM-yyyy">
+                                    </label></dd>
+                                </dl>
+                                <dl>
+                                    <dt>Дата окончания:</dt>
+                                    <dd><label>
+                                        <input type="text" name="${type}-${count.index}-stages" size=7 value="<%=DateUtil.jspDataFormatter(stages.getEndDate())%>" placeholder="MM-yyyy">
+                                    </label></dd>
+                                </dl>
+                                <dl>
+                                    <dt>Должность:</dt>
+                                    <dd><label>
+                                        <input type="text" name="${type}-${count.index}-stages" size=50 value="${stages.title}">
+                                    </label></dd>
+                                </dl>
+                                <dl>
+                                    <dt>Обязанности:</dt>
+                                    <dd><label>
+                                        <textarea class="form-control" name="${type}-${count.index}-stages" rows=5 cols=75>${stages.responsibility}</textarea>
+                                    </label></dd>
+                                </dl>
+                            </c:forEach>
+                        </div>
                     </c:forEach>
                 </c:when>
             </c:choose>

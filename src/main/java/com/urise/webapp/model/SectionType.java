@@ -15,6 +15,15 @@ public enum SectionType {
         this.title = title;
     }
 
+    public static SectionType parseOf(String keyParam) {
+        for (SectionType value : SectionType.values()) {
+            if (value.name().equals(keyParam)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
     public String getTitle() {
         return title;
     }
