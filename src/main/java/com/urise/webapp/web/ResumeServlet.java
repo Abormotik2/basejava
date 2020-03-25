@@ -186,9 +186,9 @@ public class ResumeServlet extends HttpServlet {
                 case EDUCATION:
                     OrganizationSection organizationSection = (OrganizationSection) section;
                     List<Organization> emptyOrganizations = new ArrayList<>();
+                    emptyOrganizations.add(new Organization());
                     if (section != null) {
                         for (Organization organization : organizationSection.getOrganizations()) {
-                            emptyOrganizations.add(new Organization());
                             List<Organization.Stages> stages = organization.getStages();
                             List<Organization.Stages> emptyStages = new ArrayList<>();
                             emptyStages.add(new Organization.Stages());

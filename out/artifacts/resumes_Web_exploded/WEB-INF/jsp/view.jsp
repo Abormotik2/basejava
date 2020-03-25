@@ -3,6 +3,7 @@
 <%@ page import="com.urise.webapp.model.ContentSection" %>
 <%@ page import="com.urise.webapp.model.ListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
+<%@ page import="com.urise.webapp.util.DateUtil" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,12 +39,12 @@
                 <tr>
                     <h5><%=((ContentSection) section).getContent()%></h5>
                 </tr>
-
+<br>
             </c:when>
             <c:when test="${type=='PERSONAL'}">
                 <tr>
-                    <%=((ContentSection) section).getContent()%>
-                </tr>
+                    <h6><%=((ContentSection) section).getContent()%></h6>
+                </tr><br>
             </c:when>
 
             <c:when test="${type=='QUALIFICATION' || type=='ACHIEVEMENT'}">
@@ -58,14 +59,15 @@
 
             <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                 <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
+                    <br rows="1">
                     <tr>
                         <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
                     </tr>
                     <c:forEach var="stages" items="${org.stages}">
                         <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
                         <tr>
-                            <td>${stages.startDate}${"/"}${stages.endDate}</td>
-                            <td><b><br>${stages.title}</b><br>${stages.responsibility}</td>
+                            <td width="20%" style="vertical-align: top"><%=DateUtil.jspFormatter(stages)%></td>
+                            <td><b><br>${stages.title}</b><br>${stages.responsibility}</td><br>
                         </tr>
                     </c:forEach>
                 </c:forEach>

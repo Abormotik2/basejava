@@ -1,5 +1,7 @@
 package com.urise.webapp.util;
 
+import com.urise.webapp.model.Organization;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
@@ -13,6 +15,10 @@ public class DateUtil {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-yyyy", Locale.US);
     private static final String NOW = "Сейчас";
 
+    public static LocalDate of(int year, Month month) {
+        return LocalDate.of(year, month, 1);
+    }
+
     public static LocalDate dataParser(String date) {
         if (isEmptyValue(date) || NOW.equals(date)) return LAST_DATE;
         YearMonth yearMonth = YearMonth.parse(date, FORMATTER);
@@ -23,7 +29,8 @@ public class DateUtil {
         if (date == null) return "";
         return date.equals(LAST_DATE) ? NOW : date.format(FORMATTER);
     }
-    public static LocalDate of(int year, Month month) {
-        return LocalDate.of(year, month, 1);
+
+        public static String jspFormatter(Organization.Stages stages) {
+        return jspDataFormatter(stages.getStartDate()) + " / " + jspDataFormatter(stages.getEndDate());
     }
 }
