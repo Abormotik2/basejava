@@ -7,6 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -33,11 +34,9 @@
             <h2><a name="type.name">${type.title}</a></h2>
         </tr>
         <c:choose>
-
             <c:when test="${type=='OBJECTIVE'}">
                 <tr>
-                    <h3><%=((ContentSection) section).getContent()%>
-                    </h3>
+                    <h5><%=((ContentSection) section).getContent()%></h5>
                 </tr>
 
             </c:when>

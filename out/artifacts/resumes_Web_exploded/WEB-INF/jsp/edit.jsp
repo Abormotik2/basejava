@@ -1,6 +1,5 @@
 <%@ page import="com.urise.webapp.model.*" %>
 <%@ page import="com.urise.webapp.util.DateUtil" %>
-<%@ page import="com.urise.webapp.web.ResumeServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -22,6 +21,7 @@
                 <input type="text" class="form-control" name="fullName" size=50 value="${resume.fullName}">
             </label></dd>
         </dl>
+        <div class="container-fluid">
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
             <dl>
@@ -68,7 +68,7 @@
                                 <input type="text" name="${type.name()}-${count.index}-url" size=80 value="${org.homePage.url}">
                             </label></dd>
                         </dl>
-                        <div class = "container">
+                        <div class="container-fluid">
                             <c:forEach var="stages" items="${org.stages}">
                                 <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
                                 <dl>
