@@ -8,7 +8,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -37,14 +38,17 @@
         <c:choose>
             <c:when test="${type=='OBJECTIVE'}">
                 <tr>
-                    <h5><%=((ContentSection) section).getContent()%></h5>
+                    <h5><%=((ContentSection) section).getContent()%>
+                    </h5>
                 </tr>
-<br>
+                <br>
             </c:when>
             <c:when test="${type=='PERSONAL'}">
                 <tr>
-                    <h6><%=((ContentSection) section).getContent()%></h6>
-                </tr><br>
+                    <h6><%=((ContentSection) section).getContent()%>
+                    </h6>
+                </tr>
+                <br>
             </c:when>
 
             <c:when test="${type=='QUALIFICATION' || type=='ACHIEVEMENT'}">
@@ -59,15 +63,18 @@
 
             <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                 <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
-                    <br rows="1">
+                    <p>
                     <tr>
                         <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
                     </tr>
+
                     <c:forEach var="stages" items="${org.stages}">
                         <jsp:useBean id="stages" type="com.urise.webapp.model.Organization.Stages"/>
                         <tr>
-                            <td width="20%" style="vertical-align: top"><%=DateUtil.jspFormatter(stages)%></td>
-                            <td><b><br>${stages.title}</b><br>${stages.responsibility}</td><br>
+                            <td width="20%" style="vertical-align: top"><%=DateUtil.jspFormatter(stages)%>
+                            </td>
+                            <td><b><br>${stages.title}</b><br>${stages.responsibility}</td>
+                        </p>
                         </tr>
                     </c:forEach>
                 </c:forEach>
