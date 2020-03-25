@@ -28,6 +28,11 @@ public class Organization implements Serializable {
         this(new OrganizationLink(name, url), Arrays.asList(stages));
     }
 
+    public Organization(String name, String url, List<Stages> stages) {
+        this.homePage = new OrganizationLink(name, url);
+        this.stages = stages;
+    }
+
     public Organization(OrganizationLink homePage, List<Stages> stages) {
         Objects.requireNonNull(homePage, "homePage must not be null");
         Objects.requireNonNull(stages, "stages must not be null");
@@ -35,12 +40,21 @@ public class Organization implements Serializable {
         this.stages = stages;
     }
 
+
     public OrganizationLink getHomePage() {
         return homePage;
     }
 
     public List<Stages> getStages() {
         return stages;
+    }
+
+    public void setStages(List<Stages> stages) {
+        this.stages = stages;
+    }
+
+    public void setHomePage(OrganizationLink homePage) {
+        this.homePage = homePage;
     }
 
     @Override
@@ -111,6 +125,7 @@ public class Organization implements Serializable {
         public String getResponsibility() {
             return responsibility;
         }
+
 
         @Override
         public boolean equals(Object o) {

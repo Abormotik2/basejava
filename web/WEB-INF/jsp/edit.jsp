@@ -1,4 +1,6 @@
 <%@ page import="com.urise.webapp.model.*" %>
+<%@ page import="com.urise.webapp.util.DateUtil" %>
+<%@ page import="com.urise.webapp.web.ResumeServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -37,32 +39,32 @@
             <c:choose>
                 <c:when test="${type=='OBJECTIVE'}">
                     <label>
-                        <input type='text' name='${type}' size=90 value='<%=((ContentSection) section).getContent()%>'>
+                        <input type='text' name='${type.name()}' size=90 value='<%=((ContentSection) section).getContent()%>'>
                     </label>
                 </c:when>
                 <c:when test="${type=='PERSONAL'}">
                     <label>
-                        <textarea name='${type}' cols=60 rows=7><%=((ContentSection) section).getContent()%></textarea>
+                        <textarea name='${type.name()}' cols=60 rows=7><%=((ContentSection) section).getContent()%></textarea>
                     </label>
                 </c:when>
                 <c:when test="${type=='ACHIEVEMENT' || type=='QUALIFICATION'}">
                     <label>
-                        <textarea name='${type}' cols=60
+                        <textarea name='${type.name()}' cols=60
                                   rows=5><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                     </label>
                 </c:when>
-                <c:when test="${type=='EXPERIENCE' || type =='EDUCATION'}">
-                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>" varStatus="count">
                         <dl>
                             <dt>Название организации:</dt>
                             <dd><label>
-                                <input type="text" name="$type" size=80 value="${org.homePage.name}">
+                                <input type="text" name="${type.name()}" size=80 value="${org.homePage.name}">
                             </label></dd>
                         </dl>
                         <dl>
                             <dt>Ссылка на организацию:</dt>
                             <dd><label>
-                                <input type="text" name="$type" size=80 value="${org.homePage.url}">
+                                <input type="text" name="${type.name()}url" size=80 value="${org.homePage.url}">
                             </label></dd>
                         </dl>
                         <c:forEach var="stages" items="${org.stages}">
@@ -70,25 +72,25 @@
                             <dl>
                                 <dt>Дата начала:</dt>
                                 <dd><label>
-                                    <input type="text" name="$type" size=7 value="${stages.startDate}">
+                                    <input type="text" name="${type}${count.index}startDate" size=7 value="<%=DateUtil.jspDataFormatter(stages.getStartDate())%>" placeholder="MM-yyyy">
                                 </label></dd>
                             </dl>
                             <dl>
                                 <dt>Дата окончания:</dt>
                                 <dd><label>
-                                    <input type="text" name="$type" size=7 value="${stages.endDate}">
+                                    <input type="text" name="${type}${count.index}endDate" size=7 value="<%=DateUtil.jspDataFormatter(stages.getEndDate())%>" placeholder="MM-yyyy">
                                 </label></dd>
                             </dl>
                             <dl>
                                 <dt>Должность:</dt>
                                 <dd><label>
-                                    <input type="text" name="$type" size=50 value="${stages.title}">
+                                    <input type="text" name="${type}${count.index}title" size=50 value="${stages.title}">
                                 </label></dd>
                             </dl>
                             <dl>
                                 <dt>Обязанности:</dt>
                                 <dd><label>
-                                    <textarea name="${type}${stages}" rows=5 cols=75>${stages.responsibility}</textarea>
+                                    <textarea name="${type}${count.index}responsibility" rows=5 cols=75>${stages.responsibility}</textarea>
                                 </label></dd>
                             </dl>
                         </c:forEach>

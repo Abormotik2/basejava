@@ -11,7 +11,7 @@ import java.util.List;
 import static com.urise.webapp.model.ContactType.*;
 import static com.urise.webapp.model.SectionType.*;
 import static com.urise.webapp.storage.AbstractStorageTest.*;
-import static com.urise.webapp.util.DateUtil.NOW;
+import static com.urise.webapp.util.DateUtil.LAST_DATE;
 
 public class ResumeTestData {
 
@@ -63,7 +63,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("Java Online Projects", "http://javaops.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 10, 1)
-                , NOW
+                , LAST_DATE
                 , "Автор проекта."
                 , "Создание, организация и проведение Java онлайн проектов и стажировок."))));
         organizationList.add(new Organization(
@@ -159,7 +159,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("DvorProduction", "http://DvorProduction.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(1992, 10, 1)
-                , NOW
+                , LAST_DATE
                 , "Генеральный директор клининга"
                 , "Уборка территории"))));
         secondResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
@@ -194,7 +194,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("Gretta love organization", "http://glo.com/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 10, 1)
-                , NOW
+                , LAST_DATE
                 , "Автор проекта."
                 , "Самостоятельно научился делать скрины мемов с Греттой"))));
         thirdResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));
@@ -231,7 +231,7 @@ public class ResumeTestData {
         organizationList.add(new Organization(
                 new OrganizationLink("President standUp", "http://ps.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 10, 1)
-                , NOW
+                , LAST_DATE
                 , "Автор проекта."
                 , "Балатировался,балатируюсь и буду балатироваться"))));
         fourthResume.addSection(EXPERIENCE, new OrganizationSection(organizationList));

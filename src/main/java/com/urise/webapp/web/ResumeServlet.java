@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.urise.webapp.util.DateUtil.dataParser;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
@@ -57,8 +58,6 @@ public class ResumeServlet extends HttpServlet {
         switch (action) {
             case "create":
                 resume = Resume.EMPTY_RESUME;
-                storage.save(resume);
-                action = "edit";
                 break;
             case "delete":
                 storage.delete(uuid);
@@ -80,7 +79,7 @@ public class ResumeServlet extends HttpServlet {
         ).forward(request, response);
     }
 
-    private boolean isEmptyValue(String value) {
+    public static boolean isEmptyValue(String value) {
         return value == null || value.trim().length() == 0;
     }
 
@@ -98,7 +97,8 @@ public class ResumeServlet extends HttpServlet {
     private void doPostSections(HttpServletRequest request, Resume resume) {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
-            if (isEmptyValue(value)) {
+            String[] values = request.getParameterValues(type.name());
+            if (isEmptyValue(value) && (values == null || values.length < 2)) {
                 resume.getSections().remove(type);
             } else {
                 switch (type) {
@@ -110,25 +110,34 @@ public class ResumeServlet extends HttpServlet {
                     case QUALIFICATION:
                         resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
                         break;
-                    case EDUCATION:
                     case EXPERIENCE:
+                    case EDUCATION:
                         List<Organization> organizations = new ArrayList<>();
-                        String orgName = request.getParameter("name");
-                        String orgUrl = request.getParameter("url");
-                        ArrayList<Organization.Stages> stages = new ArrayList<>();
-                        String[] titles = request.getParameterValues("title");
-                        String[] startDate = request.getParameterValues("startDate");
-                        String[] endDate = request.getParameterValues("endDate");
-                        String[] responsibility = request.getParameterValues("responsibility");
-                        if (titles != null) {
-                            for (int i = 0; i < titles.length; i++) {
-                                if (titles[i] != null && titles[i].length() != 0) {
-                                    stages.add(new Organization.Stages(LocalDate.parse(startDate[i]), LocalDate.parse(endDate[i]), titles[i], responsibility[i]));
+                        String[] urls = request.getParameterValues(type.name() + "url");
+                        for (int i = 0; i < values.length; i++) {
+                            String name = values[i];
+                            if (!isEmptyValue(name)) {
+                                List<Organization.Stages> stages = new ArrayList<>();
+                                String count = type.name() + i;
+                                String[] startDates = request.getParameterValues(count + "startDate");
+                                String[] endDates = request.getParameterValues(count + "endDate");
+                                String[] titles = request.getParameterValues(count + "title");
+                                String[] responsibility = request.getParameterValues(count + "responsibility");
+                                for (int j = 0; j < titles.length; j++) {
+                                    if (!isEmptyValue(titles[j])) {
+                                        stages.add(
+                                                new Organization.Stages(
+                                                        dataParser(startDates[j]),
+                                                        dataParser(endDates[j]),
+                                                        titles[j],
+                                                        responsibility[j]));
+                                    }
                                 }
+                                organizations.add(new Organization(name, urls[i], stages));
                             }
-                            organizations.add(new Organization(new OrganizationLink(orgName, orgUrl), stages));
                         }
                         resume.addSection(type, new OrganizationSection(organizations));
+                        break;
                 }
             }
         }
@@ -140,30 +149,30 @@ public class ResumeServlet extends HttpServlet {
             switch (type) {
                 case OBJECTIVE:
                 case PERSONAL:
-                    if (section == null) {
-                        section = new ContentSection();
-                    }
+                    if (section == null) section = new ContentSection();
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATION:
-                    if (section == null) {
-                        section = new ListSection();
-                    }
+                    if (section == null) section = new ListSection();
                     break;
-                case EDUCATION:
                 case EXPERIENCE:
-                    OrganizationSection orgSection = (OrganizationSection) section;
-                    List<Organization> organizations = new ArrayList<>();
-                    if (orgSection != null) {
-                        for (Organization org : orgSection.getOrganizations()) {
-                            List<Organization.Stages> emptyFirstPositions = new ArrayList<>(org.getStages());
-                            organizations.add(new Organization(org.getHomePage(), emptyFirstPositions));
+                case EDUCATION:
+                    OrganizationSection organizationSection = (OrganizationSection) section;
+                    List<Organization> emptyOrganizations = new ArrayList<>();
+                   // emptyOrganizations.add(new Organization());
+                    if (section != null) {
+                        for (Organization organization : organizationSection.getOrganizations()) {
+                            List<Organization.Stages> stages = organization.getStages();
+                            List<Organization.Stages> emptyStages = new ArrayList<>();
+                            emptyStages.add(new Organization.Stages());
+                            emptyStages.addAll(stages);
+                            organization.setStages(emptyStages);
+                            emptyOrganizations.add(organization);
                         }
+                        resume.addSection(type, new OrganizationSection(emptyOrganizations));
                     }
-                    section = new OrganizationSection(organizations);
                     break;
             }
-            resume.addSection(type, section);
         }
     }
 }
