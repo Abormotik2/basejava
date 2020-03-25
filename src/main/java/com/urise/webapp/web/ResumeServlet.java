@@ -143,18 +143,18 @@ public class ResumeServlet extends HttpServlet {
                 .filter(stringEntry -> stringEntry.getKey().startsWith(type.name()))
                 .collect(Collectors.toMap(stringEntry -> stringEntry.getKey().substring(stringEntry.getKey().indexOf('-') + 1),
                         Map.Entry::getValue));
-
-        List<Map<String, String[]>> data = new ArrayList<>(dataByType.size() / 3);
+        Map<Integer, Map<String, String[]>> dataBuffer = new TreeMap<>();
 
         for (Map.Entry<String, String[]> entry : dataByType.entrySet()) {
             String[] keys = entry.getKey().split("-");
             int count = Integer.parseInt(keys[0]);
-            Map<String, String[]> innerData = data.size() > count ? data.get(count) : null;
-            if (innerData == null) {
-                innerData = new HashMap<>();
-                data.add(count, innerData);
-            }
+            Map<String, String[]> innerData = dataBuffer.computeIfAbsent(count, k -> new HashMap<>());
             innerData.put(keys[1], entry.getValue());
+        }
+
+        List<Map<String, String[]>> data = new ArrayList<>();
+        for (Integer key : dataBuffer.keySet()) {
+            data.add(dataBuffer.get(key));
         }
 
         return data;
@@ -186,9 +186,9 @@ public class ResumeServlet extends HttpServlet {
                 case EDUCATION:
                     OrganizationSection organizationSection = (OrganizationSection) section;
                     List<Organization> emptyOrganizations = new ArrayList<>();
-                    emptyOrganizations.add(new Organization());
                     if (section != null) {
                         for (Organization organization : organizationSection.getOrganizations()) {
+                            emptyOrganizations.add(new Organization());
                             List<Organization.Stages> stages = organization.getStages();
                             List<Organization.Stages> emptyStages = new ArrayList<>();
                             emptyStages.add(new Organization.Stages());
