@@ -120,11 +120,13 @@ public class ResumeServlet extends HttpServlet {
                                 String endDates = stages[i++];
                                 String titles = stages[i++];
                                 String responsibility = stages[i++];
-                                organization.getStages().add(new Organization.Stages(
-                                        dataParser(startDates),
-                                        dataParser(endDates),
-                                        titles,
-                                        responsibility));
+                                if (!isEmptyValue(titles)) {
+                                    organization.getStages().add(new Organization.Stages(
+                                            dataParser(startDates),
+                                            dataParser(endDates),
+                                            titles,
+                                            responsibility));
+                                }
                             }
                             organizations.add(organization);
                         }
@@ -167,7 +169,7 @@ public class ResumeServlet extends HttpServlet {
                 .keySet().stream()
                 .anyMatch(keyParam -> SectionType.parseOf(keyParam) == type || keyParam.startsWith(type.name()))
                 || !isEmptyValue(parameter)
-                || (parameters != null && parameters.length >= 2);
+                || (parameters != null && parameters.length >= 1);
     }
 
     private void editSections(Resume resume) {

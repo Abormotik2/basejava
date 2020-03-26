@@ -65,7 +65,14 @@
                 <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
                     <p>
                     <tr>
-                        <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
+                        <c:choose>
+                            <c:when test="${empty org.stages}">
+                                ${""}
+                            </c:when>
+                            <c:otherwise>
+                                <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
 
                     <c:forEach var="stages" items="${org.stages}">

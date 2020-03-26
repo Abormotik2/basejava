@@ -113,11 +113,11 @@ public class ResumeTestData {
         studyList.add(new Organization(new OrganizationLink("Coursera", "https://www.coursera.org/course/progfun")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 3, 1)
                 , LocalDate.of(2013, 5, 1)
-                , "\"Functional Programming Principles in Scala\" by Martin Odersky", null))));
+                , "Functional Programming Principles in Scala by Martin Odersky", null))));
         studyList.add(new Organization(new OrganizationLink("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2011, 3, 1)
                 , LocalDate.of(2011, 4, 1)
-                , "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", null))));
+                , "Курс: Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.", null))));
         studyList.add(new Organization(new OrganizationLink("Siemens AG", "http://www.siemens.ru/")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2005, 1, 1)
                 , LocalDate.of(2005, 4, 1)
@@ -202,7 +202,7 @@ public class ResumeTestData {
         studyList.add(new Organization(new OrganizationLink("NewTravelSchool", "https://www.NTS.com")
                 , Collections.singletonList(new Organization.Stages(LocalDate.of(2013, 3, 1)
                 , LocalDate.of(2013, 5, 1)
-                , "\"6 классов уличной школы жизни\"", null))));
+                , "6 классов уличной школы жизни", null))));
         thirdResume.addSection(EDUCATION, new OrganizationSection(studyList));
         return thirdResume;
        // return new Resume(UUID_3,"Денис Жириновский");
