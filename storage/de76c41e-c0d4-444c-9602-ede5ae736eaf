@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resume>
+    <uuid>de76c41e-c0d4-444c-9602-ede5ae736eaf</uuid>
+    <fullName>Николай Жириновский</fullName>
+    <contacts>
+        <entry>
+            <key>MOBILE</key>
+            <value>+7(999) 999-8888</value>
+        </entry>
+        <entry>
+            <key>SKYPE</key>
+            <value>nikolay.girinovsky</value>
+        </entry>
+        <entry>
+            <key>MAIL</key>
+            <value>ngirinovsky@yandex.ru</value>
+        </entry>
+        <entry>
+            <key>LINKEDIN</key>
+            <value>https://www.linkedin.com/in/ngirinovsky</value>
+        </entry>
+        <entry>
+            <key>GITHUB</key>
+            <value>https://github.com/ngirinovsky</value>
+        </entry>
+        <entry>
+            <key>STACKOVERFLOW</key>
+            <value>https://stackoverflow.com/users/ngirinovsky</value>
+        </entry>
+        <entry>
+            <key>HOME_PAGE</key>
+            <value>http://ngirinovsky.ru/</value>
+        </entry>
+    </contacts>
+    <sections>
+        <entry>
+            <key>OBJECTIVE</key>
+            <value xsi:type="contentSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <content>Уборщик</content>
+            </value>
+        </entry>
+        <entry>
+            <key>PERSONAL</key>
+            <value xsi:type="contentSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <content>Идеальные полы, чистые стекла, быстрая работа, все, что вам нужно</content>
+            </value>
+        </entry>
+        <entry>
+            <key>ACHIEVEMENT</key>
+            <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <items>101+ сертификатов по уборке</items>
+            </value>
+        </entry>
+        <entry>
+            <key>QUALIFICATION</key>
+            <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <items>Швабра, тряпки, пена и все прибамбасы</items>
+            </value>
+        </entry>
+        <entry>
+            <key>EXPERIENCE</key>
+            <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <organizations>
+                    <homePage>
+                        <name>DvorProduction</name>
+                        <url>http://DvorProduction.ru/</url>
+                    </homePage>
+                    <stages>
+                        <startDate>1992-10-01</startDate>
+                        <endDate>3000-01-01</endDate>
+                        <title>Генеральный директор клининга</title>
+                        <responsibility>Уборка территории</responsibility>
+                    </stages>
+                </organizations>
+            </value>
+        </entry>
+        <entry>
+            <key>EDUCATION</key>
+            <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <organizations>
+                    <homePage>
+                        <name>Dvor</name>
+                        <url>https://www.dvor.com</url>
+                    </homePage>
+                    <stages>
+                        <startDate>1980-01-01</startDate>
+                        <endDate>1992-01-01</endDate>
+                        <title>Cleaning school</title>
+                        <responsibility></responsibility>
+                    </stages>
+                </organizations>
+            </value>
+        </entry>
+    </sections>
+</resume>

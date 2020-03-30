@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resume>
+    <uuid>c8b7ebcf-ddd9-4f6d-a1df-789d85ce3f11</uuid>
+    <fullName>Денис Жириновский</fullName>
+    <contacts>
+        <entry>
+            <key>MOBILE</key>
+            <value>+7(888) 888-8888</value>
+        </entry>
+        <entry>
+            <key>SKYPE</key>
+            <value>denis.gyrinovsky</value>
+        </entry>
+        <entry>
+            <key>MAIL</key>
+            <value>dgyrinovsky@yandex.ru</value>
+        </entry>
+        <entry>
+            <key>LINKEDIN</key>
+            <value>https://www.linkedin.com/in/dgyrinovsky</value>
+        </entry>
+        <entry>
+            <key>GITHUB</key>
+            <value>https://github.com/dgyrinovsky</value>
+        </entry>
+        <entry>
+            <key>STACKOVERFLOW</key>
+            <value>https://stackoverflow.com/users/dgyrinovsky</value>
+        </entry>
+        <entry>
+            <key>HOME_PAGE</key>
+            <value>http://dgyrinovsky.ru/</value>
+        </entry>
+    </contacts>
+    <sections>
+        <entry>
+            <key>OBJECTIVE</key>
+            <value xsi:type="contentSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <content>Ведущий журналист Гретты Тунберг</content>
+            </value>
+        </entry>
+        <entry>
+            <key>PERSONAL</key>
+            <value xsi:type="contentSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <content>"Везде плохая экология,отвечаю"</content>
+            </value>
+        </entry>
+        <entry>
+            <key>ACHIEVEMENT</key>
+            <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <items>С 2016 года: Собираю коллекцию мемов от Гретты</items>
+            </value>
+        </entry>
+        <entry>
+            <key>QUALIFICATION</key>
+            <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <items>Купил зеркалку,я про!</items>
+            </value>
+        </entry>
+        <entry>
+            <key>EXPERIENCE</key>
+            <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <organizations>
+                    <homePage>
+                        <name>Gretta love organization</name>
+                        <url>http://glo.com/</url>
+                    </homePage>
+                    <stages>
+                        <startDate>2013-10-01</startDate>
+                        <endDate>3000-01-01</endDate>
+                        <title>Автор проекта.</title>
+                        <responsibility>Самостоятельно научился делать скрины мемов с Греттой</responsibility>
+                    </stages>
+                </organizations>
+            </value>
+        </entry>
+        <entry>
+            <key>EDUCATION</key>
+            <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <organizations>
+                    <homePage>
+                        <name>NewTravelSchool</name>
+                        <url>https://www.NTS.com</url>
+                    </homePage>
+                    <stages>
+                        <startDate>2013-03-01</startDate>
+                        <endDate>2013-05-01</endDate>
+                        <title>6 классов уличной школы жизни</title>
+                        <responsibility></responsibility>
+                    </stages>
+                </organizations>
+            </value>
+        </entry>
+    </sections>
+</resume>

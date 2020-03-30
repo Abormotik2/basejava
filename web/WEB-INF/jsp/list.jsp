@@ -24,7 +24,7 @@
             <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=ContactType.MAIL.forMail(resume.getContact(ContactType.MAIL))%>
+                <td><%=ContactType.MAIL.forMail(resume.getContacts(ContactType.MAIL))%>
                 </td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png" alt=""></a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png" alt=""></a></td>
