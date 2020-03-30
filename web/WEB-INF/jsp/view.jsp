@@ -45,19 +45,23 @@
             </c:when>
             <c:when test="${type=='PERSONAL'}">
                 <tr>
-                    <h6><%=((ContentSection) section).getContent()%>
-                    </h6>
+                    <td colspan="2">
+                        <h6><%=((ContentSection) section).getContent()%>
+                        </h6>
+                    </td>
                 </tr>
                 <br>
             </c:when>
 
             <c:when test="${type=='QUALIFICATION' || type=='ACHIEVEMENT'}">
                 <tr>
-                    <ul>
-                        <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
-                            <li>${item}</li>
-                        </c:forEach>
-                    </ul>
+                    <td colspan="2">
+                        <ul>
+                            <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
+                                <li>${item}</li>
+                            </c:forEach>
+                        </ul>
+                    </td>
                 </tr>
             </c:when>
 
