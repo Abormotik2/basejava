@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 import static com.urise.webapp.util.DateUtil.dataParser;
 
 public class ResumeServlet extends HttpServlet {
-    private Storage storage;
+
+    protected static Storage storage;
 
     @Override
     public void init(ServletConfig config) throws ServletException {

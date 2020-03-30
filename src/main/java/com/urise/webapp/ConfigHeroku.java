@@ -9,18 +9,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigWeb {
+public class ConfigHeroku {
     private static final String PROPS = "/resumesWeb.properties";
-    private static final ConfigWeb INSTANCE = new ConfigWeb();
+    private static final ConfigHeroku INSTANCE = new ConfigHeroku();
 
     private final File storageWebDir;
     private final Storage storage;
 
-    public static ConfigWeb get() {
+    public static ConfigHeroku get() {
         return INSTANCE;
     }
 
-    private ConfigWeb() {
+    private ConfigHeroku() {
         try (InputStream is = new FileInputStream(PROPS)) {
             Properties props = new Properties();
             props.load(is);
@@ -33,5 +33,9 @@ public class ConfigWeb {
 
     public Storage getStorage() {
         return storage;
+    }
+
+    public File getStorageWebDir() {
+        return storageWebDir;
     }
 }
