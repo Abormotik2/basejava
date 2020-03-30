@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resume>
-    <uuid>c8b7ebcf-ddd9-4f6d-a1df-789d85ce3f11</uuid>
-    <fullName>Денис Жириновский</fullName>
+    <uuid>03374d40-8572-413c-8d8a-fc9577d38ea5</uuid>
+    <fullName>Николай Жириновский</fullName>
     <contacts>
         <entry>
             <key>MOBILE</key>
-            <value>+7(888) 888-8888</value>
+            <value>+7(999) 999-8888</value>
         </entry>
         <entry>
             <key>SKYPE</key>
-            <value>denis.gyrinovsky</value>
+            <value>nikolay.girinovsky</value>
         </entry>
         <entry>
             <key>MAIL</key>
-            <value>dgyrinovsky@yandex.ru</value>
+            <value>ngirinovsky@yandex.ru</value>
         </entry>
         <entry>
             <key>LINKEDIN</key>
-            <value>https://www.linkedin.com/in/dgyrinovsky</value>
+            <value>https://www.linkedin.com/in/ngirinovsky</value>
         </entry>
         <entry>
             <key>GITHUB</key>
-            <value>https://github.com/dgyrinovsky</value>
+            <value>https://github.com/ngirinovsky</value>
         </entry>
         <entry>
             <key>STACKOVERFLOW</key>
-            <value>https://stackoverflow.com/users/dgyrinovsky</value>
+            <value>https://stackoverflow.com/users/ngirinovsky</value>
         </entry>
         <entry>
             <key>HOME_PAGE</key>
-            <value>http://dgyrinovsky.ru/</value>
+            <value>http://ngirinovsky.ru/</value>
         </entry>
     </contacts>
     <sections>
         <entry>
             <key>OBJECTIVE</key>
             <value xsi:type="contentSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <content>Ведущий журналист Гретты Тунберг</content>
+                <content>Уборщик</content>
             </value>
         </entry>
         <entry>
             <key>PERSONAL</key>
             <value xsi:type="contentSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <content>"Везде плохая экология,отвечаю"</content>
+                <content>Идеальные полы, чистые стекла, быстрая работа, все, что вам нужно</content>
             </value>
         </entry>
         <entry>
             <key>ACHIEVEMENT</key>
             <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <items>С 2016 года: Собираю коллекцию мемов от Гретты</items>
+                <items>101+ сертификатов по уборке</items>
             </value>
         </entry>
         <entry>
             <key>QUALIFICATION</key>
             <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <items>Купил зеркалку,я про!</items>
+                <items>Швабра, тряпки, пена и все прибамбасы</items>
             </value>
         </entry>
         <entry>
@@ -62,14 +62,14 @@
             <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <organizations>
                     <homePage>
-                        <name>Gretta love organization</name>
-                        <url>http://glo.com/</url>
+                        <name>DvorProduction</name>
+                        <url>http://DvorProduction.ru/</url>
                     </homePage>
                     <stages>
-                        <startDate>2013-10-01</startDate>
+                        <startDate>1992-10-01</startDate>
                         <endDate>3000-01-01</endDate>
-                        <title>Автор проекта.</title>
-                        <responsibility>Самостоятельно научился делать скрины мемов с Греттой</responsibility>
+                        <title>Генеральный директор клининга</title>
+                        <responsibility>Уборка территории</responsibility>
                     </stages>
                 </organizations>
             </value>
@@ -79,13 +79,13 @@
             <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <organizations>
                     <homePage>
-                        <name>NewTravelSchool</name>
-                        <url>https://www.NTS.com</url>
+                        <name>Dvor</name>
+                        <url>https://www.dvor.com</url>
                     </homePage>
                     <stages>
-                        <startDate>2013-03-01</startDate>
-                        <endDate>2013-05-01</endDate>
-                        <title>6 классов уличной школы жизни</title>
+                        <startDate>1980-01-01</startDate>
+                        <endDate>1992-01-01</endDate>
+                        <title>Cleaning school</title>
                         <responsibility></responsibility>
                     </stages>
                 </organizations>
